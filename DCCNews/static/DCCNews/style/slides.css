@@ -1,0 +1,30 @@
+.slide-element-title {
+    font-size:48px;
+}
+
+.edition-title {
+    font-size:20px;
+    background: lightGray;
+}
+
+.slide-element-text {
+    font-size:26px;
+    padding: 2px 10px 1px 10px;
+}
+
+.slide-title-text .slide-element-image {
+    display: none
+}
+
+.slide-title-image .slide-element-text {
+    display: none
+}
+
+.slide-image .slide-element-title {
+    display: none
+}
+
+.slide-image .slide-element-text {
+    display: none;
+}
+

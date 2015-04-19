@@ -1,0 +1,90 @@
+
+.carousel-inner
+.item {
+    opacity: 0;
+    transition-property: opacity;
+}
+
+.carousel-inner
+.active {
+    opacity: 1;
+}
+
+.carousel-indicators li {
+    border-color: gray !important;
+}
+.carousel-indicators li.active {
+    background-color: gray !important;
+}
+
+.carousel-inner
+.active.left,
+.carousel-inner
+.active.right {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
+.carousel-inner
+.next.left,
+.carousel-inner
+.prev.right {
+    opacity: 1;
+}
+
+
+
+html, 
+body,
+.carousel, 
+.carousel-inner, 
+.carousel-inner .item {
+    height: 100%;
+}
+
+.parent {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+.cell {
+    display: table-cell;
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.evento{
+    position: relative;
+    width: 92%;
+    margin: 5px auto;
+    border: 1px solid black;
+    background-color: white;
+}
+.content{
+    overflow: hidden;
+    margin: 5px;
+}
+.content h3 {
+    font-size: 2.5vh;
+}
+
+.item img {
+    max-height: 60vh;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    padding-top: 2px;
+    padding-bottom: 10px;
+}
+
+#events-panel {
+    position: relative;
+    z-index: 0;
+    margin-top: 5px;
+}
+#tit {
+    position: relative;
+    z-index: 3;
+}
