@@ -106,3 +106,5 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
     os.path.join(BASE_DIR,  'templates/DCCNews'),
 )
+
+LOGIN_URL = '/news/login'
