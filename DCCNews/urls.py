@@ -6,6 +6,8 @@ urlpatterns = patterns('',
                        url(r'^login/', views.login_view, name='login'),
                        url(r'^logout/', views.logout_view, name='logout'),
                        url(r'^index/', views.index, name='index'),
+                       url(r'^publication/new/(?P<template_id>\d+)', views.new_publication, name='new_publication'),
+                       url(r'^publication/edit/(?P<publicaction_id>\d+)/', views.edit_publication, name='edit_publication'),
 
                        url(r'^$', views.index, name='index'),
                        )

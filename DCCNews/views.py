@@ -37,4 +37,16 @@ def logout_view(request):
 # index: TODO
 @login_required()
 def index(request):
-    return HttpResponse("Hello.")
+    return HttpResponse("Hello")
+
+
+# new_publication: TODO
+@login_required()
+def new_publication(request, template_id):
+    return HttpResponse("Ingresar nuevo contenido")
+
+
+# edit_publication: TODO
+@login_required()
+def edit_publication(request, publicaction_id):
+    return HttpResponse("Editar contenido")
