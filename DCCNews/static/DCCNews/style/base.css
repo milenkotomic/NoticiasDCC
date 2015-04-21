@@ -1,0 +1,112 @@
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Bitter', serif;
+    height: 100%;
+}
+td div[class^=col-] {
+    padding-left: 0;
+}
+.jumbotron {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.navbar {
+    margin-bottom: 20px;
+    background-color: #f0ad4e;
+    color: white;
+}
+.navbar a, .navbar a:hover {
+    color: white !important;
+}
+
+.navbar li.active a, .navbar a:hover {
+    background-color: #eea236 !important;
+}
+.navbar-brand {
+    font-size: 21px;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0,0,0,.6);
+}
+.destacar {
+    background-color: yellow;
+    font-style: normal;
+}
+
+#leftPanel {
+    position: relative;
+    display: block;
+    float: left;
+    padding: 10px;
+    width: 250px;
+    /*height: 90%;*/
+}
+
+section.content {
+    padding: 10px;
+}
+
+.tool-panel table {
+    overflow-y: auto;
+
+}
+
+#templateSelection .ui-selecting {
+    background: #FECA40;
+}
+
+#templateSelection .ui-selected {
+    background: #F39814; color: white;
+}
+
+#templateSelection {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#templateSelection li {
+    float: left;
+    margin: 3px;
+    padding: 0.4em;
+    font-size: 1.4em;
+    height: 18px;
+}
+
+#slideErrorMessages {
+    color: red;
+}
+
+#slideContainer {
+    padding: 20px;
+}
+
+#contentToolBar {
+    display: inline-block;
+    padding: 4px;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.icon-tango-bold {
+    background-image: url(icons/format-text-bold.png) !important;;
+
+}
+.icon-tango-italic {
+    background-image: url(icons/format-text-italic.png) !important;;
+}
+.icon-tango-underline {
+    background-image: url(icons/format-text-underline.png) !important;;
+}
+.icon-tango-undo {
+    background-image: url(icons/edit-undo.png) !important;;
+}
+.icon-tango-redo {
+    background-image: url(icons/edit-redo.png) !important;;
+}
+
+

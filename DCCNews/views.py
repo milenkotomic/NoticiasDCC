@@ -43,7 +43,7 @@ def index(request):
 # new_publication: TODO
 @login_required()
 def new_publication(request, template_id):
-    return HttpResponse("Ingresar nuevo contenido")
+    return render(request, 'DCCNews/template_selection.html')
 
 
 # edit_publication: TODO

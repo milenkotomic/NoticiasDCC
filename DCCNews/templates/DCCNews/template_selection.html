@@ -1,0 +1,39 @@
+{% extends "DCCNews/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>Seleccione la plantilla</h1>
+    <legend>Dipositiva</legend>
+    <row>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-title-text-image-horizontal.png' %}">
+            <a href="#" class="btn btn-primary" role="button">Seleccionar</a>
+        </div>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-title-text.png' %}" class="center-block">
+            <a href="#" class="btn btn-primary" role="button">Seleccionar</a>
+        </div>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-image.png' %}" class="center-block">
+            <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
+        </div>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-title-image.png' %}" class="center-block">
+            <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
+        </div>
+
+    </row>
+
+    <legend>Evento</legend>
+    <row>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-image.png' %}">
+            <a href="#" class="btn btn-primary" role="button">Seleccionar</a>
+        </div>
+        <div class="col-lg-3 text-center">
+            <img src="{% static 'DCCNews/images/slide-image.png' %}"">
+            <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
+        </div>
+    </row>
+
+{% endblock %}
