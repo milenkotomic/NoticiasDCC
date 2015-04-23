@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from DCCNews.forms import LoginForm
+from DCCNews.forms import LoginForm, SlideText
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -40,10 +40,19 @@ def index(request):
     return HttpResponse("Hello")
 
 
+# select_template: TODO
+def select_template(request):
+    return render(request, 'DCCNews/template_selection.html')
+
+
 # new_publication: TODO
 @login_required()
 def new_publication(request, template_id):
-    return render(request, 'DCCNews/template_selection.html')
+    if template_id == "1":
+        print "sadad"
+        form = SlideText()
+    return render(request, 'DCCNews/slide.html', {'form': form})
+
 
 
 # edit_publication: TODO

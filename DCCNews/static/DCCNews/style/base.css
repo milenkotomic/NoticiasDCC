@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: 'Bitter', serif;
+    /*font-family: 'Bitter', serif;*/
     height: 100%;
 }
 td div[class^=col-] {
