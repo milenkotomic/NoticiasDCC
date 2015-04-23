@@ -9,6 +9,7 @@ body {
 td div[class^=col-] {
     padding-left: 0;
 }
+
 .jumbotron {
     padding-top: 24px;
     padding-bottom: 24px;

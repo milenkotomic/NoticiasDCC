@@ -42,3 +42,7 @@ tmtagsHistory
 .bundle
 env/*
 enviroment/*
+
+#Cosas de eclipse###
+####################
+.metadata/
