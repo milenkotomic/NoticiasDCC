@@ -46,3 +46,9 @@ enviroment/*
 #Cosas de eclipse###
 ####################
 .metadata/
+
+*.logoist
+
+display.png
+
+DistribucionDisplay.png
