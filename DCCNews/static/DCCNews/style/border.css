@@ -1,0 +1,7 @@
+.bor {
+    -webkit-border-radius: 10px; /** newer webkit browsers **/
+    -khtml-border-radius: 10px; /** older webkit browsers **/
+    -moz-border-radius: 10px; /** older gecko browsers **/
+    -o-border-radius: 10px; /** older opera browsers **/
+    border-radius: 10px; /** all modern browsers, including IE9+, but see below **/
+}

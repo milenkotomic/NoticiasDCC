@@ -10,5 +10,6 @@ urlpatterns = patterns('',
                        url(r'^publication/edit/(?P<publicaction_id>\d+)/', views.edit_publication, name='edit_publication'),
 
                        url(r'^$', views.index, name='index'),
+                       url(r'^search/', views.search_contenido, name='search_contenido'),
                        )
 

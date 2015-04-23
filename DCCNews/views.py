@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from bzrlib.transport.http._urllib2_wrappers import Request
 
 # login_view: a partir del request que cuenta con los datos del form
 # realiza la autentificación contra la base de datos. Si valida, lleva al index,
@@ -35,13 +36,13 @@ def logout_view(request):
     return render(request, 'DCCNews/login.html', context)
 
 # index: TODO
-@login_required()
+#@login_required()
 def index(request):
-    return HttpResponse("Hello")
+    return render(request, 'DCCNews/index.html')
 
 
 # new_publication: TODO
-@login_required()
+#@login_required()
 def new_publication(request, template_id):
     return render(request, 'DCCNews/template_selection.html')
 
@@ -50,3 +51,7 @@ def new_publication(request, template_id):
 @login_required()
 def edit_publication(request, publicaction_id):
     return HttpResponse("Editar contenido")
+#Busca una diapositiva: TODO  
+#@login_required()
+def search_contenido(request):
+    return render(request, 'DCCNews/template_search.html')

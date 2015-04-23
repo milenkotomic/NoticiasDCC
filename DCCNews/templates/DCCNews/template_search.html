@@ -1,0 +1,43 @@
+{% extends "DCCNews/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<!-- formulario de usqueda -->
+<form role="form" class="form-inline">
+  <div class="form-group">
+    <label for="Palbras_busqueda">Palabras clave</label>
+    <input type="text" class="form-control" id="palabras_clave"
+           placeholder="eg, curso de robotica movil">
+  </div>
+  <div class="form-group">
+    <label for="Categoria_busqueda">Categoria de busqueda</label>
+    	<select  class="form-control">
+  		<option>Titulo</option>
+  		<option>Tipo de diapositiva</option>
+	</select>
+  </div>
+  
+  <button type="submit" class="btn btn-default">Buscar</button>
+</form>
+
+<!-- {%tabla con resultados	} , donde limitar la cantidad de salidas???	-->
+<table id="result_table" class="table table-bordered ">
+   <tr>
+    <td>Titulo</td>
+    <td>Tipo de Contenido</td> 
+  </tr>
+  <tr>
+    <td>Curso de Robotica Movil</td>
+    <td>Anucio</td> 
+<!-- {% for line in responces %}
+  <tr>
+    <td><a href="{{line.url}}">{{ line.title }}<td>
+    <td>{{ line.tipe }}<td>
+</tr>
+{% endfor %}
+  </tr> -->
+</table>
+
+
+{% endblock %}
