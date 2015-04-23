@@ -55,24 +55,24 @@
             <br/>
             <div class="row">
                 <!-- The left panel -->
-                <aside class="panel-group col-md-3" id="leftPanel">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#draftsBlockCollapse">Borradores</a>
-                        </h4>
-                    </div>
-                    <div id="draftsBlockCollapse" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <table class="table" id="draftsBlock">
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                </aside>
+{#                <aside class="panel-group col-md-3" id="leftPanel">#}
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-heading">#}
+{#                        <h4 class="panel-title">#}
+{#                            <a data-toggle="collapse" data-parent="#accordion" href="#draftsBlockCollapse">Borradores</a>#}
+{#                        </h4>#}
+{#                    </div>#}
+{#                    <div id="draftsBlockCollapse" class="panel-collapse collapse in">#}
+{#                        <div class="panel-body">#}
+{#                            <table class="table" id="draftsBlock">#}
+{#                            </table>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                </aside>#}
 
                 <!-- wrap -->
-                <div class="col-md-9">
+                <div class="col-md-offset-2 col-md-9">
                     <!-- The main content -->
                     <section id="contentSection" class="content">
                     {% block content %}{% endblock %}
