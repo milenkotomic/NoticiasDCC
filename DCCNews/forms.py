@@ -9,7 +9,7 @@ from django.forms import ModelForm, Form, DateInput, NumberInput
 
 
 class MyDateInput(forms.DateInput):
-    input_type = 'date'
+    input_type = 'datetime-local'
 
 
 # Formulario para inicio de sesión
@@ -53,6 +53,10 @@ class SlideText(SlideForm):
                                                         'rows':4,
                                                         'cols': 40}),
                            label='Cuerpo de la diapositiva')
+
+    image = forms.ImageField(required=True,
+                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                             label='Imagen')
 
 
 class SlideImage(SlideForm):
