@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from DCCNews.forms import LoginForm, SlideText
+from DCCNews.forms import LoginForm, SlideText, SlideImage
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -50,8 +50,9 @@ def select_template(request):
 #@login_required()
 def new_publication(request, template_id):
     if template_id == "1":
-        print "sadad"
         form = SlideText()
+    elif template_id == "2":
+        form = SlideImage()
     return render(request, 'DCCNews/slide.html', {'form': form})
 
 

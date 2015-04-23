@@ -2,22 +2,88 @@
 {% load staticfiles %}
 
 {% block content %}
-    <h1>Creación de diapositiva</h1>
-    <legend>Complete los datos</legend>
+    <legend>Creación de diapositiva</legend>
     <div class="col-lg-6">
-    <form action="" method="post">
-        {% for field in form %}
+        <form action="" method="post">
             <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <div class="form-group">
-                    {{ field.errors }}
-                    <label class="control-label">{{ field.label }}:</label>
-                    {{ field }}
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.title.errors }}
+                        <label class="control-label">{{ form.title.label }}:</label>
+                        {{ form.title }}
+                    </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.subhead.errors }}
+                        <label class="control-label">{{ form.subhead.label }}:</label>
+                        {{ form.subhead }}
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-    </form>
+
+            {% if form.body %}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            {{ form.body.errors }}
+                            <label class="control-label">{{ form.body.label }}:</label>
+                            {{ form.body }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if form.image %}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            {{ form.image.errors }}
+                            <label class="control-label">{{ form.image.label }}:</label>
+                            {{ form.image }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.start_circulation.errors }}
+                        <label class="control-label">{{ form.start_circulation.label }}:</label>
+                        {{ form.start_circulation }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.end_circulation.errors }}
+                        <label class="control-label">{{ form.end_circulation.label }}:</label>
+                        {{ form.end_circulation }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.slide_type.errors }}
+                        <label class="control-label">{{ form.slide_type.label }}:</label>
+                        {{ form.slide_type }}
+                    </div>
+                </div>
+            </div>
+
+
+
+            <a href="#" class="btn btn-success">Guardar</a>
+            <a href="#" class="btn btn-danger">Cancelar</a>
+        </form>
+    </div>
+    <div class="row">
+
+
     </div>
 
 

@@ -47,10 +47,15 @@ class SlideForm(Form):
                                    label='Tipo de Diapositiva')
 
 
-
-
-
 class SlideText(SlideForm):
     body = forms.CharField(required=True,
-                           widget=forms.Textarea(attrs={'class': 'form-control'}),
+                           widget=forms.Textarea(attrs={'class': 'form-control',
+                                                        'rows':4,
+                                                        'cols': 40}),
                            label='Cuerpo de la diapositiva')
+
+
+class SlideImage(SlideForm):
+    image = forms.ImageField(required=True,
+                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                             label='Imagen')
