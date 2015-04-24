@@ -36,13 +36,13 @@ def logout_view(request):
     return render(request, 'DCCNews/login.html', context)
 
 # index: TODO
-#@login_required()
+@login_required()
 def index(request):
     return render(request, 'DCCNews/index.html')
 
 
 # new_publication: TODO
-#@login_required()
+@login_required()
 def new_publication(request, template_id):
     return render(request, 'DCCNews/template_selection.html')
 
@@ -52,6 +52,11 @@ def new_publication(request, template_id):
 def edit_publication(request, publicaction_id):
     return HttpResponse("Editar contenido")
 #Busca una diapositiva: TODO  
-#@login_required()
+@login_required()
 def search_contenido(request):
     return render(request, 'DCCNews/template_search.html')
+
+#Busca por evento: TODO  
+#@login_required()
+def search_contenido_evento(request):
+    return render(request, 'DCCNews/template_search_evento.html')
