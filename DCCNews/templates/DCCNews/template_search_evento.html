@@ -3,25 +3,25 @@
 
 {% block content %}
 
-<h1>Busqueda de Diapositiva</h1>
+<h1>Busqueda de Evento</h1>
 <!-- formulario de usqueda -->
 <form role="form" class="form ">
     <row>
   <div class="form-group">
-    <label for="Palbras_busqueda">Busqueda por titulo</label>
-    <input type="text" class="form-control" id="palabras_clave"
-           placeholder="eg, curso de robotica movil">
+    <label for="titulo">Busqueda por titulo</label>
+    <input type="text" class="form-control" id="titulo"
+           placeholder="eg, Charla de robotica movil">
+  </div>
+  <div class="form-group">
+    <label for="expositor">Busqueda por expositor</label>
+    <input type="text" class="form-control" id="expositor"
+           placeholder="eg, Enzo Cerfogli">
   </div>
   <div class="form-group col-lg-2">
-    <label for="Categoria_busqueda">Busqueda por tipo</label>
+    <label for="Categoria_busqueda">Busqueda por fecha del evento</label>
   </div>
   <div class="form-group col-lg-6">
-    	<select  class="form-control">
-  		<option>Cualquiera</option>
-  		<option>Noticia</option>
-  		<option>Titulaciones</option>
-		<option>Afiches</option>
-	</select>
+    	<input type="date" >
   </div>
   <div class="form-group col-lg-4 text-center ">
   <button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button>
@@ -37,8 +37,8 @@
     <td>Tipo de Contenido</td> 
   </tr>
   <tr>
-    <td>Curso de Robotica Movil</td>
-    <td>Anucio</td> 
+    <td>Charla de Robotica Movil</td>
+    <td>Charlas</td> 
 <!-- {% for line in responces %}
   <tr>
     <td><a href="{{line.url}}">{{ line.title }}<td>

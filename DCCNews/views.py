@@ -66,3 +66,8 @@ def edit_publication(request, publicaction_id):
 @login_required()
 def search_contenido(request):
     return render(request, 'DCCNews/template_search.html')
+
+#Busca por evento: TODO  
+#@login_required()
+def search_contenido_evento(request):
+    return render(request, 'DCCNews/template_search_evento.html')
