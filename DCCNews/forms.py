@@ -1,5 +1,8 @@
-__author__ = 'milenkotomic'
 # -*- coding: utf-8 -*-
+from DCCNews.models import Tag
+
+__author__ = 'milenkotomic'
+
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
@@ -21,42 +24,34 @@ class LoginForm(Form):
 
 
 class SlideForm(Form):
-    CHOICES = (('0', 'Seleccionar tipo'),
-               ('1', 'Curso Nuevo'),
-               ('2', 'Charla'))
+    start_circulation = forms.DateTimeField(required=True,
+                                            widget=MyDateInput(attrs={'class': 'form-control'}),
+                                            label='Inicio de Circulación',
+                                            input_formats=['%d-%m-%YT%H:%M',
+                                                           '%Y-%m-%dT%H:%M'])
 
+    end_circulation = forms.DateTimeField(required=True,
+                                          widget=MyDateInput(attrs={'class': 'form-control'}),
+                                          label='Inicio de Circulación',
+                                          input_formats=['%d-%m-%YT%H:%M',
+                                                         '%Y-%m-%dT%H:%M'])
+
+    slide_type = forms.ModelChoiceField(required=True,
+                                        queryset=Tag.objects.all().order_by('name'),
+                                        widget=forms.Select(attrs={'class': 'form-control'}),
+                                        label='Tipo de Diapositiva')
+
+
+class SlideText(SlideForm):
     title = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    subhead = forms.CharField(required=True,
-                              widget=forms.TextInput(attrs={'class': 'form-control'}),
-                              label='Bajada de título')
-
-    start_circulation = forms.DateTimeField(required=True,
-                                            widget=MyDateInput(attrs={'class': 'form-control'}),
-                                            label='Inicio de Circulación')
-
-    end_circulation = forms.DateTimeField(required=True,
-                                          widget=MyDateInput(attrs={'class': 'form-control'}),
-                                          label='Inicio de Circulación')
-
-    slide_type = forms.ChoiceField(required=True,
-                                   choices=CHOICES,
-                                   widget=forms.Select(attrs={'class': 'form-control'}),
-                                   label='Tipo de Diapositiva')
-
-
-class SlideText(SlideForm):
     body = forms.CharField(required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows':4,
                                                         'cols': 40}),
                            label='Cuerpo de la diapositiva')
-
-    image = forms.ImageField(required=True,
-                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
-                             label='Imagen')
 
 
 class SlideImage(SlideForm):

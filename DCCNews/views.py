@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from DCCNews.forms import LoginForm, SlideText, SlideImage
+from DCCNews.models import Publication, Type, Template, Priority, Text
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -49,11 +50,49 @@ def select_template(request):
 # new_publication: TODO
 @login_required()
 def new_publication(request, template_id):
+    if request.POST:
+        if template_id == "1":
+            form = SlideText(request.POST)
+        elif template_id == "2":
+            form = SlideImage(request.POST, request.FILES)
+        if form.is_valid():
+            pub = Publication()
+            pub.user_id = request.user
+            pub.tag_id = form.cleaned_data['slide_type']
+            pub.type_id = Type.objects.get(pk=1)
+            pub.template_id = Template.objects.get(pk=template_id)
+            pub.priority_id = Priority.objects.get(pk=1)
+            pub.init_date = form.cleaned_data['start_circulation']
+            pub.end_date = form.cleaned_data['end_circulation']
+            pub.modification_user_id = request.user
+            pub.save()
+            if form.cleaned_data.get('title'):
+                text = Text(text=form.cleaned_data['title'],
+                            number=1,
+                            publication_id=pub)
+                text.save()
+
+            if form.cleaned_data.get('subhead'):
+                text = Text(text=form.cleaned_data['subhead'],
+                            number=3,
+                            publication_id=pub)
+                text.save()
+
+            if form.cleaned_data.get('body'):
+                text = Text(text=form.cleaned_data['body'],
+                            number=4,
+                            publication_id=pub)
+                text.save()
+
+            return render(request, 'DCCNews/index.html')
+
+        return render(request, 'DCCNews/slide.html', {'form': form})
     if template_id == "1":
         form = SlideText()
     elif template_id == "2":
         form = SlideImage()
-    return render(request, 'DCCNews/slide.html', {'form': form})
+    path_image = 'DCCNews/images/plantilla'+template_id+'.png'
+    return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
 
 
 

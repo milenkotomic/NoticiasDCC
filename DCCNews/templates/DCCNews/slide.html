@@ -5,26 +5,29 @@
     <legend>Creación de diapositiva</legend>
     <div class="col-lg-6">
         <form action="" method="post">
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="form-group">
-                        {{ form.title.errors }}
-                        <label class="control-label">{{ form.title.label }}:</label>
-                        {{ form.title }}
+            {% csrf_token %}
+            {% if form.title %}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            {{ form.title.errors }}
+                            <label class="control-label">{{ form.title.label }}:</label>
+                            {{ form.title }}
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="form-group">
-                        {{ form.subhead.errors }}
-                        <label class="control-label">{{ form.subhead.label }}:</label>
-                        {{ form.subhead }}
+            {% endif %}
+            {% if form.subhead %}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            {{ form.subhead.errors }}
+                            <label class="control-label">{{ form.subhead.label }}:</label>
+                            {{ form.subhead }}
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            {% endif %}
             {% if form.body %}
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
@@ -74,18 +77,14 @@
                     </div>
                 </div>
             </div>
-
-
-
-            <a href="#" class="btn btn-success">Guardar</a>
+            <button class="btn btn-success" type="submit">Guardar</button>
             <a href="#" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
-    <div class="row">
-
-
+    <div class="col-lg-offset-1 col-lg-3 text-center">
+        <label>Plantilla seleccionada</label>
+        <img src="{% static image  %}">
+        <a href="{% url 'template_selection' %}" class="btn btn-primary">Volver</a>
     </div>
-
-
 
 {% endblock %}
