@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from DCCNews.forms import LoginForm, SlideText, SlideImage
-from DCCNews.models import Publication, Type, Template, Priority, Text
+from DCCNews.models import Publication, Type, Template, Priority, Text, Image
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -50,6 +50,7 @@ def select_template(request):
 # new_publication: TODO
 @login_required()
 def new_publication(request, template_id):
+    path_image = 'DCCNews/images/plantilla'+template_id+'.png'
     if request.POST:
         if template_id == "1":
             form = SlideText(request.POST)
@@ -83,15 +84,20 @@ def new_publication(request, template_id):
                             number=4,
                             publication_id=pub)
                 text.save()
+            if form.cleaned_data.get('image'):
+                image = Image(image=request.FILES['image'],
+                              number=1,
+                              publication_id=pub)
+                image.save()
 
             return render(request, 'DCCNews/index.html')
 
-        return render(request, 'DCCNews/slide.html', {'form': form})
+        return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
     if template_id == "1":
         form = SlideText()
     elif template_id == "2":
         form = SlideImage()
-    path_image = 'DCCNews/images/plantilla'+template_id+'.png'
+
     return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
 
 

@@ -1,3 +1,5 @@
+from NoticiasDCC import settings
+
 __author__ = 'milenkotomic'
 from django.conf.urls import patterns, include, url
 from DCCNews import views
@@ -15,3 +17,8 @@ urlpatterns = patterns('',
                        url(r'^search_evento/', views.search_contenido_evento, name='search_contenido_evento'),
                        )
 
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                                'document_root': settings.MEDIA_ROOT}))

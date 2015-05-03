@@ -108,3 +108,7 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_URL = '/news/login'
+
+MEDIA_ROOT = 'DCCNews/media/'
+
+MEDIA_URL = '/media/'

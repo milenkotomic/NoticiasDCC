@@ -48,7 +48,7 @@ class Publication(models.Model):
 
 
 class Image(models.Model):
-    path = models.CharField(max_length=400)
+    image = models.ImageField(upload_to='images')
     number = models.IntegerField()
     publication_id = models.ForeignKey(Publication)
 

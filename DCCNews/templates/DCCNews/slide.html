@@ -4,7 +4,7 @@
 {% block content %}
     <legend>Creación de diapositiva</legend>
     <div class="col-lg-6">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if form.title %}
                 <div class="row">
