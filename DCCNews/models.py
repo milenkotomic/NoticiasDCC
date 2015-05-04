@@ -25,7 +25,6 @@ class Template(models.Model):
         return self.name
 
 
-
 class Priority(models.Model):
     name = models.CharField(max_length=100)
     frequency = models.IntegerField(default=50)
@@ -51,9 +50,6 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images')
     number = models.IntegerField()
     publication_id = models.ForeignKey(Publication)
-
-    def __unicode__(self):
-        return self.path
 
 
 class Text(models.Model):

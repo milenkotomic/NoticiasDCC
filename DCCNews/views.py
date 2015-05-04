@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from DCCNews.forms import LoginForm, SlideText, SlideImage
+from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 # from bzrlib.transport.http._urllib2_wrappers import Request
 
 # login_view: a partir del request que cuenta con los datos del form
@@ -49,7 +49,7 @@ def select_template(request):
 
 # new_publication: TODO
 @login_required()
-def new_publication(request, template_id):
+def new_slide(request, template_id):
     path_image = 'DCCNews/images/plantilla'+template_id+'.png'
     if request.POST:
         if template_id == "1":
@@ -90,7 +90,8 @@ def new_publication(request, template_id):
                               publication_id=pub)
                 image.save()
 
-            return render(request, 'DCCNews/index.html')
+            url = reverse(index)
+            return HttpResponseRedirect(url)
 
         return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
     if template_id == "1":
@@ -104,8 +105,130 @@ def new_publication(request, template_id):
 
 # edit_publication: TODO
 @login_required()
-def edit_publication(request, publicaction_id):
-    return HttpResponse("Editar contenido")
+def edit_slide(request, publicaction_id):
+    pub = get_object_or_404(Publication, pk=publicaction_id)
+    texts = pub.text_set.all()
+    images = pub.image_set.all()
+    path_image = 'DCCNews/images/plantilla'+str(pub.template_id.id)+'.png'
+    if request.POST:
+        if pub.template_id.id == 1:
+            form = SlideText(request.POST)
+        elif pub.template_id.id == 2:
+            form = SlideImage(request.POST, request.FILES)
+
+        if form.is_valid():
+            pub.tag_id = form.cleaned_data['slide_type']
+            pub.type_id = Type.objects.get(pk=1)
+            pub.priority_id = Priority.objects.get(pk=1)
+            pub.init_date = form.cleaned_data['start_circulation']
+            pub.end_date = form.cleaned_data['end_circulation']
+            pub.modification_user_id = request.user
+            pub.save()
+            if form.cleaned_data.get('title'):
+                text = texts.filter(number=1).first()
+                text.text = form.cleaned_data['title']
+                text.save()
+
+
+            if form.cleaned_data.get('subhead'):
+                text = texts.filter(number=3).first()
+                text.text = form.cleaned_data['subhead']
+                text.save()
+
+            if form.cleaned_data.get('body'):
+                text = texts.filter(number=4).first()
+                text.text = form.cleaned_data['body']
+                text.save()
+
+            if form.cleaned_data.get('image'):
+                image = images.filter(number=1).first()
+                image.image = request.FILES['image']
+                image.save()
+
+            return render(request, 'DCCNews/slide.html', {'form': form,
+                                                          'image': path_image,
+                                                          'mensaje': True})
+
+
+    initial_data = {'title': texts.filter(number=1).first(),
+                    'subhead': texts.filter(number=3).first(),
+                    'body': texts.filter(number=4).first(),
+                    'start_circulation': pub.init_date.strftime('%Y-%m-%dT%H:%M'),
+                    'end_circulation': pub.end_date.strftime('%Y-%m-%dT%H:%M'),
+                    'slide_type': pub.tag_id.id}
+
+    if pub.template_id.id == 1:
+        form = SlideText(initial_data)
+    elif pub.template_id.id == 2:
+        form = SlideImage(initial_data)
+
+    return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
+
+
+def new_event(request, template_id):
+    path_image = 'DCCNews/images/evento'+template_id+'.png'
+    if request.POST:
+        if template_id == "1":
+            form = EventForm(request.POST)
+        elif template_id == "2":
+            form = EventImage(request.POST, request.FILES)
+        if form.is_valid():
+            pub = Publication()
+            pub.user_id = request.user
+            pub.tag_id = form.cleaned_data['slide_type']
+            pub.type_id = Type.objects.get(pk=1)
+            pub.template_id = Template.objects.get(pk=template_id)
+            pub.priority_id = Priority.objects.get(pk=1)
+            pub.init_date = form.cleaned_data['start_circulation']
+            pub.end_date = form.cleaned_data['end_circulation']
+            pub.modification_user_id = request.user
+            pub.save()
+
+            text = Text(text=form.cleaned_data['name'],
+                        number=1,
+                        publication_id=pub)
+            text.save()
+
+            text = Text(text=form.cleaned_data['exhibitor'],
+                        number=2,
+                        publication_id=pub)
+            text.save()
+
+            text = Text(text=form.cleaned_data['date'],
+                        number=3,
+                        publication_id=pub)
+            text.save()
+
+            text = Text(text=form.cleaned_data['time'],
+                        number=4,
+                        publication_id=pub)
+            text.save()
+
+            text = Text(text=form.cleaned_data['place'],
+                        number=5,
+                        publication_id=pub)
+            text.save()
+
+            if form.cleaned_data.get('image'):
+                image = Image(image=request.FILES['image'],
+                              number=1,
+                              publication_id=pub)
+                image.save()
+
+            url = reverse(index)
+            return HttpResponseRedirect(url)
+
+        return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
+    if template_id == "1":
+        form = EventForm()
+    elif template_id == "2":
+        form = EventImage()
+    return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
+
+
+def edit_event(request):
+    return None
+
 
 #Busca una diapositiva: TODO  
 @login_required()
@@ -116,3 +239,5 @@ def search_contenido(request):
 #@login_required()
 def search_contenido_evento(request):
     return render(request, 'DCCNews/template_search_evento.html')
+
+

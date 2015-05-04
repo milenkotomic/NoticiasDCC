@@ -7,11 +7,11 @@
     <row>
         <div class="col-lg-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla1.png' %}">
-            <a href="{% url 'new_publication' 1 %}" class="btn btn-primary" role="button">Seleccionar</a>
+            <a href="{% url 'new_slide' 1 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
         <div class="col-lg-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla2.png' %}" class="center-block">
-            <a href="{% url 'new_publication' 2 %}" class="btn btn-primary" role="button">Seleccionar</a>
+            <a href="{% url 'new_slide' 2 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
         <div class="col-lg-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla3.png' %}" class="center-block">
@@ -28,11 +28,11 @@
     <row>
         <div class="col-lg-3 text-center">
             <img src="{% static 'DCCNews/images/evento1.png' %}">
-            <a href="#" class="btn btn-primary" role="button">Seleccionar</a>
+            <a href="{% url 'new_event' 1 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
         <div class="col-lg-3 text-center">
-            <img src="{% static 'DCCNews/images/evento2.png' %}"">
-            <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
+            <img src="{% static 'DCCNews/images/evento2.png' %}">
+            <a href="{% url 'new_event' 2 %}" class="btn btn-primary disabled" role="button">Seleccionar</a>
         </div>
     </row>
 

@@ -2,48 +2,30 @@
 {% load staticfiles %}
 
 {% block content %}
-    <legend>Creación de diapositiva</legend>
-    {% if mensaje %}
-    <div class="col-lg-12">
-        <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
-    </div>
-    {% endif %}
+    <legend>Creación de Evento</legend>
     <div class="col-lg-6">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {% if form.title %}
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="form-group">
-                            {{ form.title.errors }}
-                            <label class="control-label">{{ form.title.label }}:</label>
-                            {{ form.title }}
-                        </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.name.errors }}
+                        <label class="control-label">{{ form.name.label }}:</label>
+                        {{ form.name }}
                     </div>
                 </div>
-            {% endif %}
-            {% if form.subhead %}
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="form-group">
-                            {{ form.subhead.errors }}
-                            <label class="control-label">{{ form.subhead.label }}:</label>
-                            {{ form.subhead }}
-                        </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.exhibitor.errors }}
+                        <label class="control-label">{{ form.exhibitor.label }}:</label>
+                        {{ form.exhibitor }}
                     </div>
                 </div>
-            {% endif %}
-            {% if form.body %}
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="form-group">
-                            {{ form.body.errors }}
-                            <label class="control-label">{{ form.body.label }}:</label>
-                            {{ form.body }}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
+            </div>
             {% if form.image %}
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
@@ -55,6 +37,35 @@
                     </div>
                 </div>
             {% endif %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.date.errors }}
+                        <label class="control-label">{{ form.date.label }}:</label>
+                        {{ form.date }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.time.errors }}
+                        <label class="control-label">{{ form.time.label }}:</label>
+                        {{ form.time }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            {{ form.place.errors }}
+                            <label class="control-label">{{ form.place.label }}:</label>
+                            {{ form.place }}
+                        </div>
+                    </div>
+                </div>
+
+
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">

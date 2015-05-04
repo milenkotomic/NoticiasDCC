@@ -11,8 +11,16 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm, Form, DateInput, NumberInput
 
 
-class MyDateInput(forms.DateInput):
+class MyDateTimeInput(forms.DateInput):
     input_type = 'datetime-local'
+
+
+class MyTimeInput(forms.DateInput):
+    input_type = 'time'
+
+
+class MyDateInput(forms.DateInput):
+    input_type = 'date'
 
 
 # Formulario para inicio de sesión
@@ -23,15 +31,15 @@ class LoginForm(Form):
                                                                                 'class': 'form-control'}))
 
 
-class SlideForm(Form):
+class PublicationForm(Form):
     start_circulation = forms.DateTimeField(required=True,
-                                            widget=MyDateInput(attrs={'class': 'form-control'}),
+                                            widget=MyDateTimeInput(attrs={'class': 'form-control'}),
                                             label='Inicio de Circulación',
                                             input_formats=['%d-%m-%YT%H:%M',
                                                            '%Y-%m-%dT%H:%M'])
 
     end_circulation = forms.DateTimeField(required=True,
-                                          widget=MyDateInput(attrs={'class': 'form-control'}),
+                                          widget=MyDateTimeInput(attrs={'class': 'form-control'}),
                                           label='Inicio de Circulación',
                                           input_formats=['%d-%m-%YT%H:%M',
                                                          '%Y-%m-%dT%H:%M'])
@@ -42,7 +50,7 @@ class SlideForm(Form):
                                         label='Tipo de Diapositiva')
 
 
-class SlideText(SlideForm):
+class SlideText(PublicationForm):
     title = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
@@ -54,7 +62,37 @@ class SlideText(SlideForm):
                            label='Cuerpo de la diapositiva')
 
 
-class SlideImage(SlideForm):
+class SlideImage(PublicationForm):
+    image = forms.ImageField(required=True,
+                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                             label='Imagen')
+
+
+class EventForm(PublicationForm):
+    name = forms.CharField(required=True,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           label='Nombre')
+
+    exhibitor = forms.CharField(required=False,
+                                widget=forms.TextInput(attrs={'class': 'form-control'}),
+                                label='Expositor')
+
+    date = forms.DateField(required=True,
+                           widget=MyDateInput(attrs={'class': 'form-control'}),
+                           label='Fecha',
+                           input_formats=['%d-%m-%Y',
+                                          '%Y-%m-%d'])
+
+    time = forms.TimeField(required=True,
+                           widget=MyTimeInput(attrs={'class': 'form-control'}),
+                           label='Hora')
+
+    place = forms.CharField(required=True,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           label='Lugar')
+
+
+class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
