@@ -1,13 +1,18 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 {% block content %}
+    {% if mensaje %}
+    <div class="col-lg-12">
+        <div class="alert alert-success" role="alert">El contenido se ha guardados de forma exitosa.</div>
+    </div>
+    {% endif %}
     <h1>Bienvenido a Noticias DCC</h1>
     <h2>Seleccione la actividad que desea realizar</h2>
     <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
     <legend ALIGN=center >Creación de Contenido</legend>
     <row >
         <div class="btn-group btn-group-justified" >
-            <a href="#" class="btn btn-primary btn-lg btn-block" role="button">Crear</a>
+            <a href="{% url 'template_selection' %}" class="btn btn-primary btn-lg btn-block" role="button">Crear</a>
         </div>
     </row>
     <hr style="width: 100%; color: black; height: 1px; background-color:black;" />

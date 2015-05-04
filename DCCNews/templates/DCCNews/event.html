@@ -3,6 +3,11 @@
 
 {% block content %}
     <legend>Creación de Evento</legend>
+    {% if mensaje %}
+    <div class="col-lg-12">
+        <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
+    </div>
+    {% endif %}
     <div class="col-lg-6">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}

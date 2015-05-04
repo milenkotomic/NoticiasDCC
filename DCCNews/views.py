@@ -105,8 +105,8 @@ def new_slide(request, template_id):
 
 # edit_publication: TODO
 @login_required()
-def edit_slide(request, publicaction_id):
-    pub = get_object_or_404(Publication, pk=publicaction_id)
+def edit_slide(request, publication_id):
+    pub = get_object_or_404(Publication, pk=publication_id)
     texts = pub.text_set.all()
     images = pub.image_set.all()
     path_image = 'DCCNews/images/plantilla'+str(pub.template_id.id)+'.png'
@@ -124,6 +124,7 @@ def edit_slide(request, publicaction_id):
             pub.end_date = form.cleaned_data['end_circulation']
             pub.modification_user_id = request.user
             pub.save()
+
             if form.cleaned_data.get('title'):
                 text = texts.filter(number=1).first()
                 text.text = form.cleaned_data['title']
@@ -148,7 +149,6 @@ def edit_slide(request, publicaction_id):
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'image': path_image,
                                                           'mensaje': True})
-
 
     initial_data = {'title': texts.filter(number=1).first(),
                     'subhead': texts.filter(number=3).first(),
@@ -176,12 +176,13 @@ def new_event(request, template_id):
             pub = Publication()
             pub.user_id = request.user
             pub.tag_id = form.cleaned_data['slide_type']
-            pub.type_id = Type.objects.get(pk=1)
+            pub.type_id = Type.objects.get(pk=2)
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
             pub.init_date = form.cleaned_data['start_circulation']
             pub.end_date = form.cleaned_data['end_circulation']
             pub.modification_user_id = request.user
+
             pub.save()
 
             text = Text(text=form.cleaned_data['name'],
@@ -226,8 +227,75 @@ def new_event(request, template_id):
     return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
 
-def edit_event(request):
-    return None
+def edit_event(request, publication_id):
+    pub = get_object_or_404(Publication, pk=publication_id)
+    texts = pub.text_set.all()
+    images = pub.image_set.all()
+    path_image = 'DCCNews/images/evento'+str(pub.template_id.id)+'.png'
+    if request.POST:
+        if pub.template_id.id == 1:
+            form = EventForm(request.POST)
+        elif pub.template_id == 2:
+            form = EventImage(request.POST, request.FILES)
+
+        if form.is_valid():
+            pub.tag_id = form.cleaned_data['slide_type']
+            pub.type_id = Type.objects.get(pk=2)
+            pub.priority_id = Priority.objects.get(pk=1)
+            pub.init_date = form.cleaned_data['start_circulation']
+            pub.end_date = form.cleaned_data['end_circulation']
+            pub.modification_user_id = request.user
+            print pub.init_date
+            pub.save()
+            if form.cleaned_data.get('name'):
+                text = texts.filter(number=1).first()
+                text.text = form.cleaned_data['name']
+                text.save()
+
+            if form.cleaned_data.get('exhibitor'):
+                text = texts.filter(number=2).first()
+                text.text = form.cleaned_data['exhibitor']
+                text.save()
+
+            if form.cleaned_data.get('date'):
+                text = texts.filter(number=3).first()
+                text.text = form.cleaned_data['date']
+                text.save()
+
+            if form.cleaned_data.get('time'):
+                text = texts.filter(number=4).first()
+                text.text = form.cleaned_data['time']
+                text.save()
+
+            if form.cleaned_data.get('place'):
+                text = texts.filter(number=5).first()
+                text.text = form.cleaned_data['place']
+                text.save()
+
+            if form.cleaned_data.get('image'):
+                image = images.filter(number=1).first()
+                image.image = request.FILES['image']
+                image.save()
+
+            return render(request, 'DCCNews/event.html', {'form': form,
+                                                          'image': path_image,
+                                                          'mensaje': True})
+
+    initial_data = {'name': texts.filter(number=1).first(),
+                    'exhibitor': texts.filter(number=2).first(),
+                    'date': texts.filter(number=3).first(),
+                    'time': texts.filter(number=4).first(),
+                    'place': texts.filter(number=5).first(),
+                    'start_circulation': pub.init_date.strftime('%Y-%m-%dT%H:%M'),
+                    'end_circulation': pub.end_date.strftime('%Y-%m-%dT%H:%M'),
+                    'slide_type': pub.tag_id.id}
+
+    if pub.template_id.id == 1:
+        form = EventForm(initial_data)
+    elif pub.template_id.id == 2:
+        form = EventImage(initial_data)
+
+    return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
 
 #Busca una diapositiva: TODO  
