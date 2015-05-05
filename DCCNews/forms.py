@@ -40,7 +40,7 @@ class PublicationForm(Form):
 
     end_circulation = forms.DateTimeField(required=True,
                                           widget=MyDateTimeInput(attrs={'class': 'form-control'}),
-                                          label='Inicio de Circulación',
+                                          label='Fin de Circulación',
                                           input_formats=['%d-%m-%YT%H:%M',
                                                          '%Y-%m-%dT%H:%M'])
 

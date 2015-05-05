@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django import forms
 # from bzrlib.transport.http._urllib2_wrappers import Request
 
 # login_view: a partir del request que cuenta con los datos del form
@@ -221,9 +222,12 @@ def new_event(request, template_id):
 
         return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
     if template_id == "1":
-        form = EventForm()
+        form = EventForm(initial={'slide_type': 3})
     elif template_id == "2":
-        form = EventImage()
+        form = EventImage(initial={'slide_type': 3})
+
+    form.fields['slide_type'].widget = forms.HiddenInput()
+
     return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
 
@@ -294,6 +298,8 @@ def edit_event(request, publication_id):
         form = EventForm(initial_data)
     elif pub.template_id.id == 2:
         form = EventImage(initial_data)
+
+    form.fields['slide_type'].widget = forms.HiddenInput()
 
     return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
