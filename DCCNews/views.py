@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django import forms
 # from bzrlib.transport.http._urllib2_wrappers import Request
 
+
 # login_view: a partir del request que cuenta con los datos del form
 # realiza la autentificación contra la base de datos. Si valida, lleva al index,
 # de lo contrario, se mantiene en la página y muestra un mensaje de error.
@@ -103,7 +104,6 @@ def new_slide(request, template_id):
     return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
 
 
-
 # edit_publication: TODO
 @login_required()
 def edit_slide(request, publication_id):
@@ -130,7 +130,6 @@ def edit_slide(request, publication_id):
                 text = texts.filter(number=1).first()
                 text.text = form.cleaned_data['title']
                 text.save()
-
 
             if form.cleaned_data.get('subhead'):
                 text = texts.filter(number=3).first()
@@ -166,6 +165,7 @@ def edit_slide(request, publication_id):
     return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
 
 
+# new_event: TODO
 def new_event(request, template_id):
     path_image = 'DCCNews/images/evento'+template_id+'.png'
     if request.POST:
@@ -231,6 +231,7 @@ def new_event(request, template_id):
     return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
 
+# edit_event: TODO
 def edit_event(request, publication_id):
     pub = get_object_or_404(Publication, pk=publication_id)
     texts = pub.text_set.all()
@@ -304,14 +305,13 @@ def edit_event(request, publication_id):
     return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
 
 
-#Busca una diapositiva: TODO  
+# Busca una diapositiva: TODO
 @login_required()
 def search_contenido(request):
     return render(request, 'DCCNews/template_search.html')
 
-#Busca por evento: TODO  
-#@login_required()
+
+# Busca por evento: TODO
+@login_required()
 def search_contenido_evento(request):
     return render(request, 'DCCNews/template_search_evento.html')
-
-

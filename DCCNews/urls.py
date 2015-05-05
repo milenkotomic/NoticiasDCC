@@ -1,7 +1,7 @@
 from NoticiasDCC import settings
 
 __author__ = 'milenkotomic'
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from DCCNews import views
 
 urlpatterns = patterns('',

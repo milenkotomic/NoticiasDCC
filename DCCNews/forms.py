@@ -5,10 +5,7 @@ __author__ = 'milenkotomic'
 
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.forms import ModelForm, Form, DateInput, NumberInput
+from django.forms import Form
 
 
 class MyDateTimeInput(forms.DateInput):
@@ -57,7 +54,7 @@ class SlideText(PublicationForm):
 
     body = forms.CharField(required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
-                                                        'rows':4,
+                                                        'rows': 4,
                                                         'cols': 40}),
                            label='Cuerpo de la diapositiva')
 
@@ -88,8 +85,8 @@ class EventForm(PublicationForm):
                            label='Hora')
 
     place = forms.CharField(required=True,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}),
-                           label='Lugar')
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
+                            label='Lugar')
 
 
 class EventImage(EventForm):
