@@ -309,7 +309,7 @@ def edit_event(request, publication_id):
 @login_required()
 def search_contenido(request):
     list = [] 
-    Pubs = Publication.objects.order_by('-creation_date')[:5]
+    Pubs = Publication.objects.order_by('-creation_date')
     
     for pub in Pubs:
         print(pub)
