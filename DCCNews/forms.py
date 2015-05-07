@@ -93,3 +93,9 @@ class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
+
+class SearchEvent(Form):
+    #testing
+    titulo = forms.CharField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             label='Titulo')

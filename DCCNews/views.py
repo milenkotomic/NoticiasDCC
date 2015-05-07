@@ -308,10 +308,34 @@ def edit_event(request, publication_id):
 # Busca una diapositiva: TODO
 @login_required()
 def search_contenido(request):
-    return render(request, 'DCCNews/template_search.html')
+    list = [] 
+    Pubs = Publication.objects.order_by('-creation_date')[:5]
+    
+    for pub in Pubs:
+        print(pub)
+        texts = pub.text_set.all()
+        p = {   "title" :  texts[0],
+                "tipe" : pub.tag_id.name,
+                "id" : pub.pk,
+             }
+        list.append(p)
+        
+    return render(request, 'DCCNews/template_search.html', {"list" : list })
 
 
 # Busca por evento: TODO
 @login_required()
 def search_contenido_evento(request):
-    return render(request, 'DCCNews/template_search_evento.html')
+    list = [] 
+    Pubs = Publication.objects.order_by('creation_date')[:5]
+    
+    for pub in Pubs:
+        print(pub)
+        texts = pub.text_set.all()
+        p = {   "title" :  texts[0],
+                "tipe" : pub.tag_id.name,
+                "id" : pub.pk,
+             }
+        list.append(p)
+
+    return render(request, 'DCCNews/template_search_evento.html', {"list" : list })

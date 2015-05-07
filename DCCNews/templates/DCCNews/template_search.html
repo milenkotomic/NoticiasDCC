@@ -5,7 +5,7 @@
 
 <h1>Busqueda de Diapositiva</h1>
 <!-- formulario de usqueda -->
-<form role="form" class="form ">
+<form role="form" method="post" class="form">
     <row>
   <div class="form-group">
     <label for="Palbras_busqueda">Busqueda por titulo</label>
@@ -32,20 +32,18 @@
 
 <!-- {%tabla con resultados	} , donde limitar la cantidad de salidas???	-->
 <table id="result_table" class="table table-bordered ">
-   <tr>
-    <td>Titulo</td>
-    <td>Tipo de Contenido</td> 
-  </tr>
-  <tr>
-    <td>Curso de Robotica Movil</td>
-    <td>Anucio</td> 
-<!-- {% for line in responces %}
-  <tr>
-    <td><a href="{{line.url}}">{{ line.title }}<td>
-    <td>{{ line.tipe }}<td>
-</tr>
-{% endfor %}
-  </tr> -->
+	<tr>
+    	<td>Titulo</td>
+    	<td>Tipo de Contenido</td> 
+  	</tr>
+	
+	{% for line in list %}
+ 	<tr>
+    	<td><a href= "{% url 'edit_slide' line.id %} ">{{ line.title }}</td>
+    	<td>{{ line.tipe }}</td>
+  	</tr>
+	{% endfor %}
+
 </table>
 
 
