@@ -314,7 +314,7 @@ def search_contenido(request):
     for pub in Pubs:
         print(pub)
         texts = pub.text_set.all()
-        p = {   "title" :  texts[0],
+        p = {   "title" :  texts.first(),
                 "tipe" : pub.tag_id.name,
                 "id" : pub.pk,
              }
@@ -332,7 +332,7 @@ def search_contenido_evento(request):
     for pub in Pubs:
         print(pub)
         texts = pub.text_set.all()
-        p = {   "title" :  texts[0],
+        p = {   "title" :  texts.first(),
                 "tipe" : pub.tag_id.name,
                 "id" : pub.pk,
              }
