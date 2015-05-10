@@ -1,12 +1,29 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 
+{% block head %}
+    <script>
+        function checkCirculation(){
+            if (new Date($("#id_start_circulation").val()) && new Date($("#id_end_circulation").val())){
+                if (new Date($("#id_start_circulation").val()) >= new Date($("#id_end_circulation").val())){
+                    $("#id_start_circulation").parent().addClass("has-error");
+                    $("#id_end_circulation").parent().addClass("has-error");
+                }
+                else{
+                    $("#id_start_circulation").parent().removeClass("has-error");
+                    $("#id_end_circulation").parent().removeClass("has-error");
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
     <legend>Creación de Evento</legend>
     {% if mensaje %}
-    <div class="col-lg-12">
-        <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
-    </div>
+        <div class="col-lg-12">
+            <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
+        </div>
     {% endif %}
     <div class="col-lg-6">
         <form action="" method="post" enctype="multipart/form-data">
@@ -61,14 +78,14 @@
                 </div>
             </div>
             <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="form-group">
-                            {{ form.place.errors }}
-                            <label class="control-label">{{ form.place.label }}:</label>
-                            {{ form.place }}
-                        </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        {{ form.place.errors }}
+                        <label class="control-label">{{ form.place.label }}:</label>
+                        {{ form.place }}
                     </div>
                 </div>
+            </div>
 
 
             <div class="row">

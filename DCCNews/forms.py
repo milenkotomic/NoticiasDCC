@@ -30,13 +30,17 @@ class LoginForm(Form):
 
 class PublicationForm(Form):
     start_circulation = forms.DateTimeField(required=True,
-                                            widget=MyDateTimeInput(attrs={'class': 'form-control'}),
+                                            widget=MyDateTimeInput(attrs={'class': 'form-control',
+                                                                          'placeholder': 'DD-MM-AAAA HH:MM',
+                                                                          'onChange': 'checkCirculation()'}),
                                             label='Inicio de Circulación',
                                             input_formats=['%d-%m-%YT%H:%M',
                                                            '%Y-%m-%dT%H:%M'])
 
     end_circulation = forms.DateTimeField(required=True,
-                                          widget=MyDateTimeInput(attrs={'class': 'form-control'}),
+                                          widget=MyDateTimeInput(attrs={'class': 'form-control',
+                                                                        'placeholder': 'DD-MM-AAAA HH:MM',
+                                                                        'onChange': 'checkCirculation()'}),
                                           label='Fin de Circulación',
                                           input_formats=['%d-%m-%YT%H:%M',
                                                          '%Y-%m-%dT%H:%M'])
@@ -45,6 +49,17 @@ class PublicationForm(Form):
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
+
+    def is_valid(self):
+        valid = super(PublicationForm, self).is_valid()
+
+        if not valid:
+            return valid
+
+        if self.cleaned_data['start_circulation'] >= self.cleaned_data['end_circulation']:
+            self._errors['start_circulation'] = 'La fecha de término debe ser posterior a la fecha de inicio'
+            return False
+        return True
 
 
 class SlideText(PublicationForm):
@@ -75,13 +90,15 @@ class EventForm(PublicationForm):
                                 label='Expositor')
 
     date = forms.DateField(required=True,
-                           widget=MyDateInput(attrs={'class': 'form-control'}),
+                           widget=MyDateInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'DD-MM-AAAA'}),
                            label='Fecha',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
 
     time = forms.TimeField(required=True,
-                           widget=MyTimeInput(attrs={'class': 'form-control'}),
+                           widget=MyTimeInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'HH:MM'}),
                            label='Hora')
 
     place = forms.CharField(required=True,
