@@ -95,13 +95,13 @@ def new_slide(request, template_id):
             url = reverse(index)
             return HttpResponseRedirect(url)
 
-        return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
+        return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image, 'new': True})
     if template_id == "1":
         form = SlideText()
     elif template_id == "2":
         form = SlideImage()
 
-    return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image})
+    return render(request, 'DCCNews/slide.html', {'form': form, 'image': path_image, 'new': True})
 
 
 # edit_publication: TODO
@@ -220,7 +220,8 @@ def new_event(request, template_id):
             url = reverse(index)
             return HttpResponseRedirect(url)
 
-        return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
+        form.fields['slide_type'].widget = forms.HiddenInput()
+        return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image, 'new': True})
     if template_id == "1":
         form = EventForm(initial={'slide_type': 3})
     elif template_id == "2":
@@ -228,7 +229,7 @@ def new_event(request, template_id):
 
     form.fields['slide_type'].widget = forms.HiddenInput()
 
-    return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image})
+    return render(request, 'DCCNews/event.html', {'form': form, 'image': path_image, 'new': True})
 
 
 # edit_event: TODO

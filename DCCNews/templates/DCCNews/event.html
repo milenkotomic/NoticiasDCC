@@ -31,19 +31,21 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.name.errors }}
-                        <label class="control-label">{{ form.name.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.name.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.name.errors.as_text }}</div>
+                        </div>
                         {{ form.name }}
                     </div>
                 </div>
             </div>
-
-
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.exhibitor.errors }}
-                        <label class="control-label">{{ form.exhibitor.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.exhibitor.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.exhibitor.errors.as_text }}</div>
+                        </div>
                         {{ form.exhibitor }}
                     </div>
                 </div>
@@ -52,8 +54,10 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            {{ form.image.errors }}
-                            <label class="control-label">{{ form.image.label }}:</label>
+                            <div class="row">
+                                <label class="col-lg-5 col-md-5 control-label">{{ form.image.label }}:</label>
+                                <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.image.errors.as_text }}</div>
+                            </div>
                             {{ form.image }}
                         </div>
                     </div>
@@ -62,8 +66,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.date.errors }}
-                        <label class="control-label">{{ form.date.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.date.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.date.errors.as_text }}</div>
+                        </div>
                         {{ form.date }}
                     </div>
                 </div>
@@ -71,8 +77,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.time.errors }}
-                        <label class="control-label">{{ form.time.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.time.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.time.errors.as_text }}</div>
+                        </div>
                         {{ form.time }}
                     </div>
                 </div>
@@ -80,9 +88,11 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.place.errors }}
-                        <label class="control-label">{{ form.place.label }}:</label>
-                        {{ form.place }}
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.place.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.place.errors.as_text }}</div>
+                        </div>
+                        {{ form.end_circulation }}
                     </div>
                 </div>
             </div>
@@ -91,8 +101,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.start_circulation.errors }}
-                        <label class="control-label">{{ form.start_circulation.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.start_circulation.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.start_circulation.errors.as_text }}</div>
+                        </div>
                         {{ form.start_circulation }}
                     </div>
                 </div>
@@ -100,8 +112,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.end_circulation.errors }}
-                        <label class="control-label">{{ form.end_circulation.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.end_circulation.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.end_circulation.errors.as_text }}</div>
+                        </div>
                         {{ form.end_circulation }}
                     </div>
                 </div>
@@ -111,10 +125,12 @@
             <a href="#" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
-    <div class="col-lg-offset-1 col-lg-3 text-center">
+    <div class="col-lg-offset-1 col-lg-3 text-center hidden-xs">
         <label>Plantilla seleccionada</label>
         <img src="{% static image  %}">
-        <a href="{% url 'template_selection' %}" class="btn btn-primary">Volver</a>
+        {% if new %}
+            <a href="{% url 'template_selection' %}" class="btn btn-primary">Volver</a>
+        {% endif %}
     </div>
 
 {% endblock %}
