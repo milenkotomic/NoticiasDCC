@@ -68,17 +68,16 @@ class PublicationForm(Form):
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
 
-    def is_valid(self):
-        valid = super(PublicationForm, self).is_valid()
+    def clean(self):
+        cleaned_data = super(PublicationForm, self).clean()
+        start_circulation = cleaned_data.get("start_circulation")
+        end_circulation = cleaned_data.get("end_circulation")
 
-        if not valid:
-            return valid
-
-        if self.cleaned_data['start_circulation'] >= self.cleaned_data['end_circulation']:
-            self._errors['start_circulation'] = 'La fecha de término debe ser posterior a la fecha de inicio'
-            return False
-        return True
-
+        if start_circulation and end_circulation:
+            if start_circulation >= end_circulation:
+                msg = 'La fecha de término debe ser posterior a la fecha de inicio'
+                self.add_error('start_circulation', msg)
+                del self.cleaned_data['end_circulation']
 
 class SlideText(PublicationForm):
     title = forms.CharField(required=True,

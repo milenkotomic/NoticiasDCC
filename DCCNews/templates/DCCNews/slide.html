@@ -2,41 +2,7 @@
 {% load staticfiles %}
 
 {% block head %}
-    <script>
-        $(document).ready(function(){
-            $("#id_start_circulation").datetimepicker({
-                sideBySide: true,
-                format: 'dd-mm-yyyy hh:ii',
-                linkField: "hide_start_cirulation",
-                linkFormat: 'yyyy-mm-dd hh:ii',
-                autoclose: true,
-                weekStart: 1
-            });
-            $("#id_end_circulation").datetimepicker({
-                sideBySide: true,
-                format: 'dd-mm-yyyy hh:ii',
-                linkField: "hide_end_cirulation",
-                linkFormat: 'yyyy-mm-dd hh:ii',
-                autoclose: true,
-                weekStart: 1
-            });
-        });
-    </script>
-    <script>
-        function checkCirculation(){
-            if (new Date($("#hide_start_cirulation").val()) && new Date($("#hide_end_cirulation").val())){
-                if (new Date($("#hide_start_cirulation").val()) >= new Date($("#hide_end_cirulation").val())){
-                    $("#id_start_circulation").parent().addClass("has-error");
-                    $("#id_end_circulation").parent().addClass("has-error");
-                }
-                else{
-                    $("#id_start_circulation").parent().removeClass("has-error");
-                    $("#id_end_circulation").parent().removeClass("has-error");
-                }
-            }
-        }
-    </script>
-
+    <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -104,6 +70,8 @@
                 </div>
             {% endif %}
 
+
+            {{ form.date_error.errors }}
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
