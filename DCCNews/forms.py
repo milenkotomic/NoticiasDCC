@@ -29,20 +29,38 @@ class LoginForm(Form):
 
 
 class PublicationForm(Form):
+    # start_circulation = forms.DateTimeField(required=True,
+    #                                         widget=MyDateTimeInput(attrs={'class': 'form-control',
+    #                                                                       'placeholder': 'DD-MM-AAAA HH:MM',
+    #                                                                       'onChange': 'checkCirculation()'}),
+    #                                         label='Inicio de Circulación',
+    #                                         input_formats=['%d-%m-%YT%H:%M',
+    #                                                        '%Y-%m-%dT%H:%M'])
+
     start_circulation = forms.DateTimeField(required=True,
-                                            widget=MyDateTimeInput(attrs={'class': 'form-control',
+                                            widget=forms.TextInput(attrs={'class': 'form-control',
                                                                           'placeholder': 'DD-MM-AAAA HH:MM',
                                                                           'onChange': 'checkCirculation()'}),
                                             label='Inicio de Circulación',
                                             input_formats=['%d-%m-%YT%H:%M',
+                                                           '%d-%m-%Y %H:%M',
                                                            '%Y-%m-%dT%H:%M'])
 
+    # end_circulation = forms.DateTimeField(required=True,
+    #                                       widget=MyDateTimeInput(attrs={'class': 'form-control',
+    #                                                                     'placeholder': 'DD-MM-AAAA HH:MM',
+    #                                                                     'onChange': 'checkCirculation()'}),
+    #                                       label='Fin de Circulación',
+    #                                       input_formats=['%d-%m-%YT%H:%M',
+    #                                                      '%Y-%m-%dT%H:%M'])
+
     end_circulation = forms.DateTimeField(required=True,
-                                          widget=MyDateTimeInput(attrs={'class': 'form-control',
+                                          widget=forms.TextInput(attrs={'class': 'form-control',
                                                                         'placeholder': 'DD-MM-AAAA HH:MM',
                                                                         'onChange': 'checkCirculation()'}),
                                           label='Fin de Circulación',
                                           input_formats=['%d-%m-%YT%H:%M',
+                                                         '%d-%m-%Y %H:%M',
                                                          '%Y-%m-%dT%H:%M'])
 
     slide_type = forms.ModelChoiceField(required=True,

@@ -39,18 +39,19 @@ def logout_view(request):
     return render(request, 'DCCNews/login.html', context)
 
 # index: TODO
-@login_required()
+@login_required
 def index(request):
     return render(request, 'DCCNews/index.html')
 
 
 # select_template: TODO
+@login_required
 def select_template(request):
     return render(request, 'DCCNews/template_selection.html')
 
 
 # new_publication: TODO
-@login_required()
+@login_required
 def new_slide(request, template_id):
     path_image = 'DCCNews/images/plantilla'+template_id+'.png'
     if request.POST:
@@ -105,7 +106,7 @@ def new_slide(request, template_id):
 
 
 # edit_publication: TODO
-@login_required()
+@login_required
 def edit_slide(request, publication_id):
     pub = get_object_or_404(Publication, pk=publication_id)
     texts = pub.text_set.all()
@@ -166,6 +167,7 @@ def edit_slide(request, publication_id):
 
 
 # new_event: TODO
+@login_required
 def new_event(request, template_id):
     path_image = 'DCCNews/images/evento'+template_id+'.png'
     if request.POST:
@@ -233,6 +235,7 @@ def new_event(request, template_id):
 
 
 # edit_event: TODO
+@login_required
 def edit_event(request, publication_id):
     pub = get_object_or_404(Publication, pk=publication_id)
     texts = pub.text_set.all()
@@ -307,7 +310,7 @@ def edit_event(request, publication_id):
 
 
 # Busca una diapositiva: TODO
-@login_required()
+@login_required
 def search_contenido(request):
     list = [] 
     Pubs = Publication.objects.order_by('-creation_date')
@@ -325,7 +328,7 @@ def search_contenido(request):
 
 
 # Busca por evento: TODO
-@login_required()
+@login_required
 def search_contenido_evento(request):
     list = [] 
     Pubs = Publication.objects.order_by('creation_date')[:5]
