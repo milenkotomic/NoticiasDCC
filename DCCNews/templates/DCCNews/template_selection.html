@@ -4,33 +4,33 @@
 {% block content %}
     <h1>Seleccione la plantilla</h1>
     <legend>Dipositiva</legend>
-    <row>
-        <div class="col-lg-3 text-center">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla1.png' %}">
             <a href="{% url 'new_slide' 1 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
-        <div class="col-lg-3 text-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla2.png' %}" class="center-block">
             <a href="{% url 'new_slide' 2 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
-        <div class="col-lg-3 text-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla3.png' %}" class="center-block">
             <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
         </div>
-        <div class="col-lg-3 text-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/plantilla4.png' %}" class="center-block">
             <a href="#" class="btn btn-primary disabled" role="button">Seleccionar</a>
         </div>
 
-    </row>
+    </div>
 
     <legend>Evento</legend>
     <row>
-        <div class="col-lg-3 text-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/evento1.png' %}">
             <a href="{% url 'new_event' 1 %}" class="btn btn-primary" role="button">Seleccionar</a>
         </div>
-        <div class="col-lg-3 text-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
             <img src="{% static 'DCCNews/images/evento2.png' %}">
             <a href="{% url 'new_event' 2 %}" class="btn btn-primary disabled" role="button">Seleccionar</a>
         </div>

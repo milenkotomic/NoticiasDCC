@@ -29,16 +29,38 @@ class LoginForm(Form):
 
 
 class PublicationForm(Form):
+    # start_circulation = forms.DateTimeField(required=True,
+    #                                         widget=MyDateTimeInput(attrs={'class': 'form-control',
+    #                                                                       'placeholder': 'DD-MM-AAAA HH:MM',
+    #                                                                       'onChange': 'checkCirculation()'}),
+    #                                         label='Inicio de Circulación',
+    #                                         input_formats=['%d-%m-%YT%H:%M',
+    #                                                        '%Y-%m-%dT%H:%M'])
+
     start_circulation = forms.DateTimeField(required=True,
-                                            widget=MyDateTimeInput(attrs={'class': 'form-control'}),
+                                            widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                          'placeholder': 'DD-MM-AAAA HH:MM',
+                                                                          'onChange': 'checkCirculation()'}),
                                             label='Inicio de Circulación',
                                             input_formats=['%d-%m-%YT%H:%M',
+                                                           '%d-%m-%Y %H:%M',
                                                            '%Y-%m-%dT%H:%M'])
 
+    # end_circulation = forms.DateTimeField(required=True,
+    #                                       widget=MyDateTimeInput(attrs={'class': 'form-control',
+    #                                                                     'placeholder': 'DD-MM-AAAA HH:MM',
+    #                                                                     'onChange': 'checkCirculation()'}),
+    #                                       label='Fin de Circulación',
+    #                                       input_formats=['%d-%m-%YT%H:%M',
+    #                                                      '%Y-%m-%dT%H:%M'])
+
     end_circulation = forms.DateTimeField(required=True,
-                                          widget=MyDateTimeInput(attrs={'class': 'form-control'}),
+                                          widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                        'placeholder': 'DD-MM-AAAA HH:MM',
+                                                                        'onChange': 'checkCirculation()'}),
                                           label='Fin de Circulación',
                                           input_formats=['%d-%m-%YT%H:%M',
+                                                         '%d-%m-%Y %H:%M',
                                                          '%Y-%m-%dT%H:%M'])
 
     slide_type = forms.ModelChoiceField(required=True,
@@ -46,6 +68,16 @@ class PublicationForm(Form):
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
 
+    def clean(self):
+        cleaned_data = super(PublicationForm, self).clean()
+        start_circulation = cleaned_data.get("start_circulation")
+        end_circulation = cleaned_data.get("end_circulation")
+
+        if start_circulation and end_circulation:
+            if start_circulation >= end_circulation:
+                msg = 'La fecha de término debe ser posterior a la fecha de inicio'
+                self.add_error('start_circulation', msg)
+                del self.cleaned_data['end_circulation']
 
 class SlideText(PublicationForm):
     title = forms.CharField(required=True,
@@ -75,13 +107,15 @@ class EventForm(PublicationForm):
                                 label='Expositor')
 
     date = forms.DateField(required=True,
-                           widget=MyDateInput(attrs={'class': 'form-control'}),
+                           widget=MyDateInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'DD-MM-AAAA'}),
                            label='Fecha',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
 
     time = forms.TimeField(required=True,
-                           widget=MyTimeInput(attrs={'class': 'form-control'}),
+                           widget=MyTimeInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'HH:MM'}),
                            label='Hora')
 
     place = forms.CharField(required=True,

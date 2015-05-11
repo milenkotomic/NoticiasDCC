@@ -17,10 +17,10 @@ urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^search/slide/', views.search_slide, name='search_slide'),
                        url(r'^search/event/', views.search_event, name='search_event'),
+                        url(r'^visualize/', views.visualize, name='visualize_content'),
+                        url(r'^template1/', views.template, name='template'),
+                        url(r'^visualize/', views.visualize, name='visualize_content'),
+                        url(r'^template1/', views.template, name='template'),
                        )
 
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
-                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                                'document_root': settings.MEDIA_ROOT}))

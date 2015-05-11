@@ -1,22 +1,29 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 
+{% block head %}
+    <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
+{% endblock %}
+
 {% block content %}
+
     <legend>Creación de diapositiva</legend>
     {% if mensaje %}
-    <div class="col-lg-12">
-        <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
-    </div>
+        <div class="col-lg-12">
+            <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
+        </div>
     {% endif %}
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-9">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if form.title %}
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            {{ form.title.errors }}
-                            <label class="control-label">{{ form.title.label }}:</label>
+                            <div class="row">
+                                <label class="col-lg-5 col-md-5 control-label">{{ form.title.label }}:</label>
+                                <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.title.errors.as_text }}</div>
+                            </div>
                             {{ form.title }}
                         </div>
                     </div>
@@ -26,8 +33,10 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            {{ form.subhead.errors }}
-                            <label class="control-label">{{ form.subhead.label }}:</label>
+                            <div class="row">
+                                <label class="col-lg-5 col-md-5 control-label">{{ form.subhead.label }}:</label>
+                                <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.subhead.errors.as_text }}</div>
+                            </div>
                             {{ form.subhead }}
                         </div>
                     </div>
@@ -37,29 +46,39 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            {{ form.body.errors }}
-                            <label class="control-label">{{ form.body.label }}:</label>
+                            <div class="row">
+                                <label class="col-lg-5 col-md-5 control-label">{{ form.body.label }}:</label>
+                                <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.body.errors.as_text }}</div>
+                            </div>
                             {{ form.body }}
                         </div>
                     </div>
                 </div>
             {% endif %}
+            {#        Replicaraaar#}
             {% if form.image %}
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            {{ form.image.errors }}
-                            <label class="control-label">{{ form.image.label }}:</label>
+                            <div class="row">
+                                <label class="col-lg-5 col-md-5 control-label">{{ form.image.label }}:</label>
+                                <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.image.errors.as_text }}</div>
+                            </div>
                             {{ form.image }}
                         </div>
                     </div>
                 </div>
             {% endif %}
+
+
+            {{ form.date_error.errors }}
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.start_circulation.errors }}
-                        <label class="control-label">{{ form.start_circulation.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.start_circulation.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.start_circulation.errors.as_text }}</div>
+                        </div>
                         {{ form.start_circulation }}
                     </div>
                 </div>
@@ -67,8 +86,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.end_circulation.errors }}
-                        <label class="control-label">{{ form.end_circulation.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.end_circulation.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.end_circulation.errors.as_text }}</div>
+                        </div>
                         {{ form.end_circulation }}
                     </div>
                 </div>
@@ -76,20 +97,26 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
-                        {{ form.slide_type.errors }}
-                        <label class="control-label">{{ form.slide_type.label }}:</label>
+                        <div class="row">
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.slide_type.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.slide_type.errors.as_text }}</div>
+                        </div>
                         {{ form.slide_type }}
                     </div>
                 </div>
             </div>
             <button class="btn btn-success" type="submit">Guardar</button>
-            <a href="#" class="btn btn-danger">Cancelar</a>
+            <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
         </form>
+        <input type="hidden" id="hide_start_cirulation">
+        <input type="hidden" id="hide_end_cirulation">
     </div>
-    <div class="col-lg-offset-1 col-lg-3 text-center">
+    <div class="col-lg-offset-1 col-lg-3 text-center col-md-3 hidden-xs hidden-sm">
         <label>Plantilla seleccionada</label>
         <img src="{% static image  %}">
-        <a href="{% url 'template_selection' %}" class="btn btn-primary">Volver</a>
+        {% if new %}
+            <a href="{% url 'template_selection' %}" class="btn btn-primary">Volver</a>
+        {% endif %}
     </div>
 
 {% endblock %}
