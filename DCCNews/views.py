@@ -155,8 +155,8 @@ def edit_slide(request, publication_id):
     initial_data = {'title': texts.filter(number=1).first(),
                     'subhead': texts.filter(number=3).first(),
                     'body': texts.filter(number=4).first(),
-                    'start_circulation': pub.init_date.strftime('%Y-%m-%dT%H:%M'),
-                    'end_circulation': pub.end_date.strftime('%Y-%m-%dT%H:%M'),
+                    'start_circulation': pub.init_date.strftime('%d-%m-%Y %H:%M'),
+                    'end_circulation': pub.end_date.strftime('%d-%m-%Y %H:%M'),
                     'slide_type': pub.tag_id.id}
 
     if pub.template_id.id == 1:
@@ -288,6 +288,7 @@ def edit_event(request, publication_id):
                 image.image = request.FILES['image']
                 image.save()
 
+            form.fields['slide_type'].widget = forms.HiddenInput()
             return render(request, 'DCCNews/event.html', {'form': form,
                                                           'image': template.view_prev,
                                                           'mensaje': True})
@@ -297,8 +298,8 @@ def edit_event(request, publication_id):
                     'date': texts.filter(number=3).first(),
                     'time': texts.filter(number=4).first(),
                     'place': texts.filter(number=5).first(),
-                    'start_circulation': pub.init_date.strftime('%Y-%m-%dT%H:%M'),
-                    'end_circulation': pub.end_date.strftime('%Y-%m-%dT%H:%M'),
+                    'start_circulation': pub.init_date.strftime('%d-%m-%Y %H:%M'),
+                    'end_circulation': pub.end_date.strftime('%d-%m-%Y %H:%M'),
                     'slide_type': pub.tag_id.id}
 
     if pub.template_id.id == 5:
@@ -314,7 +315,7 @@ def edit_event(request, publication_id):
 # Busca una diapositiva: TODO
 @login_required()
 def search_slide(request):
-    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="diapo")
     list = []
     # if this is a POST request we need to process the form data
     if request.POST:
