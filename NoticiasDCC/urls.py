@@ -1,4 +1,5 @@
-from django.conf.urls import include, url
+from NoticiasDCC import settings
+from django.conf.urls import include, url, patterns
 from django.contrib import admin
 
 urlpatterns = [
@@ -10,3 +11,8 @@ urlpatterns = [
     url(r'^news/', include('DCCNews.urls')),
     url(r'^$', include('DCCNews.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                                'document_root': settings.MEDIA_ROOT}))
