@@ -15,8 +15,8 @@ urlpatterns = patterns('',
                        url(r'^event/edit/(?P<publication_id>\d+)/', views.edit_event, name='edit_event'),
 
                        url(r'^$', views.index, name='index'),
-                       url(r'^search/slide/', views.search_contenido, name='search_slide'),
-                       url(r'^search/event/', views.search_contenido_evento, name='search_event'),
+                       url(r'^search/slide/', views.search_slide, name='search_slide'),
+                       url(r'^search/event/', views.search_event, name='search_event'),
                        )
 
 

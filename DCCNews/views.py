@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage
+from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -306,36 +306,91 @@ def edit_event(request, publication_id):
 
 
 # Busca una diapositiva: TODO
-@login_required()
-def search_contenido(request):
-    list = [] 
-    Pubs = Publication.objects.order_by('-creation_date')
-    
+#@login_required()
+def search_slide(request):
+    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+    list = []
+    # if this is a POST request we need to process the form data
+    if request.POST:
+        # create a form instance and populate it with data from the request:
+        form = SearchSlide(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            titulo = form.cleaned_data['titulo']
+            slide_type = form.cleaned_data['slide_type']
+            #texts = Text.objects.filter(text__icontains=titulo)
+            print(titulo)
+            if form.cleaned_data.get('titulo'):
+                Pubs = Pubs.filter(text__number__exact=1 ,text__text__icontains=titulo)
+            print(slide_type)         
+            if form.cleaned_data.get('slide_type'):
+                Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
+            #Pubs = Pubs.filter
+            #texts = Pubs.text_set.filter(name_icontains=titulo)
+            #texts.filter();
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SearchSlide()    
+    #Pubs = Pubs.distinct()
+    #--- busqueda
     for pub in Pubs:
-        print(pub)
+        #    print(pub)
         texts = pub.text_set.all()
         p = {   "title" :  texts.first(),
-                "tipe" : pub.tag_id.name,
+                "type" : pub.tag_id.name,
                 "id" : pub.pk,
-             }
+            }
         list.append(p)
-        
-    return render(request, 'DCCNews/template_search.html', {"list" : list })
+            
+    return render(request, 'DCCNews/template_search.html', {"list" : list , "form" : form} )
 
 
 # Busca por evento: TODO
 @login_required()
-def search_contenido_evento(request):
+def search_event(request):
     list = [] 
-    Pubs = Publication.objects.order_by('creation_date')[:5]
+    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
+        # if this is a POST request we need to process the form data
+    if request.POST:
+        # create a form instance and populate it with data from the request:
+        form = SearchEvent(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            titulo = form.cleaned_data['titulo']
+            slide_type = form.cleaned_data['slide_type']
+            expositor = form.cleaned_data['expositor']
+            date = form.cleaned_data['date']
+            #texts = Text.objects.filter(text__icontains=titulo)
+            print(titulo)
+            if form.cleaned_data.get('titulo'):
+                Pubs = Pubs.filter(text__number__exact=1 , text__text__icontains=titulo)
+                
+            print(slide_type)         
+            if form.cleaned_data.get('slide_type'):
+                Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
+                
+            print(expositor)
+            if form.cleaned_data.get('expositor'):
+                #Pubs = Pubs.filter(text__number=2)
+                Pubs = Pubs.filter(text__number__exact=2 , text__text__icontains=expositor)
+                
+            print(date)
+            if form.cleaned_data.get('date'):
+                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date)
+    else:
+        form = SearchEvent()        
+    #Pubs = Pubs.distinct()
     
     for pub in Pubs:
         print(pub)
         texts = pub.text_set.all()
         p = {   "title" :  texts.first(),
-                "tipe" : pub.tag_id.name,
+                "type" : pub.tag_id.name,
                 "id" : pub.pk,
              }
         list.append(p)
+        #"form" : form
+    return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
 
-    return render(request, 'DCCNews/template_search_evento.html', {"list" : list })
