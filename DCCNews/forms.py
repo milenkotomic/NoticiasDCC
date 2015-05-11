@@ -92,6 +92,10 @@ class SlideText(PublicationForm):
 
 
 class SlideImage(PublicationForm):
+    title = forms.CharField(required=True,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
+                            label='Título')
+
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
