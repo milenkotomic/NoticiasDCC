@@ -151,3 +151,4 @@ class SearchEvent(SearchSlide):
                            label='Busqueda por fecha',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
+

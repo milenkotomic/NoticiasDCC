@@ -401,7 +401,6 @@ def search_event(request):
         #"form" : form
     return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
 
-
 def visualize(request):
     return render(request, 'DCCNews/visualization2.html')
 
