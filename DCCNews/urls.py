@@ -17,6 +17,8 @@ urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^search/slide/', views.search_contenido, name='search_slide'),
                        url(r'^search/event/', views.search_contenido_evento, name='search_event'),
+                        url(r'^visualize/', views.visualize, name='visualize_content'),
+                        url(r'^template1/', views.template, name='template'),
                        )
 
 

@@ -345,3 +345,10 @@ def search_contenido_evento(request):
         list.append(p)
 
     return render(request, 'DCCNews/template_search_evento.html', {"list" : list })
+
+
+def visualize(request):
+    return render(request, 'DCCNews/visualization.html')
+
+def template(request):
+    return render(request, 'DCCNews/template1.html')
