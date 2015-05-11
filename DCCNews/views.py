@@ -346,7 +346,7 @@ def search_contenido_evento(request):
 
 
 def visualize(request):
-    return render(request, 'DCCNews/visualization.html')
+    return render(request, 'DCCNews/visualization2.html')
 
 def template(request):
     return render(request, 'DCCNews/template1.html')
