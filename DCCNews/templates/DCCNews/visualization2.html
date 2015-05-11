@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Noticias DCC</title>
+
+        <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap.css' %}" />
+        <link rel="stylesheet" href="{% static 'DCCNews/style/visualization.css' %}" />
+
+        <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
+        <script src="{% static 'DCCNews/js/bootstrap.min.js' %}"></script>
+
+    </head>
+    <body>
+        <!-- page container -->
+        <div class="container-fluid main-container">
+            <div class="row main">
+                <div class="col-sm-2 slide">
+                    <div class="row header">
+                        <img src="{% static 'DCCNews/images/dcc.png' %}" class="center-block logo">
+                    </div>
+                </div>
+                <div class="col-sm-8 slide">
+                    <div class="row content">
+                            {% include "DCCNews/template1.html" %}
+                    </div>
+                </div>
+                <div class="col-sm-2 slide">
+                    <div class="row med-info"> Hora </div>
+                    <div class="row big-info"> Web y Redes Sociales </div>
+                    <div class="row med-info"> ?? </div>
+                </div>
+            </div>
+
+            <div class="row footer">
+                <div class="col-sm-4 slide">Evento</div>
+                <div class="col-sm-4 slide">Evento</div>
+                <div class="col-sm-4 slide">Evento</div>
+            </div>
+        </div>
+    </body>
+</html>
+

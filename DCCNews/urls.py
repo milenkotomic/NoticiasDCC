@@ -18,7 +18,5 @@ urlpatterns = patterns('',
                        url(r'^search/slide/', views.search_slide, name='search_slide'),
                        url(r'^search/event/', views.search_event, name='search_event'),
                        url(r'^visualize/', views.visualize, name='visualize_content'),
-                       url(r'^template1/', views.template, name='template'),
+                       url(r'^template/', views.template, name='template'),
                        )
-
-

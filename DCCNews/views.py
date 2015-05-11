@@ -354,7 +354,7 @@ def search_slide(request):
 
 
 # Busca por evento: TODO
-@login_required
+@login_required()
 def search_event(request):
     list = [] 
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
@@ -401,9 +401,8 @@ def search_event(request):
         #"form" : form
     return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
 
-
 def visualize(request):
-    return render(request, 'DCCNews/visualization.html')
+    return render(request, 'DCCNews/visualization2.html')
 
 def template(request):
     return render(request, 'DCCNews/template1.html')
