@@ -315,7 +315,7 @@ def edit_event(request, publication_id):
 # Busca una diapositiva: TODO
 @login_required()
 def search_slide(request):
-    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="diapo")
+    Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     list = []
     # if this is a POST request we need to process the form data
     if request.POST:
