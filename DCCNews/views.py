@@ -423,7 +423,17 @@ def search_event(request):
     return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
 
 def visualize(request):
-    return render(request, 'DCCNews/visualization2.html')
+    events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
+    slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+    slide_list = []
+    for slide in slides:
+        texts= slide.text_set.all()
+        p = {
+                "title": texts.get(number=1),
+                "text": texts.get(number=3),
+            }
+        slide_list.append(p)
+    return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list})
 
 def template(request):
     return render(request, 'DCCNews/template1.html')
