@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
 # from bzrlib.transport.http._urllib2_wrappers import Request
 
@@ -13,6 +13,9 @@ from django import forms
 # login_view: a partir del request que cuenta con los datos del form
 # realiza la autentificación contra la base de datos. Si valida, lleva al index,
 # de lo contrario, se mantiene en la página y muestra un mensaje de error.
+from django.template import RequestContext
+
+
 def login_view(request):
     if request.POST:
         user = authenticate(username=request.POST['user'], password=request.POST['password'])
@@ -25,6 +28,10 @@ def login_view(request):
         message = "Nombre de usuario o contraseña inválido."
         form = LoginForm(initial={'user': request.POST['user']})
         return render(request, 'DCCNews/login.html', {'form': form, 'error_message': message})
+
+    if request.user.is_active:
+        url = reverse('DCCNews.views.index')
+        return HttpResponseRedirect(url)
 
     form = LoginForm()
     return render(request, 'DCCNews/login.html', {'form': form})
@@ -41,7 +48,13 @@ def logout_view(request):
 # index: TODO
 @login_required
 def index(request):
-    return render(request, 'DCCNews/index.html')
+    context = {}
+    if request.GET.get('create'):
+        context['mensaje'] = True
+
+    c = RequestContext(request, context)
+    return render_to_response('DCCNews/index.html', c)
+
 
 
 # select_template: TODO
@@ -93,7 +106,7 @@ def new_slide(request, template_id):
                               publication_id=pub)
                 image.save()
 
-            url = reverse(index)
+            url = reverse(index)+"?create=1"
             return HttpResponseRedirect(url)
 
         return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'new': True})
@@ -222,7 +235,7 @@ def new_event(request, template_id):
                               publication_id=pub)
                 image.save()
 
-            url = reverse(index)
+            url = reverse(index)+"?create=1"
             return HttpResponseRedirect(url)
 
         form.fields['slide_type'].widget = forms.HiddenInput()
