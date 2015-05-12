@@ -52,9 +52,16 @@
 	
 	{% for line in list %}
  	<tr>
-    	<td><a href= "{% url 'edit_slide' line.id %} ">{{ line.title }}</td>
-    	<td>{{ line.type }}</td>
-    	<td> <a href="" class="btn btn-danger disabled" role="button">Borrar</a></td>
+    	<td>
+    		{{ line.title }}
+    	</td>
+    	<td>
+    		{{ line.type }}
+    	</td>
+    	<td>
+    		<a href="{% url 'edit_slide' line.id %}" class="btn btn-info" role="button">Editar</a>
+    		<a href="" class="btn btn-danger disabled" role="button">Borrar</a>
+    	</td>
   	</tr>
 	{% endfor %}
 </table>

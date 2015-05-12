@@ -326,10 +326,10 @@ def search_slide(request):
             titulo = form.cleaned_data['titulo']
             slide_type = form.cleaned_data['slide_type']
             #texts = Text.objects.filter(text__icontains=titulo)
-            print(titulo)
+            #print(titulo)
             if form.cleaned_data.get('titulo'):
                 Pubs = Pubs.filter(text__number__exact=1 ,text__text__icontains=titulo)
-            print(slide_type)         
+            #print(slide_type)         
             if form.cleaned_data.get('slide_type'):
                 Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
             #Pubs = Pubs.filter
@@ -355,6 +355,7 @@ def search_slide(request):
 # Busca por evento: TODO
 @login_required
 def search_event(request):
+    max=2
     list = [] 
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
         # if this is a POST request we need to process the form data
@@ -362,35 +363,62 @@ def search_event(request):
         # create a form instance and populate it with data from the request:
         form = SearchEvent(request.POST)
         # check whether it's valid:
+        if 'Buscador' in request.POST:
+            print('Buscador')
         if form.is_valid():
+
             # process the data in form.cleaned_data as required
             titulo = form.cleaned_data['titulo']
-            slide_type = form.cleaned_data['slide_type']
             expositor = form.cleaned_data['expositor']
             date = form.cleaned_data['date']
-            #texts = Text.objects.filter(text__icontains=titulo)
-            print(titulo)
+            empty = True
+            
             if form.cleaned_data.get('titulo'):
+                empty =False
                 Pubs = Pubs.filter(text__number__exact=1 , text__text__icontains=titulo)
-                
-            print(slide_type)         
-            if form.cleaned_data.get('slide_type'):
-                Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
-                
-            print(expositor)
+            #print(expositor)
             if form.cleaned_data.get('expositor'):
-                #Pubs = Pubs.filter(text__number=2)
+                empty =False
                 Pubs = Pubs.filter(text__number__exact=2 , text__text__icontains=expositor)
-                
-            print(date)
+                            #print(date)
             if form.cleaned_data.get('date'):
+                empty =False
                 Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date)
+        elif '+' in request.POST:
+               quantity = form.cleaned_data['quantity']+max
+        elif '-' in request.POST:
+            print(form['quantity'])
+            quantity = form['quantity'].value()-max    
+        else :
+            total = Pubs.count()
+            #print str(total)    
+            quantity=max
+            if quantity > total:
+                quantity = total
+            initial_data = {"quantity" : quantity,
+                    "total" : total}
+            
     else:
-        form = SearchEvent()        
+        total = Pubs.count()
+        #print str(total)
+        quantity=max
+        if quantity > total:
+                quantity = total
+        initial_data = {'quantity' : quantity,
+                        'total' : total}
+       
+        form = SearchEvent(initial_data)
+        
+               
     #Pubs = Pubs.distinct()
-    
+    total = Pubs.count()
+    min = quantity-max
+    if min < 0:
+        min=0
+    Pubs = Pubs[min:quantity]
+        
     for pub in Pubs:
-        print(pub)
+       #print(pub)
         texts = pub.text_set.all()
         p = {   "title" :  texts.first(),
                 "type" : pub.tag_id.name,
@@ -398,7 +426,10 @@ def search_event(request):
              }
         list.append(p)
         #"form" : form
-    return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
+    print(form['quantity'])
+    return render(request, 'DCCNews/template_search_evento.html', 
+                  {"list" : list , "form" : form, "quantity" : quantity,
+                   "total" : total })
 
 
 def visualize(request):

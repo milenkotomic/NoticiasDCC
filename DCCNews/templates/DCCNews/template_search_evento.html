@@ -12,6 +12,11 @@
 <!-- formulario de usqueda -->
 <form action="{% url 'search_event' %}" method="post" role="form" class="form ">
 	{% csrf_token %}
+	{% for hidden in form.hidden_fields %}
+		{{ hidden }}
+	{% endfor %}
+
+	<!--<input type="hidden" name="quantity" value="{{ quantity }}">-->
     <row>
   <div class="form-group">
     <label class="control-label">{{ form.titulo.label }}</label>
@@ -22,18 +27,12 @@
            placeholder="eg, Charla de robotica movil">-->
   </div>
   <div class="form-group">
-      <label class="control-label">{{ form.slide_type.label }}</label>
-    {{ form.slide_type }}
-    {{ form.slide_type.errors }}
+	<label class="control-label">{{ form.expositor.label }}</label>
+    {{ form.expositor }}
+    {{ form.expositor.errors }}
  <!--     <label for="expositor">Busqueda por expositor</label>
     <input type="text" class="form-control" id="expositor"
            placeholder="eg, Enzo Cerfogli">-->
-  </div>
-  <div class="form-group col-lg-2">
-        <label class="control-label">{{ form.expositor.label }}</label>
-    {{ form.expositor }}
-    {{ form.expositor.errors }}
- <!--     <label for="Categoria_busqueda">Busqueda por fecha del evento</label>-->
   </div>
   <div class="form-group col-lg-6">
         <label class="control-label">{{ form.date.label }}</label>
@@ -42,23 +41,38 @@
  <!--     	<input type="date" >-->
   </div>
   <div class="form-group col-lg-4 text-center ">
-  <button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button>
+  <button type="submit" class="btn btn-primary btn-lg btn-block" name="Buscador" value="Buscar">Buscar</button>
+  <button type="submit" class="btn btn-link" name="-" data-toggle="tooltip" data-placement="bottom" title="Mostrar los 10 resultados anteriores"><</button>
   </div>
       </row>
   
 </form>
+<legend>Mostrando {{ quantity }}/{{total}} resultados de busqueda </legend>
+	<div class="row">
+    	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+        	<button type="submit" class="btn btn-link" name="-" data-toggle="tooltip" data-placement="bottom" title="Mostrar los 10 resultados anteriores"><</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+        	<button type="submit" class="btn btn-link" name="+" data-toggle="tooltip" data-placement="bottom" title="Mostrar los 10 resultados posteriores">></button>
+        </div>
+
+    </div>
+
 
 <!-- {%tabla con resultados	} , donde limitar la cantidad de salidas???	-->
 <table id="result_table" class="table table-bordered ">
 	<tr>
     	<td>Titulo</td>	
-    	<td>Tipo de Contenido</td> 
+    	<td>Accion en el contenido</td> 
   	</tr>
 		{% for line in list %}
 	<tr>
-    	<td><a href= "{% url 'edit_event' line.id %} ">{{ line.title }}</td>
-    	<td>{{ line.type }}</td>
-    	<td> <a href="" class="btn btn-danger disabled" role="button">Borrar</a></td>
+    	<td>{{ line.title }}
+    	</td>
+    	<td>
+     		<a href="{% url 'edit_event' line.id %}" class="btn btn-info" role="button">Editar</a>
+    		<a href="" class="btn btn-danger" role="button" name="{{line.id}}" onClick="return confirm('¿Esta seguro que desea borrar?')">Borrar</a>
+    	</td>
   	</tr>
 	{% endfor %}
 </table>
