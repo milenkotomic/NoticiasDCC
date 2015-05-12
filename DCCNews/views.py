@@ -22,7 +22,7 @@ def login_view(request):
                 url = reverse('DCCNews.views.index')
                 return HttpResponseRedirect(url)
 
-        message = "Nombre de usuario o contraseña invalido."
+        message = "Nombre de usuario o contraseña inválido."
         form = LoginForm(initial={'user': request.POST['user']})
         return render(request, 'DCCNews/login.html', {'form': form, 'error_message': message})
 
@@ -35,7 +35,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     form = LoginForm()
-    context = {'notify_message': 'Sesion cerrada con exito.', 'form': form}
+    context = {'notify_message': 'Sesioón cerrada con éxito.', 'form': form}
     return render(request, 'DCCNews/login.html', context)
 
 # index: TODO
@@ -112,7 +112,6 @@ def edit_slide(request, publication_id):
     template = get_object_or_404(Template, pk=pub.template_id.id)
     texts = pub.text_set.all()
     images = pub.image_set.all()
-    # path_image = 'DCCNews/images/plantilla'+str(pub.template_id.id)+'.png'
     if request.POST:
         if pub.template_id.id == 1:
             form = SlideText(request.POST)
@@ -152,6 +151,9 @@ def edit_slide(request, publication_id):
                                                           'image': template.view_prev,
                                                           'mensaje': True})
 
+        return render(request, 'DCCNews/slide.html', {'form': form,
+                                                      'image': template.view_prev})
+
     initial_data = {'title': texts.filter(number=1).first(),
                     'subhead': texts.filter(number=3).first(),
                     'body': texts.filter(number=4).first(),
@@ -189,7 +191,7 @@ def new_event(request, template_id):
 
             pub.save()
 
-            text = Text(text=form.cleaned_data['name'],
+            text = Text(text=form.cleaned_data['title'],
                         number=1,
                         publication_id=pub)
             text.save()
@@ -224,15 +226,18 @@ def new_event(request, template_id):
             return HttpResponseRedirect(url)
 
         form.fields['slide_type'].widget = forms.HiddenInput()
-        return render(request, 'DCCNews/event.html', {'form': form, 'image': template.view_prev, 'new': True})
+        return render(request, 'DCCNews/event.html', {'form': form,
+                                                      'image': template.view_prev,
+                                                      'new': True})
     if template_id == "5":
         form = EventForm(initial={'slide_type': 3})
     elif template_id == "6":
         form = EventImage(initial={'slide_type': 3})
 
     form.fields['slide_type'].widget = forms.HiddenInput()
-
-    return render(request, 'DCCNews/event.html', {'form': form, 'image': template.view_prev, 'new': True})
+    return render(request, 'DCCNews/event.html', {'form': form,
+                                                  'image': template.view_prev,
+                                                  'new': True})
 
 
 # edit_event: TODO
@@ -242,7 +247,6 @@ def edit_event(request, publication_id):
     template = get_object_or_404(Template, pk=pub.template_id.id)
     texts = pub.text_set.all()
     images = pub.image_set.all()
-    path_image = 'DCCNews/images/evento'+str(pub.template_id.id)+'.png'
     if request.POST:
         if pub.template_id.id == 5:
             form = EventForm(request.POST)
@@ -258,9 +262,9 @@ def edit_event(request, publication_id):
             pub.modification_user_id = request.user
             print pub.init_date
             pub.save()
-            if form.cleaned_data.get('name'):
+            if form.cleaned_data.get('title'):
                 text = texts.filter(number=1).first()
-                text.text = form.cleaned_data['name']
+                text.text = form.cleaned_data['title']
                 text.save()
 
             if form.cleaned_data.get('exhibitor'):
@@ -293,7 +297,11 @@ def edit_event(request, publication_id):
                                                           'image': template.view_prev,
                                                           'mensaje': True})
 
-    initial_data = {'name': texts.filter(number=1).first(),
+        form.fields['slide_type'].widget = forms.HiddenInput()
+        return render(request, 'DCCNews/event.html', {'form': form,
+                                                      'image': template.view_prev})
+
+    initial_data = {'title': texts.filter(number=1).first(),
                     'exhibitor': texts.filter(number=2).first(),
                     'date': texts.filter(number=3).first(),
                     'time': texts.filter(number=4).first(),

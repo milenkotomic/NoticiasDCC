@@ -6,7 +6,12 @@
 {% endblock %}
 
 {% block content %}
-    <legend>Creación de Evento</legend>
+    {% if new %}
+        <legend>Creación de evento</legend>
+    {% else %}
+        <legend>Edición de evento</legend>
+    {% endif %}
+
     {% if mensaje %}
         <div class="col-lg-12">
             <div class="alert alert-success" role="alert">Cambios guardados de forma exitosa</div>
@@ -19,10 +24,10 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
                         <div class="row">
-                            <label class="col-lg-5 col-md-5 control-label">{{ form.name.label }}:</label>
-                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.name.errors.as_text }}</div>
+                            <label class="col-lg-5 col-md-5 control-label">{{ form.title.label }}:</label>
+                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.title.errors.as_text }}</div>
                         </div>
-                        {{ form.name }}
+                        {{ form.title }}
                     </div>
                 </div>
             </div>

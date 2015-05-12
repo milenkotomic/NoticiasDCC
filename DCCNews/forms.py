@@ -79,6 +79,15 @@ class PublicationForm(Form):
                 self.add_error('start_circulation', msg)
                 del self.cleaned_data['end_circulation']
 
+        if start_circulation.year < 1900:
+            msg = 'Fecha inválida'
+            self.add_error('start_circulation', msg)
+
+        if end_circulation.year < 1900:
+            msg = 'Fecha inválida'
+            self.add_error('end_circulation', msg)
+
+
 class SlideText(PublicationForm):
     title = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -102,9 +111,9 @@ class SlideImage(PublicationForm):
 
 
 class EventForm(PublicationForm):
-    name = forms.CharField(required=True,
+    title = forms.CharField(required=True,
                            widget=forms.TextInput(attrs={'class': 'form-control'}),
-                           label='Nombre')
+                           label='Título')
 
     exhibitor = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
