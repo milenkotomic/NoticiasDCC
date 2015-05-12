@@ -35,7 +35,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     form = LoginForm()
-    context = {'notify_message': 'Sesioón cerrada con éxito.', 'form': form}
+    context = {'notify_message': 'Sesión cerrada con éxito.', 'form': form}
     return render(request, 'DCCNews/login.html', context)
 
 # index: TODO
