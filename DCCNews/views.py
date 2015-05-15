@@ -30,7 +30,7 @@ def login_view(request):
         return render(request, 'DCCNews/login.html', {'form': form, 'error_message': message})
 
     if request.user.is_active:
-        url = reverse('DCCNews.views.index')
+        url = reverse('DCCNews.views.index')+"?login=1"
         return HttpResponseRedirect(url)
 
     form = LoginForm()
@@ -50,8 +50,9 @@ def logout_view(request):
 def index(request):
     context = {}
     if request.GET.get('create'):
-        context['mensaje'] = True
-
+        context['create'] = True
+    elif request.GET.get('login'):
+        context['login'] = True
     c = RequestContext(request, context)
     return render_to_response('DCCNews/index.html', c)
 

@@ -1,8 +1,11 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 {% block content %}
-    {% if mensaje %}
+    {% if create %}
         <div class="alert alert-success" role="alert">El contenido se ha guardado de forma exitosa.</div>
+    {% endif %}
+    {% if login %}
+        <div class="alert alert-warning" role="alert">Ya hay una sesión iniciada</div>
     {% endif %}
 
     <h1>Bienvenido a Noticias DCC</h1>

@@ -73,19 +73,24 @@ class PublicationForm(Form):
         start_circulation = cleaned_data.get("start_circulation")
         end_circulation = cleaned_data.get("end_circulation")
 
+        if start_circulation:
+            if start_circulation.year < 1900:
+                msg = 'Fecha inválida'
+                self.add_error('start_circulation', msg)
+
+        if end_circulation:
+            if end_circulation.year < 1900:
+                msg = 'Fecha inválida'
+                self.add_error('end_circulation', msg)
+
+        start_circulation = cleaned_data.get("start_circulation")
+        end_circulation = cleaned_data.get("end_circulation")
+
         if start_circulation and end_circulation:
             if start_circulation >= end_circulation:
                 msg = 'La fecha de término debe ser posterior a la fecha de inicio'
                 self.add_error('start_circulation', msg)
                 del self.cleaned_data['end_circulation']
-
-        if start_circulation.year < 1900:
-            msg = 'Fecha inválida'
-            self.add_error('start_circulation', msg)
-
-        if end_circulation.year < 1900:
-            msg = 'Fecha inválida'
-            self.add_error('end_circulation', msg)
 
 
 class SlideText(PublicationForm):
