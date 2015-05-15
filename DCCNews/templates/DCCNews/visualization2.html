@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-sm-8 slide">
                     <div class="row content">
-                            {% include "DCCNews/template1.html" with slide=slide_list.0 %}
+                        {% include "DCCNews/template1.html" with slide=slide_list.0 %}
                     </div>
                 </div>
                 <div class="col-sm-2 slide">
@@ -38,9 +38,15 @@
             </div>
 
             <div class="row footer">
-                <div class="col-sm-4 slide">Evento</div>
-                <div class="col-sm-4 slide">Evento</div>
-                <div class="col-sm-4 slide">Evento</div>
+                <div class="col-sm-4 slide">
+                    {% include "DCCNews/event_template.html" with event=event_list.0 %}
+                </div>
+                <div class="col-sm-4 slide">
+                    {% include "DCCNews/event_template.html" with event=event_list.0 %}
+                </div>
+                <div class="col-sm-4 slide">
+                    {% include "DCCNews/event_template.html" with event=event_list.0 %}
+                </div>
             </div>
         </div>
     </body>

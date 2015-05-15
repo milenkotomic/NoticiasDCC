@@ -426,15 +426,27 @@ def search_event(request):
 def visualize(request):
     events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
     slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+    event_list = []
     slide_list = []
     for slide in slides:
         texts= slide.text_set.all()
         p = {
                 "title": texts.get(number=1),
-                "text": texts.get(number=3),
+                "text": texts.get(number=4),
             }
         slide_list.append(p)
-    return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list})
+
+    for event in events:
+        texts = slides.text_set.all()
+        p = {
+            "title": texts.get(number=1),
+            "exhibitor": texts.get(number=2),
+            "date": texts.get(number =3),
+            "time": texts.get(number=4),
+            "place": texts.get(number=5),
+        }
+        event_list.append(p)
+    return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list, "event_list" : event_list})
 
 def template(request):
     return render(request, 'DCCNews/template1.html')
