@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from bzrlib.transport.http._urllib2_wrappers import Request
 
 
@@ -335,10 +336,13 @@ def edit_event(request, publication_id):
 
 
 # Busca una diapositiva: TODO
-@login_required()
+@login_required
 def search_slide(request):
+    max=15
+    toShow = [] 
+    empty = False
+    newSearch = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
-    list = []
     # if this is a POST request we need to process the form data
     if request.POST:
         # create a form instance and populate it with data from the request:
@@ -346,39 +350,57 @@ def search_slide(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            titulo = form.cleaned_data['titulo']
-            slide_type = form.cleaned_data['slide_type']
-            #texts = Text.objects.filter(text__icontains=titulo)
-            print(titulo)
             if form.cleaned_data.get('titulo'):
+                newSearch = False
+                titulo = form.cleaned_data['titulo']
                 Pubs = Pubs.filter(text__number__exact=1 ,text__text__icontains=titulo)
-            print(slide_type)         
+            #print(slide_type)         
             if form.cleaned_data.get('slide_type'):
+                newSearch = False
+                slide_type = form.cleaned_data['slide_type']
                 Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
-            #Pubs = Pubs.filter
-            #texts = Pubs.text_set.filter(name_icontains=titulo)
-            #texts.filter();
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = SearchSlide()    
+        form = SearchSlide()
+        newSearch=True  
     #Pubs = Pubs.distinct()
     #--- busqueda
     for pub in Pubs:
         #    print(pub)
         texts = pub.text_set.all()
-        p = {   "title" :  texts.first(),
+        p = {   "title" :  texts.filter(number__exact=1).first(),
                 "type" : pub.tag_id.name,
                 "id" : pub.pk,
             }
-        list.append(p)
+        toShow.append(p)
+        #print(p.get("title"))
+    
+    if not toShow:
+        empty=True
+        
+    paginator = Paginator(toShow, max)
+    toShowl = paginator.page(1)
+    if request.POST and 'p' in request.POST:
+        page = request.POST.get('p')
+        try :
+            toShowl = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            toShowl = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            toShowl = paginator.page(paginator.num_pages)
             
-    return render(request, 'DCCNews/template_search.html', {"list" : list , "form" : form} )
-
+    return render(request, 'DCCNews/template_search.html', 
+                  {"toShowl" : toShowl , "form" : form , "empty" : empty , "newSearch" : newSearch} )
 
 # Busca por evento: TODO
-@login_required()
+@login_required
 def search_event(request):
-    list = [] 
+    max=15
+    toShow = [] 
+    empty = False
+    newSearch = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
         # if this is a POST request we need to process the form data
     if request.POST:
@@ -387,42 +409,56 @@ def search_event(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            titulo = form.cleaned_data['titulo']
-            slide_type = form.cleaned_data['slide_type']
-            expositor = form.cleaned_data['expositor']
-            date = form.cleaned_data['date']
-            #texts = Text.objects.filter(text__icontains=titulo)
-            print(titulo)
             if form.cleaned_data.get('titulo'):
+                newSearch = False
+                titulo = form.cleaned_data['titulo']
+                #print titulo
                 Pubs = Pubs.filter(text__number__exact=1 , text__text__icontains=titulo)
-                
-            print(slide_type)         
-            if form.cleaned_data.get('slide_type'):
-                Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
-                
-            print(expositor)
+            #print(expositor)
             if form.cleaned_data.get('expositor'):
-                #Pubs = Pubs.filter(text__number=2)
+                newSearch = False
+                expositor = form.cleaned_data['expositor']
                 Pubs = Pubs.filter(text__number__exact=2 , text__text__icontains=expositor)
-                
-            print(date)
+                            #print(date)
             if form.cleaned_data.get('date'):
-                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date)
+                newSearch = False
+                date = form.cleaned_data['date']
+                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date) 
+        #else :
+            #print("invalid")           
     else:
-        form = SearchEvent()        
+        form = SearchEvent()
+        newSearch=True
+        
     #Pubs = Pubs.distinct()
-    
     for pub in Pubs:
-        print(pub)
+       #print(pub)
         texts = pub.text_set.all()
-        p = {   "title" :  texts.first(),
-                "type" : pub.tag_id.name,
+        p = {   "title" :  texts.filter(number__exact=1).first(),
                 "id" : pub.pk,
              }
-        list.append(p)
-        #"form" : form
-    return render(request, 'DCCNews/template_search_evento.html', {"list" : list , "form" : form})
-
+        #print(p.get("title"))
+        toShow.append(p)
+        
+    if not toShow:
+        empty=True
+        
+    paginator = Paginator(toShow, max)
+    toShowl = paginator.page(1)
+    
+    if request.POST and 'p' in request.POST:
+        page = request.POST.get('p')
+        try :
+            toShowl = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            toShowl = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            toShowl = paginator.page(paginator.num_pages)
+    return render(request, 'DCCNews/template_search_evento.html', 
+                  {"toShowl" : toShowl , "form" : form , "empty" : empty , "newSearch" : newSearch}
+                  )
 def visualize(request):
     events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
     slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
