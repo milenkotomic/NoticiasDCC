@@ -131,8 +131,8 @@ class SearchElement(Form):
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Busqueda por titulo')
-    quantity = forms.IntegerField(widget=forms.HiddenInput())
-    total = forms.IntegerField(widget=forms.HiddenInput())
+    page = forms.IntegerField(required=False,
+                              widget=forms.HiddenInput())
     
 class SearchSlide(SearchElement):
     #diferenciar tag de eventos y diapositivas
