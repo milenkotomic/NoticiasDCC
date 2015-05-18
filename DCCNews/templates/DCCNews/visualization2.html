@@ -28,7 +28,7 @@
                 <div class="col-sm-8 slide">
                     <div class="row content news-slides">
                         {% for current_slide in slide_list %}
-                            {% current_include slide.template with slide=current_slide %}
+                            {% include current_slide.template with slide=current_slide %}
                         {% endfor %}
                     </div>
                 </div>
