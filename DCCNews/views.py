@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime
+import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image
 from django.contrib.auth import authenticate, login, logout
@@ -327,8 +328,10 @@ def edit_event(request, publication_id):
 
     initial_data = {'title': texts.filter(number=1).first(),
                     'exhibitor': texts.filter(number=2).first(),
-                    'date': texts.filter(number=3).first(),
-                    'time': texts.filter(number=4).first(),
+                    'date': datetime.strftime(datetime.strptime(str(texts.filter(number=3).first()),
+                                                                '%Y-%m-%d'),
+                                              '%d-%m-%Y'),
+                    'time': time.strftime('%H:%M', time.strptime(str(texts.filter(number=4).first()), "%H:%M:%S")),
                     'place': texts.filter(number=5).first(),
                     'start_circulation': pub.init_date.strftime('%d-%m-%Y'),
                     'start_circulation_time': pub.init_date.strftime('%H:%M'),
