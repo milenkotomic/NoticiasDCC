@@ -505,7 +505,7 @@ def visualize(request):
     for slide in slides:
         texts= slide.text_set.all()
         images = slide.image_set.all()
-        template = slide.template_set.all().first()
+        template = slide.template_id
         if template.name == "Noticias":
             p = {
                     "title": texts.get(number=1),
@@ -521,7 +521,7 @@ def visualize(request):
 
     for event in events:
         texts = event.text_set.all()
-        template = event.template_set.all().first()
+        template = event.template_id
         if template.name == "Evento":
             p = {
                     "title": texts.get(number=1),
