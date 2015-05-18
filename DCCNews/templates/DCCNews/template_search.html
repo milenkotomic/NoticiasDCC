@@ -42,6 +42,7 @@
                 <h2> <p class="text-info">Mostrando las diapositiva del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
             </div>
         {% endif %}
+        {% if not empty %}
         <table id="result_table" class="table table-bordered ">
             <tr class="info">
                 <td>Título</td>
@@ -65,6 +66,7 @@
 
             {% endfor %}
         </table>
+        {% endif %}
         {%if not empty %}
             <div class="pagination">
     <span class="step-links">
