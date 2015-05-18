@@ -10,7 +10,7 @@
     {% if cancel %}
         <div class="alert alert-warning" role="alert">Los cambios han sido descartados.</div>
     {% endif %}
-    <h1>Busqueda de Diapositiva</h1>
+    <h1>Búsqueda de Diapositiva</h1>
     <!-- formulario de busqueda -->
     <form role="form" method="post" class="form-horizontal">
         {% csrf_token %}
@@ -28,8 +28,7 @@
                     {{ form.slide_type }}
                 </div>
                 {{ form.slide_type.errors }}
-
-                <div class="form-group col-lg-2 text-center text-left">
+                <div class="form-group col-sm-2 text-center text-left">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button>
                 </div>
         </row>
@@ -44,8 +43,8 @@
             </div>
         {% endif %}
         <table id="result_table" class="table table-bordered ">
-            <tr>
-                <td>Titulo</td>
+            <tr class="info">
+                <td>Título</td>
                 <td>Tipo de Contenido</td>
                 <td>Acción al Contenido</td>
             </tr>
@@ -74,7 +73,7 @@
         {% endif %}
 
         <span class="current">
-            Mostrando la pagina {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
+            Mostrando la página {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
         </span>
 
         {% if toShowl.has_next %}

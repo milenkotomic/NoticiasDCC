@@ -1,6 +1,13 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 
+{% block head %}
+    <script src="{% static 'DCCNews/js/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
+    <script src="{% static 'DCCNews/js/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
+{% endblock %}
+
 {% block content %}
     {% if mensaje %}
         <div class="col-lg-12">
@@ -11,7 +18,7 @@
         <div class="alert alert-warning" role="alert">Los cambios han sido descartados.</div>
     {% endif %}
 
-    <h1>Busqueda de Evento</h1>
+    <h1>Búsqueda de Evento</h1>
     <!-- formulario de busqueda -->
     <form action="{% url 'search_event' %}" method="post" role="form" class="form-horizontal">
         {% csrf_token %}
@@ -42,24 +49,6 @@
             </div>
         </row>
 
-        <!--
-<table id="result_table" class="table table-bordered ">
-	<tr>
-    	<td>Titulo</td>	
-    	<td>Accion en el contenido</td> 
-  	</tr>
-		{% for line in list %}
-	<tr>
-    	<td>{{ line.title }}
-    	</td>
-    	<td>
-     		<a href="{% url 'edit_event' line.id %}" class="btn btn-info" role="button">Editar</a>
-    		<a href="" class="btn btn-danger" role="button" name="{{line.id}}" onClick="return confirm('¿Esta seguro que desea borrar?')">Borrar</a>
-    	</td>
-  	</tr>
-	{% endfor %}
-</table> -->
-
         {% if newSearch and not empty %}
             <div class="form-group">
                 <h2> <p class="text-info">Mostrando los eventos sin filtro del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
@@ -69,15 +58,20 @@
                 <h2> <p class="text-info">Mostrando los eventos del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
             </div>
         {% endif %}
+        {% if not empty%}
         <table id="result_table" class="table table-bordered ">
             <tr class="info">
-                <td>Titulo</td>
+                <td>Título</td>
+                <td>Expositor</td>
                 <td>Acción al Contenido</td>
             </tr>
             {% for item in toShowl%}
                 <tr>
                     <td>
                         {{ item.title }}
+                    </td>
+                    <td>
+                    	{{item.expositor}}
                     </td>
                     <td>
                         <a href="{% url 'edit_event' item.id %}" class="btn btn-info" role="button">Editar</a>
@@ -87,7 +81,7 @@
 
             {% endfor %}
         </table>
-
+		{% endif %}
         {%if not empty %}
             <div class="pagination">
     <span class="step-links">
@@ -96,7 +90,7 @@
         {% endif %}
 
         <span class="current">
-            Mostrando la pagina {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
+            Mostrando la página {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
         </span>
 
         {% if toShowl.has_next %}
