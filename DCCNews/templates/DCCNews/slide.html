@@ -2,9 +2,10 @@
 {% load staticfiles %}
 
 {% block head %}
-    <script src="{% static 'DCCNews/js/Calendario1/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% static 'DCCNews/js/bootstrap-datetimepicker.js' %}"></script>
     <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'DCCNews/style/Calendario1/bootstrap-datetimepicker.css' %}" />
+    <script src="{% static 'DCCNews/js/es.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
     <script src="{% static 'DCCNews/js/validateForms.js' %}"></script>
 {% endblock %}
 
@@ -83,9 +84,17 @@
                     <div class="form-group">
                         <div class="row">
                             <label class="col-lg-5 col-md-5 control-label">{{ form.start_circulation.label }}:</label>
-                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.start_circulation.errors.as_text }}</div>
                         </div>
-                        {{ form.start_circulation }}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ form.start_circulation }}
+                                <div class="text-danger">{{ form.start_circulation.errors.as_text }}</div>
+                            </div>
+                            <div class="col-lg-6">
+                                {{ form.start_circulation_time }}
+                                <div class="text-danger">{{ form.start_circulation_time.errors.as_text }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,9 +103,17 @@
                     <div class="form-group">
                         <div class="row">
                             <label class="col-lg-5 col-md-5 control-label">{{ form.end_circulation.label }}:</label>
-                            <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.end_circulation.errors.as_text }}</div>
                         </div>
-                        {{ form.end_circulation }}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ form.end_circulation }}
+                                <div class="text-danger">{{ form.end_circulation.errors.as_text }}</div>
+                            </div>
+                        <div class="col-lg-6">
+                                {{ form.end_circulation_time }}
+                                <div class="text-danger">{{ form.end_circulation_time.errors.as_text }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,8 +142,8 @@
                 </div>
             </div>
         </form>
-        {#        <input type="hidden" id="hide_start_cirulation">#}
-        {#        <input type="hidden" id="hide_end_cirulation">#}
+                <input type="hidden" id="hide_start_cirulation">
+                <input type="hidden" id="hide_end_cirulation">
     </div>
     <div class="col-lg-offset-1 col-lg-3 text-center col-md-3 hidden-xs hidden-sm">
         <label>Plantilla seleccionada</label>

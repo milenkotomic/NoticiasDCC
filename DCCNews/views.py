@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image
 from django.contrib.auth import authenticate, login, logout
@@ -7,15 +8,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
-# from bzrlib.transport.http._urllib2_wrappers import Request
-
+from django.template import RequestContext
 
 # login_view: a partir del request que cuenta con los datos del form
 # realiza la autentificación contra la base de datos. Si valida, lleva al index,
 # de lo contrario, se mantiene en la página y muestra un mensaje de error.
-from django.template import RequestContext
-
-
 def login_view(request):
     if request.POST:
         user = authenticate(username=request.POST['user'], password=request.POST['password'])
@@ -80,8 +77,10 @@ def new_slide(request, template_id):
             pub.type_id = Type.objects.get(pk=1)
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = form.cleaned_data['start_circulation']
-            pub.end_date = form.cleaned_data['end_circulation']
+            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+                                                      form.cleaned_data['start_circulation_time'])
+            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
             if form.cleaned_data.get('title'):
@@ -136,8 +135,10 @@ def edit_slide(request, publication_id):
             pub.tag_id = form.cleaned_data['slide_type']
             pub.type_id = Type.objects.get(pk=1)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = form.cleaned_data['start_circulation']
-            pub.end_date = form.cleaned_data['end_circulation']
+            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+                                                      form.cleaned_data['start_circulation_time'])
+            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
 
@@ -171,8 +172,10 @@ def edit_slide(request, publication_id):
     initial_data = {'title': texts.filter(number=1).first(),
                     'subhead': texts.filter(number=3).first(),
                     'body': texts.filter(number=4).first(),
-                    'start_circulation': pub.init_date.strftime('%d-%m-%Y %H:%M'),
-                    'end_circulation': pub.end_date.strftime('%d-%m-%Y %H:%M'),
+                    'start_circulation': pub.init_date.strftime('%d-%m-%Y'),
+                    'start_circulation_time': pub.init_date.strftime('%H:%M'),
+                    'end_circulation': pub.end_date.strftime('%d-%m-%Y'),
+                    'end_circulation_time': pub.end_date.strftime('%H:%M'),
                     'slide_type': pub.tag_id.id}
 
     if pub.template_id.id == 1:
@@ -192,6 +195,7 @@ def new_event(request, template_id):
             form = EventForm(request.POST)
         elif template_id == "6":
             form = EventImage(request.POST, request.FILES)
+
         if form.is_valid():
             pub = Publication()
             pub.user_id = request.user
@@ -199,8 +203,10 @@ def new_event(request, template_id):
             pub.type_id = Type.objects.get(pk=2)
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = form.cleaned_data['start_circulation']
-            pub.end_date = form.cleaned_data['end_circulation']
+            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+                                                      form.cleaned_data['start_circulation_time'])
+            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
 
             pub.save()
@@ -271,8 +277,10 @@ def edit_event(request, publication_id):
             pub.tag_id = form.cleaned_data['slide_type']
             pub.type_id = Type.objects.get(pk=2)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = form.cleaned_data['start_circulation']
-            pub.end_date = form.cleaned_data['end_circulation']
+            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+                                                      form.cleaned_data['start_circulation_time'])
+            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             print pub.init_date
             pub.save()
@@ -320,8 +328,10 @@ def edit_event(request, publication_id):
                     'date': texts.filter(number=3).first(),
                     'time': texts.filter(number=4).first(),
                     'place': texts.filter(number=5).first(),
-                    'start_circulation': pub.init_date.strftime('%d-%m-%Y %H:%M'),
-                    'end_circulation': pub.end_date.strftime('%d-%m-%Y %H:%M'),
+                    'start_circulation': pub.init_date.strftime('%d-%m-%Y'),
+                    'start_circulation_time': pub.init_date.strftime('%H:%M'),
+                    'end_circulation': pub.end_date.strftime('%d-%m-%Y'),
+                    'end_circulation_time': pub.end_date.strftime('%H:%M'),
                     'slide_type': pub.tag_id.id}
 
     if pub.template_id.id == 5:
