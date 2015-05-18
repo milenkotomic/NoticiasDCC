@@ -123,16 +123,17 @@ class EventForm(PublicationForm):
                                 label='Expositor')
 
     date = forms.DateField(required=True,
-                           widget=MyDateInput(attrs={'class': 'form-control',
-                                                     'placeholder': 'DD-MM-AAAA'}),
+                           widget=forms.TextInput(attrs={'class': 'form-control',
+                                                         'placeholder': 'DD-MM-AAAA'}),
                            label='Fecha',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
 
     time = forms.TimeField(required=True,
-                           widget=MyTimeInput(attrs={'class': 'form-control',
-                                                     'placeholder': 'HH:MM'}),
-                           label='Hora')
+                           widget=forms.TimeInput(attrs={'class': 'form-control',
+                                                         'placeholder': 'HH:MM'}),
+                           label='Hora',
+                           input_formats=['%H:%M'])
 
     place = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -149,7 +150,7 @@ class SearchElement(Form):
                              label='Busqueda por titulo')
     page = forms.IntegerField(required=False,
                               widget=forms.HiddenInput())
-    
+
 class SearchSlide(SearchElement):
     #diferenciar tag de eventos y diapositivas
     slide_type = forms.ModelChoiceField(required=False,

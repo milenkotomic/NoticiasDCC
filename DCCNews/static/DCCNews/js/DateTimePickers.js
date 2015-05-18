@@ -17,6 +17,13 @@ $(document).ready(function(){
         showTodayButton: true
     }).on("dp.change", checkCirculation);
 
+    $("#id_date").datetimepicker({
+        //sideBySide: true,
+        format: 'DD-MM-YYYY',
+        locale: 'es',
+        showTodayButton: true
+    })
+
 });
 
 
