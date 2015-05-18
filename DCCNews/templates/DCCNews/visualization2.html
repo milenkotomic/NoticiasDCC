@@ -44,17 +44,17 @@
             <div class="row footer">
                 <div class="col-sm-4 slide">
                     {% with template=event_list.0.template %}
-                        {% include template with event=event_list.0 %}
+                        {% include "DCCNews/template5.html" with event=event_list.0 %}
                     {% endwith %}
                 </div>
                 <div class="col-sm-4 slide">
                     {% with template=event_list.1.template %}
-                        {% include template with event=event_list.1 %}
+                        {% include "DCCNews/template5.html" with event=event_list.1 %}
                     {% endwith %}
                 </div>
                 <div class="col-sm-4 slide">
                     {% with template=event_list.2.template %}
-                        {% include template with event=event_list.2 %}
+                        {% include "DCCNews/template5.html" with event=event_list.2 %}
                     {% endwith %}
                 </div>
             </div>
