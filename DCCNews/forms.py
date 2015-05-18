@@ -143,18 +143,21 @@ class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
-
-class SearchSlide(Form):
-    #testing
+class SearchElement(Form):
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Busqueda por titulo')
+    page = forms.IntegerField(required=False,
+                              widget=forms.HiddenInput())
+    
+class SearchSlide(SearchElement):
     #diferenciar tag de eventos y diapositivas
     slide_type = forms.ModelChoiceField(required=False,
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Busqueda por tipo')
-class SearchEvent(SearchSlide):
+
+class SearchEvent(SearchElement):
     expositor = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Busqueda por expositor')
