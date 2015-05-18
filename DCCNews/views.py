@@ -181,12 +181,17 @@ def edit_slide(request, publication_id):
                     'end_circulation_time': pub.end_date.strftime('%H:%M'),
                     'slide_type': pub.tag_id.id}
 
+    image_name = ""
     if pub.template_id.id == 1:
         form = SlideText(initial_data)
     elif pub.template_id.id == 2:
         form = SlideImage(initial_data)
+        form.fields['image'].required = False
+        image_name = pub.image_set.filter(number=1).first()
 
-    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev})
+    print image_name
+
+    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'image_name': image_name})
 
 
 # new_event: TODO

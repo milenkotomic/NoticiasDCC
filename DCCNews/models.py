@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
 
 
 class Type(models.Model):
@@ -50,6 +51,9 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images')
     number = models.IntegerField()
     publication_id = models.ForeignKey(Publication)
+
+    def __unicode__(self):
+        return os.path.basename(self.image.name)
 
 
 class Text(models.Model):

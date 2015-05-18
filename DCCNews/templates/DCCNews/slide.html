@@ -62,7 +62,7 @@
                     </div>
                 </div>
             {% endif %}
-            {#        Replicaraaar#}
+
             {% if form.image %}
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
@@ -71,14 +71,18 @@
                                 <label class="col-lg-5 col-md-5 control-label">{{ form.image.label }}:</label>
                                 <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.image.errors.as_text }}</div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <label>Imagen Actual:</label>
+                                    <span style="color: #0000c8"> {{ image_name }}</span>
+                                </div>
+                            </div>
                             {{ form.image }}
                         </div>
                     </div>
                 </div>
             {% endif %}
 
-
-            {{ form.date_error.errors }}
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
