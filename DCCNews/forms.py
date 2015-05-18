@@ -147,7 +147,9 @@ class EventImage(EventForm):
 class SearchElement(Form):
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
-                             label='Búsqueda por título')
+                             label='Búsqueda por título:')
+    def clean_titulo(self):
+       return self.cleaned_data['titulo'].strip()
 
 class SearchSlide(SearchElement):
     #diferenciar tag de eventos y diapositivas
