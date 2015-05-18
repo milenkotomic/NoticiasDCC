@@ -379,7 +379,10 @@ def search_slide(request):
     for pub in Pubs:
         #    print(pub)
         texts = pub.text_set.all()
-        p = {   "title" :  texts.filter(number__exact=1).first(),
+        title =  texts.filter(number__exact=1).first()
+        if title == None:
+            title = "IMAGEN"
+        p = {   "title" : title,
                 "type" : pub.tag_id.name,
                 "id" : pub.pk,
                 }
@@ -449,7 +452,13 @@ def search_event(request):
     for pub in Pubs:
         #print(pub)
         texts = pub.text_set.all()
+        expositor = texts.filter(number__exact=2).first()
+        print expositor
+        if expositor == '':
+            expositor="------"
+        
         p = {   "title" :  texts.filter(number__exact=1).first(),
+                "expositor" : expositor,
                 "id" : pub.pk,
                 }
         #print(p.get("title"))
