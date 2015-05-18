@@ -28,7 +28,9 @@
                 <div class="col-sm-8 slide">
                     <div class="row content news-slides">
                         {% for current_slide in slide_list %}
-                            {% include current_slide.template with slide=current_slide %}
+                            {% with template = current_slide.template %}
+                                {% include template with slide=current_slide %}
+                            {% endwith %}
                         {% endfor %}
                     </div>
                 </div>
@@ -41,13 +43,19 @@
 
             <div class="row footer">
                 <div class="col-sm-4 slide">
-                    {% include event_list.0.template with event=event_list.0 %}
+                    {% with template = event_list.0.template %}
+                        {% include template with event=event_list.0 %}
+                    {% endwith %}
                 </div>
                 <div class="col-sm-4 slide">
-                    {% include event_list.1.template with event=event_list.1 %}
+                    {% with template = event_list.1.template %}
+                        {% include template with event=event_list.1 %}
+                    {% endwith %}
                 </div>
                 <div class="col-sm-4 slide">
-                    {% include event_list.2.template with event=event_list.2 %}
+                    {% with template = event_list.2.template %}
+                        {% include template with event=event_list.2 %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
