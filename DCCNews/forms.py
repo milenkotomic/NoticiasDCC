@@ -147,22 +147,22 @@ class EventImage(EventForm):
 class SearchElement(Form):
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
-                             label='Búsqueda por titulo')
+                             label='Búsqueda por título')
 
 class SearchSlide(SearchElement):
     #diferenciar tag de eventos y diapositivas
     slide_type = forms.ModelChoiceField(required=False,
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
-                                        label='Búsqueda por tipo')
+                                        label='Búsqueda por tipo:')
 
 class SearchEvent(SearchElement):
     expositor = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                label='Búsqueda por expositor')
+                                label='Búsqueda por expositor:')
     date = forms.DateField(required=False,
                            widget=forms.TextInput(attrs={'class': 'form-control',
                                                          'placeholder': 'DD-MM-AAAA'}),
-                           label='Búsqueda por fecha',
+                           label='Búsqueda por fecha:',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
