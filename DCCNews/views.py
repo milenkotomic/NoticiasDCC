@@ -138,9 +138,9 @@ def edit_slide(request, publication_id):
             pub.tag_id = form.cleaned_data['slide_type']
             pub.type_id = Type.objects.get(pk=1)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+            pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
-            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+            pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
@@ -206,9 +206,9 @@ def new_event(request, template_id):
             pub.type_id = Type.objects.get(pk=2)
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+            pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
-            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+            pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
 
@@ -280,9 +280,9 @@ def edit_event(request, publication_id):
             pub.tag_id = form.cleaned_data['slide_type']
             pub.type_id = Type.objects.get(pk=2)
             pub.priority_id = Priority.objects.get(pk=1)
-            pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
+            pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
-            pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
+            pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
                                                      form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             print pub.init_date
