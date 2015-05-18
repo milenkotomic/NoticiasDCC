@@ -168,3 +168,5 @@ class SearchEvent(SearchElement):
                            label='Búsqueda por fecha:',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
+    def clean_expositor(self):
+       return self.cleaned_data['expositor'].strip()

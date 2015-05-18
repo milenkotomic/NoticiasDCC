@@ -461,7 +461,7 @@ def search_event(request):
         #print(pub)
         texts = pub.text_set.all()
         expositor = texts.filter(number__exact=2).first()
-        print expositor
+        #print expositor
         if expositor == '':
             expositor="------"
         
