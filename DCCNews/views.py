@@ -471,9 +471,15 @@ def search_event(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
+
+    cancel = False
+    if request.GET.get('cancel'):
+        cancel = True
+
     return render(request, 'DCCNews/template_search_evento.html',
-                  {"toShowl" : toShowl , "form" : form , "empty" : empty , "newSearch" : newSearch}
-                  )
+                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel})
+
+
 def visualize(request):
     events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
     slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
