@@ -2,69 +2,72 @@
 {% load staticfiles %}
 
 {% block content %}
- {% if Borrado %}
-	<div class="col-lg-12">
-		<div class="alert alert-success" role="alert">La diapositiva a sido exitosamente borrada</div>
-    </div>
- {% endif %}
-<h1>Busqueda de Diapositiva</h1>
-<!-- formulario de busqueda -->
-<form role="form" method="post" class="form-horizontal">
-	{% csrf_token %}
-    <row>
-  		<div class="form-group">
-  			<label class="col-sm-2 control-label text-left">{{ form.titulo.label }}</label>
-  				<div class="col-sm-10">
-    			{{ form.titulo }}
-    			</div>
-    		{{ form.titulo.errors }}
- 		</div>
-  		<div class="form-group">
-  			<label class="col-sm-2 control-label text-left">{{ form.slide_type.label }}</label>
-  			<div class="col-sm-8">
-  				{{ form.slide_type }}
-  			</div>
-  			{{ form.slide_type.errors }}
+    {% if Borrado %}
+        <div class="col-lg-12">
+            <div class="alert alert-success" role="alert">La diapositiva a sido exitosamente borrada</div>
+        </div>
+    {% endif %}
+    {% if cancel %}
+        <div class="alert alert-warning" role="alert">Los cambios han sido descartados.</div>
+    {% endif %}
+    <h1>Busqueda de Diapositiva</h1>
+    <!-- formulario de busqueda -->
+    <form role="form" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <row>
+            <div class="form-group">
+                <label class="col-sm-2 control-label text-left">{{ form.titulo.label }}</label>
+                <div class="col-sm-10">
+                    {{ form.titulo }}
+                </div>
+                {{ form.titulo.errors }}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label text-left">{{ form.slide_type.label }}</label>
+                <div class="col-sm-8">
+                    {{ form.slide_type }}
+                </div>
+                {{ form.slide_type.errors }}
 
-  			<div class="form-group col-lg-2 text-center text-left">
-  				<button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button>
-  		</div>
-    </row>
-    
-{% if newSearch and not empty%}
-<div class="form-group">
-<h2> <p class="text-info">Mostrando las diapositiva sin filtro del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
-</div>
-{% elif not empty %}
-<div class="form-group">
-<h2> <p class="text-info">Mostrando las diapositiva del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
-</div>
-{% endif %}
-<table id="result_table" class="table table-bordered ">
-	<tr>
-    	<td>Titulo</td>
-    	<td>Tipo de Contenido</td>
-    	<td>Acción al Contenido</td>
-  	</tr>
- 
-	{% for item in toShowl %}
-	<tr>
-		<td>
-    	{{ item.title }}
-    	</td>
-    	<td>
-    	{{ item.type }}
-    	</td>
-    	<td>
-    		<a href="{% url 'edit_slide' item.id %}" class="btn btn-info" role="button">Editar</a>
-    		<a href="" class="btn btn-danger disabled" role="button">Borrar</a>
-    	</td>
-    </tr>
-    
-	{% endfor %}
-</table>
-{%if not empty %}
-<div class="pagination">
+                <div class="form-group col-lg-2 text-center text-left">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button>
+                </div>
+        </row>
+
+        {% if newSearch and not empty%}
+            <div class="form-group">
+                <h2> <p class="text-info">Mostrando las diapositiva sin filtro del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
+            </div>
+        {% elif not empty %}
+            <div class="form-group">
+                <h2> <p class="text-info">Mostrando las diapositiva del {{ toShowl.start_index }} al {{ toShowl.end_index }} de los {{ toShowl.paginator.count }} más recientes </p> </h2>
+            </div>
+        {% endif %}
+        <table id="result_table" class="table table-bordered ">
+            <tr>
+                <td>Titulo</td>
+                <td>Tipo de Contenido</td>
+                <td>Acción al Contenido</td>
+            </tr>
+
+            {% for item in toShowl %}
+                <tr>
+                    <td>
+                        {{ item.title }}
+                    </td>
+                    <td>
+                        {{ item.type }}
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_slide' item.id %}" class="btn btn-info" role="button">Editar</a>
+                        <a href="" class="btn btn-danger disabled" role="button">Borrar</a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+        {%if not empty %}
+            <div class="pagination">
     <span class="step-links">
         {% if toShowl.has_previous %}
             <button type="submit" name="p" value="{{ toShowl.previous_page_number }}"  class="btn btn-link">Anterior</button>
@@ -78,12 +81,12 @@
             <button type="submit" name="p" value="{{ toShowl.next_page_number }}"  class="btn btn-link">Siguiente</button>
         {% endif %}
     </span>
-</div>
-{% else %}
-<div class="container-fluid">
-<h2> <p class="text-warning "> No se han encontrado elementos coincidentes con su búsqueda </p> </h2>
-</div>
-{% endif %}
+            </div>
+        {% else %}
+            <div class="container-fluid">
+                <h2> <p class="text-warning "> No se han encontrado elementos coincidentes con su búsqueda </p> </h2>
+            </div>
+        {% endif %}
 
-</form>
+    </form>
 {% endblock %}

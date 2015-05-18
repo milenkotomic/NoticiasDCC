@@ -82,7 +82,7 @@ def new_slide(request, template_id):
             pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
-                                                      form.cleaned_data['end_circulation_time'])
+                                                     form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
             if form.cleaned_data.get('title'):
@@ -140,7 +140,7 @@ def edit_slide(request, publication_id):
             pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
-                                                      form.cleaned_data['end_circulation_time'])
+                                                     form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
 
@@ -208,7 +208,7 @@ def new_event(request, template_id):
             pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
-                                                      form.cleaned_data['end_circulation_time'])
+                                                     form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
 
             pub.save()
@@ -282,7 +282,7 @@ def edit_event(request, publication_id):
             pub.init_date = datetime.datetime.combine(form.cleaned_data['start_circulation'],
                                                       form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.datetime.combine(form.cleaned_data['end_circulation'],
-                                                      form.cleaned_data['end_circulation_time'])
+                                                     form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             print pub.init_date
             pub.save()
@@ -350,7 +350,7 @@ def edit_event(request, publication_id):
 @login_required
 def search_slide(request):
     max=15
-    toShow = [] 
+    toShow = []
     empty = False
     newSearch = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
@@ -373,8 +373,8 @@ def search_slide(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SearchSlide()
-        newSearch=True  
-    #Pubs = Pubs.distinct()
+        newSearch=True
+        #Pubs = Pubs.distinct()
     #--- busqueda
     for pub in Pubs:
         #    print(pub)
@@ -382,13 +382,13 @@ def search_slide(request):
         p = {   "title" :  texts.filter(number__exact=1).first(),
                 "type" : pub.tag_id.name,
                 "id" : pub.pk,
-            }
+                }
         toShow.append(p)
         #print(p.get("title"))
-    
+
     if not toShow:
         empty=True
-        
+
     paginator = Paginator(toShow, max)
     toShowl = paginator.page(1)
     if request.POST and 'p' in request.POST:
@@ -401,19 +401,23 @@ def search_slide(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
-            
-    return render(request, 'DCCNews/template_search.html', 
-                  {"toShowl" : toShowl , "form" : form , "empty" : empty , "newSearch" : newSearch} )
+
+    cancel = False
+    if request.GET.get('cancel'):
+        cancel = True
+
+    return render(request, 'DCCNews/template_search.html',
+                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel})
 
 # Busca por evento: TODO
 @login_required
 def search_event(request):
     max=15
-    toShow = [] 
+    toShow = []
     empty = False
     newSearch = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
-        # if this is a POST request we need to process the form data
+    # if this is a POST request we need to process the form data
     if request.POST:
         # create a form instance and populate it with data from the request:
         form = SearchEvent(request.POST)
@@ -430,33 +434,33 @@ def search_event(request):
                 newSearch = False
                 expositor = form.cleaned_data['expositor']
                 Pubs = Pubs.filter(text__number__exact=2 , text__text__icontains=expositor)
-                            #print(date)
+                #print(date)
             if form.cleaned_data.get('date'):
                 newSearch = False
                 date = form.cleaned_data['date']
-                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date) 
-        #else :
-            #print("invalid")           
+                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date)
+                #else :
+                #print("invalid")
     else:
         form = SearchEvent()
         newSearch=True
-        
+
     #Pubs = Pubs.distinct()
     for pub in Pubs:
-       #print(pub)
+        #print(pub)
         texts = pub.text_set.all()
         p = {   "title" :  texts.filter(number__exact=1).first(),
                 "id" : pub.pk,
-             }
+                }
         #print(p.get("title"))
         toShow.append(p)
-        
+
     if not toShow:
         empty=True
-        
+
     paginator = Paginator(toShow, max)
     toShowl = paginator.page(1)
-    
+
     if request.POST and 'p' in request.POST:
         page = request.POST.get('p')
         try :
@@ -467,7 +471,7 @@ def search_event(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
-    return render(request, 'DCCNews/template_search_evento.html', 
+    return render(request, 'DCCNews/template_search_evento.html',
                   {"toShowl" : toShowl , "form" : form , "empty" : empty , "newSearch" : newSearch}
                   )
 def visualize(request):
@@ -478,9 +482,9 @@ def visualize(request):
     for slide in slides:
         texts= slide.text_set.all()
         p = {
-                "title": texts.get(number=1),
-                "text": texts.get(number=4),
-            }
+            "title": texts.get(number=1),
+            "text": texts.get(number=4),
+        }
         slide_list.append(p)
 
     for event in events:

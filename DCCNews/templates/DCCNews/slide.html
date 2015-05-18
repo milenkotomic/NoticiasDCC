@@ -109,7 +109,7 @@
                                 {{ form.end_circulation }}
                                 <div class="text-danger">{{ form.end_circulation.errors.as_text }}</div>
                             </div>
-                        <div class="col-lg-6">
+                            <div class="col-lg-6">
                                 {{ form.end_circulation_time }}
                                 <div class="text-danger">{{ form.end_circulation_time.errors.as_text }}</div>
                             </div>
@@ -132,7 +132,11 @@
                 <div class="col-lg-5 col-md-5">
                     <div class="form-group">
                         <button id="submitButton" class="btn btn-success" type="submit">Guardar</button>
-                        <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% if new %}
+                            <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% else %}
+                            <a href="{% url 'search_slide' %}?cancel=1" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% endif %}
                     </div>
                 </div>
                 <div id="processing" class="col-lg-7 col-md-7" style="display: none;">
@@ -142,8 +146,6 @@
                 </div>
             </div>
         </form>
-                <input type="hidden" id="hide_start_cirulation">
-                <input type="hidden" id="hide_end_cirulation">
     </div>
     <div class="col-lg-offset-1 col-lg-3 text-center col-md-3 hidden-xs hidden-sm">
         <label>Plantilla seleccionada</label>

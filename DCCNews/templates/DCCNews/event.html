@@ -136,7 +136,11 @@
                 <div class="col-lg-5 col-md-5">
                     <div class="form-group">
                         <button id="submitButton" class="btn btn-success" type="submit">Guardar</button>
-                        <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% if new %}
+                            <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% else %}
+                            <a href="{% url 'search_event' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                        {% endif %}
                     </div>
                 </div>
                 <div id="processing" class="col-lg-7 col-md-7" style="display: none;">
