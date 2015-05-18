@@ -429,21 +429,34 @@ def visualize(request):
     slide_list = []
     for slide in slides:
         texts= slide.text_set.all()
-        p = {
-                "title": texts.get(number=1),
-                "text": texts.get(number=4),
+        images = slide.image_set.all()
+        template = slide.template_set.all().first()
+        if template.name == "Noticias":
+            p = {
+                    "title": texts.get(number=1),
+                    "text": texts.get(number=4),
+                    "template": template.view
+                }
+        elif template.name == "Afiche":
+            p = {
+                "image": images.first().image,
+                "template": template.view,
             }
         slide_list.append(p)
 
     for event in events:
         texts = event.text_set.all()
-        p = {
-            "title": texts.get(number=1),
-            "exhibitor": texts.get(number=2),
-            "date": texts.get(number =3),
-            "time": texts.get(number=4),
-            "place": texts.get(number=5),
-        }
+        template = event.template_set.all().first()
+        if template.name == "Evento":
+            p = {
+                    "title": texts.get(number=1),
+                    "exhibitor": texts.get(number=2),
+                    "date": texts.get(number =3),
+                    "time": texts.get(number=4),
+                    "place": texts.get(number=5),
+                    "template": template.view,
+                }
+
         event_list.append(p)
     return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list, "event_list" : event_list})
 
