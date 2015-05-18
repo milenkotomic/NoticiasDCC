@@ -436,7 +436,7 @@ def visualize(request):
         slide_list.append(p)
 
     for event in events:
-        texts = slides.text_set.all()
+        texts = event.text_set.all()
         p = {
             "title": texts.get(number=1),
             "exhibitor": texts.get(number=2),
