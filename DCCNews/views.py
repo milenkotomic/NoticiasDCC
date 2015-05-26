@@ -497,42 +497,89 @@ def search_event(request):
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel})
 
 
-def visualize(request):
-    events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
-    slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+def visualize(request, template_id):
     event_list = []
     slide_list = []
-    for slide in slides:
-        texts= slide.text_set.all()
-        images = slide.image_set.all()
-        template = slide.template_id
-        if template.name == "Noticias":
-            p = {
-                    "title": texts.get(number=1),
-                    "text": texts.get(number=4),
-                    "template": template.view
-                }
-        elif template.name == "Afiche":
-            p = {
-                "image": images.first().image,
-                "template": template.view,
-            }
-        slide_list.append(p)
+    if request.POST:
+        if template_id == "1":
+            form = SlideText(request.POST)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                title=form.cleaned_data['title']
+                text=form.cleaned_data['body']
 
-    for event in events:
-        texts = event.text_set.all()
-        template = event.template_id
-        if template.name == "Evento":
-            p = {
-                    "title": texts.get(number=1),
-                    "exhibitor": texts.get(number=2),
-                    "date": texts.get(number =3),
-                    "time": texts.get(number=4),
-                    "place": texts.get(number=5),
-                    "template": template.view,
-                }
+                p = {
+                        "title": title,
+                        "text": text,
+                        "template": template.view
+                    }
+                slide_list.append(p)
 
-        event_list.append(p)
+        elif template_id == "2":
+            form = SlideImage(request.POST, request.FILES)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                image=request.FILES['image']
+
+                p = {
+                        "image": image,
+                        "template": template.view
+                    }
+                slide_list.append(p)
+
+        if template_id == "5":
+            form = EventForm(request.POST)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                title=form.cleaned_data['title']
+                exhibitor=form.cleaned_data['exhibitor']
+                date=form.cleaned_data['date']
+                time=form.cleaned_data['time']
+                place=form.cleaned_data['place']
+                p = {
+                        "title": title,
+                        "exhibitor": exhibitor,
+                        "date": date,
+                        "time": time,
+                        "place": place,
+                        "template": template.view,
+                    }
+                event_list.append(p)
+
+    else:
+        events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
+        slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+        for slide in slides:
+            texts= slide.text_set.all()
+            images = slide.image_set.all()
+            template = slide.template_id
+            if template.name == "Noticias":
+                p = {
+                        "title": texts.get(number=1),
+                        "text": texts.get(number=4),
+                        "template": template.view
+                    }
+            elif template.name == "Afiche":
+                p = {
+                        "image": images.first().image,
+                        "template": template.view,
+                    }
+            slide_list.append(p)
+
+        for event in events:
+            texts = event.text_set.all()
+            template = event.template_id
+            if template.name == "Evento":
+                p = {
+                        "title": texts.get(number=1),
+                        "exhibitor": texts.get(number=2),
+                        "date": texts.get(number =3),
+                        "time": texts.get(number=4),
+                        "place": texts.get(number=5),
+                        "template": template.view,
+                    }
+
+            event_list.append(p)
         
     return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list, "event_list" : event_list})
 
