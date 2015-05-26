@@ -112,13 +112,16 @@ def new_slide(request, template_id):
             url = reverse(index)+"?create=1"
             return HttpResponseRedirect(url)
 
-        return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'new': True})
+        return render(request, 'DCCNews/slide.html', {'form': form,
+                                                      'image': template.view_prev,
+                                                      'new': True,
+                                                      'template': template_id})
     if template_id == "1":
         form = SlideText()
     elif template_id == "2":
         form = SlideImage()
 
-    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'new': True})
+    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'new': True, 'template': template_id})
 
 
 # edit_publication: TODO
@@ -191,7 +194,9 @@ def edit_slide(request, publication_id):
 
     print image_name
 
-    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'image_name': image_name})
+    return render(request, 'DCCNews/slide.html', {'form': form,
+                                                  'image': template.view_prev,
+                                                  'image_name': image_name})
 
 
 # new_event: TODO
