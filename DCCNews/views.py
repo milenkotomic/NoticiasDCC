@@ -170,7 +170,8 @@ def edit_slide(request, publication_id):
 
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'image': template.view_prev,
-                                                          'mensaje': True})
+                                                          'mensaje': True,
+                                                           "template": template.id})
 
         return render(request, 'DCCNews/slide.html', {'form': form,
                                                       'image': template.view_prev})
@@ -196,7 +197,8 @@ def edit_slide(request, publication_id):
 
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'image': template.view_prev,
-                                                  'image_name': image_name})
+                                                  'image_name': image_name,
+                                                  "template": template.id})
 
 
 # new_event: TODO
@@ -261,7 +263,8 @@ def new_event(request, template_id):
         form.fields['slide_type'].widget = forms.HiddenInput()
         return render(request, 'DCCNews/event.html', {'form': form,
                                                       'image': template.view_prev,
-                                                      'new': True})
+                                                      'new': True,
+                                                      "template": template_id})
     if template_id == "5":
         form = EventForm(initial={'slide_type': 3})
     elif template_id == "6":
@@ -270,7 +273,8 @@ def new_event(request, template_id):
     form.fields['slide_type'].widget = forms.HiddenInput()
     return render(request, 'DCCNews/event.html', {'form': form,
                                                   'image': template.view_prev,
-                                                  'new': True})
+                                                  'new': True,
+                                                  "template": template_id})
 
 
 # edit_event: TODO
