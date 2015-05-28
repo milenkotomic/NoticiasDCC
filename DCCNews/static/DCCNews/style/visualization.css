@@ -2,15 +2,20 @@ html, body {
     height: 100%;
 }
 
+body{
+	color: #FFFFFF !important;
+}
+
 .main-container {
     height: 100%;
     min-height: 100%;
     display: block;
+	background: #095EC0;
 }
 
 .header {
     height: 20%;
-    min-height: 20%
+    min-height: 20%;
     display:block;
 }
 
@@ -27,9 +32,28 @@ html, body {
 }
 
 .footer {
-    height: 25%;
-    min-height: 25%
+    height: 20%;
     display:block;
+	background:rgba(0,0,0,0.7);
+	margin-top:2%;
+	margin-left:1%;
+	margin-right:1%;
+	border-radius: 25px;
+	box-shadow: 10px 5px 5px -2px rgba(0,0,0,0.75);
+}
+
+.title-events{
+	margin-top: 68px;
+	background:rgba(0,0,0,0.7);
+	font-size: 28px;
+	border-top-left-radius:25%;
+    border-top-right-radius:25%;
+	text-align:center;
+	width: 90%;
+}
+
+.tag{
+	transform: scale(4,5) rotate(270deg);
 }
 
 .sidebar {
@@ -48,8 +72,21 @@ html, body {
 
 .slide {
     height: 100%;
-    border-color: red;
-    border-style:solid;
+	box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.75);
+	margin: 1%;
+	background:rgba(0,0,0,0.7);
+	border-radius: 25px;
+}
+
+.info{
+	height: 80%;
+	margin: 1%;
+	width: 80%;
+}
+
+.col-left{
+	height: 100%;
+	margin: 1%;
 }
 
 .logo-container {
@@ -59,15 +96,18 @@ html, body {
 }
 
 .med-info {
-    height: 25%;
-    border-color: blue;
-    border-style:solid;
+    height: 36%;
+	box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.75);
+	background:rgba(0,0,0,0.7);
+	border-radius: 25px;
+	margin-bottom: 18%;
 }
 
 .big-info {
-    height: 50%;
-    border-color: blue;
-    border-style:solid;
+    height: 56%;
+	box-shadow: 10px 10px 5px -2px rgba(0,0,0,0.75);
+	background:rgba(0,0,0,0.7);
+	border-radius: 25px;
 }
 
 .event-text {
@@ -77,9 +117,13 @@ html, body {
 }
 
 .event {
-    height: 100%;
-    border-color: yellow;
-    border-style:solid;
+    height: 80%;
+	width: 31.33333%;
+	background:rgba(0,0,0,0.7);
+	border-radius: 25px;
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-top: 1%;
 }
 
 .logo {
@@ -89,4 +133,18 @@ html, body {
 
 .hidden {
     display : none;
+}
+
+.main-slide{
+	height: 100%;
+}
+.title{
+	height: 10%;
+}
+.title > h1{
+	font-size: 48px;
+}
+.text{
+	margin-top: 10%;
+	font-size: 20px;
 }

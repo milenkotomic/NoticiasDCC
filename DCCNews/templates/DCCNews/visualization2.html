@@ -19,14 +19,19 @@
     <body>
         <!-- page container -->
         <div class="container-fluid main-container">
-            <div class="row main">
+            <div class="main">
                 <div class="col-sm-2 slide">
-                    <div class="row header">
+                    <div class="header">
                         <img src="{% static 'DCCNews/images/dcc.png' %}" class="center-block logo">
                     </div>
+					<div class="tag">
+						{% for current_slide in slide_list %}
+							{{current_slide.tag}}
+						{% endfor %}
+					</div>
                 </div>
                 <div class="col-sm-8 slide">
-                    <div class="row content news-slides">
+                    <div class="content news-slides">
                         {% for current_slide in slide_list %}
                             {% with template=current_slide.template %}
                                 {% include template with slide=current_slide %}
@@ -34,25 +39,30 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="col-sm-2 slide">
-                    <div class="row med-info"> Hora </div>
-                    <div class="row big-info"> Web y Redes Sociales </div>
-                    <div class="row med-info"> ?? </div>
+                <div class="col-sm-2 col-left">
+					<div class="info">
+						<div class="med-info"> Horas </div>
+						<div class="big-info"> Web y Redes Sociales </div>
+					</div>
+					<div class="title-events">
+						EVENTOS
+					</div>
                 </div>
+
             </div>
 
-            <div class="row footer">
-                <div class="col-sm-4 slide">
+            <div class="footer">
+                <div class="col-sm-4 event">
                     {% with template=event_list.0.template %}
                         {% include "DCCNews/template5.html" with event=event_list.0 %}
                     {% endwith %}
                 </div>
-                <div class="col-sm-4 slide">
+                <div class="col-sm-4 event">
                     {% with template=event_list.1.template %}
                         {% include "DCCNews/template5.html" with event=event_list.1 %}
                     {% endwith %}
                 </div>
-                <div class="col-sm-4 slide">
+                <div class="col-sm-4 event">
                     {% with template=event_list.2.template %}
                         {% include "DCCNews/template5.html" with event=event_list.2 %}
                     {% endwith %}
