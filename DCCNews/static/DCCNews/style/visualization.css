@@ -43,13 +43,19 @@ body{
 }
 
 .title-events{
-	margin-top: 68px;
+	margin-top: 38%;
 	background:rgba(0,0,0,0.7);
 	font-size: 28px;
 	border-top-left-radius:25%;
     border-top-right-radius:25%;
 	text-align:center;
 	width: 90%;
+}
+
+.imagen{
+	height:80%;
+	width: 80%;
+	margin: 10%;
 }
 
 .tag{
@@ -101,6 +107,8 @@ body{
 	background:rgba(0,0,0,0.7);
 	border-radius: 25px;
 	margin-bottom: 18%;
+	text-align: center;
+	padding-top: 40%;
 }
 
 .big-info {
@@ -147,4 +155,28 @@ body{
 .text{
 	margin-top: 10%;
 	font-size: 20px;
+}
+
+.redes1{
+	margin:10%;
+	height: 40%;
+	width: 80%;
+	padding-top: 15%;
+	padding-bottom: 5%;
+	padding-left: 10%;
+	padding-right: 10%;
+	}
+img {
+	-webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px !important;
+}
+.redes2{
+	height: 40%;
+	width: 80%;
+	margin:10%;
+	padding-top: 5%;
+	padding-bottom: 15%;
+	padding-left: 10%;
+	padding-right: 10%;
 }
