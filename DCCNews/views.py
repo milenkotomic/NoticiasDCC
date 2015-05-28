@@ -2,7 +2,7 @@
 from datetime import datetime
 import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent
-from DCCNews.models import Publication, Type, Template, Priority, Text, Image
+from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -506,7 +506,7 @@ def search_event(request):
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel})
 
 
-def visualize(request, template_id):
+def visualize(request, template_id=None):
     event_list = []
     slide_list = []
     if request.POST:
@@ -528,10 +528,11 @@ def visualize(request, template_id):
             form = SlideImage(request.POST, request.FILES)
             if form.is_valid():
                 template = Template.objects.get(pk=template_id)
-                image=request.FILES['image']
+                image = Temp(image=request.FILES['image'])
+                image.save()
 
                 p = {
-                        "image": image,
+                        "image": image.image,
                         "template": template.view
                     }
                 slide_list.append(p)
@@ -562,6 +563,7 @@ def visualize(request, template_id):
             texts= slide.text_set.all()
             images = slide.image_set.all()
             template = slide.template_id
+            p = {}
             if template.name == "Noticias":
                 p = {
                         "title": texts.get(number=1),

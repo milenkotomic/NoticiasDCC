@@ -56,6 +56,9 @@ class Image(models.Model):
         return os.path.basename(self.image.name)
 
 
+class Temp(models.Model):
+    image = models.ImageField(upload_to='temp')
+
 class Text(models.Model):
     text = models.TextField()
     number = models.IntegerField()
