@@ -6,7 +6,7 @@ from DCCNews.models import Publication, Type, Template, Priority, Text, Image, T
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
 from django.template import RequestContext
@@ -30,7 +30,7 @@ def login_view(request):
         return render(request, 'DCCNews/login.html', {'form': form, 'error_message': message})
 
     if request.user.is_active:
-        url = reverse('DCCNews.views.index')+"?login=1"
+        url = reverse('DCCNews.views.index') + "?login=1"
         return HttpResponseRedirect(url)
 
     form = LoginForm()
@@ -45,7 +45,9 @@ def logout_view(request):
     context = {'notify_message': 'Sesión cerrada con éxito.', 'form': form}
     return render(request, 'DCCNews/login.html', context)
 
-# index: TODO
+
+# index: a partir del request se redirige a la pagina de inicio. Recibe por GET los parametros create y login,
+# de modo de mostrar los mensajes de alerta correspondientes
 @login_required
 def index(request):
     context = {}
@@ -57,14 +59,18 @@ def index(request):
     return render_to_response('DCCNews/index.html', c)
 
 
-
-# select_template: TODO
+# select_template: a partir del request redirige a la página para la elección del tipo de contenido a crear y
+# la plantilla que se utilizará para crearlo
 @login_required
 def select_template(request):
     return render(request, 'DCCNews/template_selection.html')
 
 
-# new_publication: TODO
+# new_slide: vista que cumple los siguientes roles:
+# Mostrar el formulario para el ingreso de una nueva diapositiva a almacenar en el sistema
+# Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
+# con los mensajes de error correspondietens. Si los datos valiadan, se vuelve a la página de inicio previo
+# almacenamiento de los datos.
 @login_required
 def new_slide(request, template_id):
     template = get_object_or_404(Template, pk=template_id)
@@ -81,9 +87,9 @@ def new_slide(request, template_id):
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
             pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
-                                                      form.cleaned_data['start_circulation_time'])
+                                             form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
-                                                     form.cleaned_data['end_circulation_time'])
+                                            form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
             if form.cleaned_data.get('title'):
@@ -109,7 +115,7 @@ def new_slide(request, template_id):
                               publication_id=pub)
                 image.save()
 
-            url = reverse(index)+"?create=1"
+            url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
         return render(request, 'DCCNews/slide.html', {'form': form,
@@ -121,10 +127,17 @@ def new_slide(request, template_id):
     elif template_id == "2":
         form = SlideImage()
 
-    return render(request, 'DCCNews/slide.html', {'form': form, 'image': template.view_prev, 'new': True, 'template': template_id})
+    return render(request, 'DCCNews/slide.html', {'form': form,
+                                                  'image': template.view_prev,
+                                                  'new': True,
+                                                  'template': template_id})
 
 
-# edit_publication: TODO
+# edit_slide: vista que cumple los siguientes roles:
+# Mostrar el formulario para la edición de una diapositiva almacenada en el sistema
+# Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
+# con los mensajes de error correspondietens. Si los datos valiadan, se mantiene en la página de edición y se
+# muestra un mensaje de éxito de la operación
 @login_required
 def edit_slide(request, publication_id):
     pub = get_object_or_404(Publication, pk=publication_id)
@@ -142,9 +155,9 @@ def edit_slide(request, publication_id):
             pub.type_id = Type.objects.get(pk=1)
             pub.priority_id = Priority.objects.get(pk=1)
             pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
-                                                      form.cleaned_data['start_circulation_time'])
+                                             form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
-                                                     form.cleaned_data['end_circulation_time'])
+                                            form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             pub.save()
 
@@ -171,7 +184,7 @@ def edit_slide(request, publication_id):
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'image': template.view_prev,
                                                           'mensaje': True,
-                                                           "template": template.id})
+                                                          "template": template.id})
 
         return render(request, 'DCCNews/slide.html', {'form': form,
                                                       'image': template.view_prev})
@@ -201,7 +214,11 @@ def edit_slide(request, publication_id):
                                                   "template": template.id})
 
 
-# new_event: TODO
+# new_event: vista que cumple los siguientes roles:
+# Mostrar el formulario para el ingreso de un nuevo evento a almacenar en el sistema
+# Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
+# con los mensajes de error correspondietens. Si los datos valiadan, se vuelve a la página de inicio previo
+# almacenamiento de los datos.
 @login_required
 def new_event(request, template_id):
     template = get_object_or_404(Template, pk=template_id)
@@ -219,9 +236,9 @@ def new_event(request, template_id):
             pub.template_id = Template.objects.get(pk=template_id)
             pub.priority_id = Priority.objects.get(pk=1)
             pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
-                                                      form.cleaned_data['start_circulation_time'])
+                                             form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
-                                                     form.cleaned_data['end_circulation_time'])
+                                            form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
 
             pub.save()
@@ -257,7 +274,7 @@ def new_event(request, template_id):
                               publication_id=pub)
                 image.save()
 
-            url = reverse(index)+"?create=1"
+            url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
         form.fields['slide_type'].widget = forms.HiddenInput()
@@ -277,7 +294,11 @@ def new_event(request, template_id):
                                                   "template": template_id})
 
 
-# edit_event: TODO
+# edit_event: vista que cumple los siguientes roles:
+# Mostrar el formulario para la edición de un evento almacenado en el sistema
+# Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
+# con los mensajes de error correspondietens. Si los datos valiadan, se mantiene en la página de edición y se
+# muestra un mensaje de éxito de la operación
 @login_required
 def edit_event(request, publication_id):
     pub = get_object_or_404(Publication, pk=publication_id)
@@ -295,9 +316,9 @@ def edit_event(request, publication_id):
             pub.type_id = Type.objects.get(pk=2)
             pub.priority_id = Priority.objects.get(pk=1)
             pub.init_date = datetime.combine(form.cleaned_data['start_circulation'],
-                                                      form.cleaned_data['start_circulation_time'])
+                                             form.cleaned_data['start_circulation_time'])
             pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
-                                                     form.cleaned_data['end_circulation_time'])
+                                            form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
             print pub.init_date
             pub.save()
@@ -367,7 +388,7 @@ def edit_event(request, publication_id):
 # Busca una diapositiva: TODO
 @login_required
 def search_slide(request):
-    max=15
+    max = 15
     toShow = []
     empty = False
     newSearch = True
@@ -382,8 +403,8 @@ def search_slide(request):
             if form.cleaned_data.get('titulo'):
                 newSearch = False
                 titulo = form.cleaned_data['titulo']
-                Pubs = Pubs.filter(text__number__exact=1 ,text__text__icontains=titulo)
-            #print(slide_type)         
+                Pubs = Pubs.filter(text__number__exact=1, text__text__icontains=titulo)
+            # print(slide_type)
             if form.cleaned_data.get('slide_type'):
                 newSearch = False
                 slide_type = form.cleaned_data['slide_type']
@@ -391,30 +412,30 @@ def search_slide(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SearchSlide()
-        newSearch=True
-        #Pubs = Pubs.distinct()
-    #--- busqueda
+        newSearch = True
+        # Pubs = Pubs.distinct()
+    # --- busqueda
     for pub in Pubs:
         #    print(pub)
         texts = pub.text_set.all()
-        title =  texts.filter(number__exact=1).first()
+        title = texts.filter(number__exact=1).first()
         if title == None:
             title = "IMAGEN"
-        p = {   "title" : title,
-                "type" : pub.tag_id.name,
-                "id" : pub.pk,
-                }
+        p = {"title": title,
+             "type": pub.tag_id.name,
+             "id": pub.pk,
+             }
         toShow.append(p)
-        #print(p.get("title"))
+        # print(p.get("title"))
 
     if not toShow:
-        empty=True
+        empty = True
 
     paginator = Paginator(toShow, max)
     toShowl = paginator.page(1)
     if request.POST and 'p' in request.POST:
         page = request.POST.get('p')
-        try :
+        try:
             toShowl = paginator.page(page)
         except PageNotAnInteger:
             # If page is not an integer, deliver first page.
@@ -430,10 +451,11 @@ def search_slide(request):
     return render(request, 'DCCNews/template_search.html',
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel})
 
+
 # Busca por evento: TODO
 @login_required
 def search_event(request):
-    max=15
+    max = 15
     toShow = []
     empty = False
     newSearch = True
@@ -448,49 +470,49 @@ def search_event(request):
             if form.cleaned_data.get('titulo'):
                 newSearch = False
                 titulo = form.cleaned_data['titulo']
-                #print titulo
-                Pubs = Pubs.filter(text__number__exact=1 , text__text__icontains=titulo)
-            #print(expositor)
+                # print titulo
+                Pubs = Pubs.filter(text__number__exact=1, text__text__icontains=titulo)
+            # print(expositor)
             if form.cleaned_data.get('expositor'):
                 newSearch = False
                 expositor = form.cleaned_data['expositor']
-                Pubs = Pubs.filter(text__number__exact=2 , text__text__icontains=expositor)
-                #print(date)
+                Pubs = Pubs.filter(text__number__exact=2, text__text__icontains=expositor)
+                # print(date)
             if form.cleaned_data.get('date'):
                 newSearch = False
                 date = form.cleaned_data['date']
-                Pubs = Pubs.filter(text__number__exact=3 , text__text__icontains=date)
-                #else :
-                #print("invalid")
+                Pubs = Pubs.filter(text__number__exact=3, text__text__icontains=date)
+                # else :
+                # print("invalid")
     else:
         form = SearchEvent()
-        newSearch=True
+        newSearch = True
 
-    #Pubs = Pubs.distinct()
+    # Pubs = Pubs.distinct()
     for pub in Pubs:
-        #print(pub)
+        # print(pub)
         texts = pub.text_set.all()
         expositor = texts.filter(number__exact=2).first()
-        #print expositor
+        # print expositor
         if expositor == '':
-            expositor="------"
-        
-        p = {   "title" :  texts.filter(number__exact=1).first(),
-                "expositor" : expositor,
-                "id" : pub.pk,
-                }
-        #print(p.get("title"))
+            expositor = "------"
+
+        p = {"title": texts.filter(number__exact=1).first(),
+             "expositor": expositor,
+             "id": pub.pk,
+             }
+        # print(p.get("title"))
         toShow.append(p)
 
     if not toShow:
-        empty=True
+        empty = True
 
     paginator = Paginator(toShow, max)
     toShowl = paginator.page(1)
 
     if request.POST and 'p' in request.POST:
         page = request.POST.get('p')
-        try :
+        try:
             toShowl = paginator.page(page)
         except PageNotAnInteger:
             # If page is not an integer, deliver first page.
@@ -515,15 +537,14 @@ def visualize(request, template_id=None):
             form = SlideText(request.POST)
             if form.is_valid():
                 template = Template.objects.get(pk=template_id)
-                title=form.cleaned_data['title']
-                text=form.cleaned_data['body']
-                tag=form.cleaned_data['slide_type']
-                p = {
-                        "title": title,
-                        "text": text,
-                        "template": template.view,
-			"tag":tag
-                    }
+                title = form.cleaned_data['title']
+                text = form.cleaned_data['body']
+                tag = form.cleaned_data['slide_type']
+                p = {"title": title,
+                     "text": text,
+                     "template": template.view,
+                     "tag": tag
+                     }
                 slide_list.append(p)
 
         elif template_id == "2":
@@ -532,70 +553,66 @@ def visualize(request, template_id=None):
                 template = Template.objects.get(pk=template_id)
                 image = Temp(image=request.FILES['image'])
                 image.save()
-                tag=form.cleaned_data['slide_type']
-                p = {
-                        "image": image.image,
-                        "template": template.view,
-                        "tag":tag
-                    }
+                tag = form.cleaned_data['slide_type']
+                p = {"image": image.image,
+                     "template": template.view,
+                     "tag": tag
+                     }
                 slide_list.append(p)
 
         if template_id == "5":
             form = EventForm(request.POST)
             if form.is_valid():
                 template = Template.objects.get(pk=template_id)
-                title=form.cleaned_data['title']
-                exhibitor=form.cleaned_data['exhibitor']
-                date=form.cleaned_data['date']
-                time=form.cleaned_data['time']
-                place=form.cleaned_data['place']
-                p = {
-                        "title": title,
-                        "exhibitor": exhibitor,
-                        "date": date,
-                        "time": time,
-                        "place": place,
-                        "template": template.view,
-                    }
+                title = form.cleaned_data['title']
+                exhibitor = form.cleaned_data['exhibitor']
+                date = form.cleaned_data['date']
+                time = form.cleaned_data['time']
+                place = form.cleaned_data['place']
+                p = {"title": title,
+                     "exhibitor": exhibitor,
+                     "date": date,
+                     "time": time,
+                     "place": place,
+                     "template": template.view,
+                     }
                 event_list.append(p)
 
     else:
         events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
         slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
         for slide in slides:
-            texts= slide.text_set.all()
+            texts = slide.text_set.all()
             images = slide.image_set.all()
             template = slide.template_id
             p = {}
             if template.name == "Noticias":
-                p = {
-                        "title": texts.get(number=1),
-                        "text": texts.get(number=4),
-                        "template": template.view
-                    }
+                p = {"title": texts.get(number=1),
+                     "text": texts.get(number=4),
+                     "template": template.view
+                     }
             elif template.name == "Afiche":
-                p = {
-                        "image": images.first().image,
-                        "template": template.view,
-                    }
+                p = {"image": images.first().image,
+                     "template": template.view,
+                     }
             slide_list.append(p)
 
         for event in events:
             texts = event.text_set.all()
             template = event.template_id
             if template.name == "Evento":
-                p = {
-                        "title": texts.get(number=1),
-                        "exhibitor": texts.get(number=2),
-                        "date": texts.get(number =3),
-                        "time": texts.get(number=4),
-                        "place": texts.get(number=5),
-                        "template": template.view,
-                    }
+                p = {"title": texts.get(number=1),
+                     "exhibitor": texts.get(number=2),
+                     "date": texts.get(number=3),
+                     "time": texts.get(number=4),
+                     "place": texts.get(number=5),
+                     "template": template.view,
+                     }
 
             event_list.append(p)
-        
-    return render(request, 'DCCNews/visualization2.html', {"slide_list" : slide_list, "event_list" : event_list})
+
+    return render(request, 'DCCNews/visualization2.html', {"slide_list": slide_list, "event_list": event_list})
+
 
 def template(request):
     return render(request, 'DCCNews/template1.html')
