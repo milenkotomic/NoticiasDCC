@@ -144,7 +144,7 @@
                         {% if new %}
                             <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
                         {% else %}
-                            <a href="{% url 'search_event' %}?cancel=1" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
+                            <a href="{% url 'search_slide' %}?cancel=1" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>
                         {% endif %}
                         <button id="prevButton" class="btn btn-info" onclick="goToPrev({{ template }})" type="submit">Previsualizar</button>
                     </div>
