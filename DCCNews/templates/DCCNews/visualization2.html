@@ -47,10 +47,8 @@
 							today=new Date();
 							h=today.getHours();
 							m=today.getMinutes();
-							s=today.getSeconds();
 							m=checkTime(m);
-							s=checkTime(s);
-							document.getElementById('reloj').innerHTML=h+":"+m+":"+s;
+							document.getElementById('reloj').innerHTML=h+":"+m;
 							t=setTimeout('startTime()',500);}
 							function checkTime(i)
 							{if (i<10) {i="0" + i;}return i;}
@@ -68,9 +66,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="title-events">
+					<!--<div class="title-events">
 						EVENTOS
-					</div>
+					</div>-->
                 </div>
 
             </div>
