@@ -149,6 +149,7 @@ def edit_slide(request, publication_id):
             form = SlideText(request.POST)
         elif pub.template_id.id == 2:
             form = SlideImage(request.POST, request.FILES)
+            form.fields['image'].required = False
 
         if form.is_valid():
             pub.tag_id = form.cleaned_data['slide_type']
@@ -177,12 +178,16 @@ def edit_slide(request, publication_id):
                 text.save()
 
             if form.cleaned_data.get('image'):
+                print request.FILES['image']
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
 
+            image_name = pub.image_set.filter(number=1).first()
+
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'image': template.view_prev,
+                                                          'image_name': image_name,
                                                           'mensaje': True,
                                                           "template": template.id})
 
@@ -205,8 +210,6 @@ def edit_slide(request, publication_id):
         form = SlideImage(initial_data)
         form.fields['image'].required = False
         image_name = pub.image_set.filter(number=1).first()
-
-    print image_name
 
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'image': template.view_prev,
