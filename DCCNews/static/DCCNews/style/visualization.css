@@ -59,7 +59,9 @@ body{
 }
 
 .tag{
-	transform: scale(4,5) rotate(270deg);
+	
+	transform: scale(3,4) rotate(270deg);
+	transform-origin: center center;
 }
 
 .sidebar {
