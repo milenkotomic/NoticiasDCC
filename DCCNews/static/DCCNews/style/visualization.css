@@ -59,8 +59,14 @@ body{
 }
 
 .tag{
-	
-	transform: scale(3,4) rotate(270deg);
+	-webkit-transform: scale(3,4) rotate(270deg); /* Safari */
+    -moz-transform: scale(3,4) rotate(270deg); /* Firefox 3.6 Firefox 4 */
+    -ms-transform: scale(3,4) rotate(270deg); /* IE9 */
+    -o-transform: scale(3,4) rotate(270deg); /* Opera */
+	transform: scale(3,4) rotate(270deg); /* W3C */  
+	-webkit-transform-origin: center center;
+    -moz-transform-origin: center center;
+    -ms-transform-origin: center center;
 	transform-origin: center center;
 }
 

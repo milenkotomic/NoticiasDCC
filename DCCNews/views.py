@@ -531,10 +531,11 @@ def visualize(request, template_id=None):
                 template = Template.objects.get(pk=template_id)
                 image = Temp(image=request.FILES['image'])
                 image.save()
-
+                tag=form.cleaned_data['slide_type']
                 p = {
                         "image": image.image,
-                        "template": template.view
+                        "template": template.view,
+                        "tag":tag
                     }
                 slide_list.append(p)
 
