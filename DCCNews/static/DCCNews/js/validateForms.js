@@ -1,9 +1,11 @@
 /**
  * Created by milenkotomic on 14-05-15.
  */
-function validateForms() {
-    var submitButton = $("#submitButton");
-    submitButton.attr('disabled', 'disabled');
+function validateForms(button) {
+    if (button == "save") {
+        var saveButton = $("#saveButton");
+        saveButton.attr('disabled', 'disabled');
+    }
     var send = true;
     $("form#formID :input")
         .not(':hidden, :button, #id_exhibitor, #id_start_circulation, #id_start_circulation_time, #id_end_circulation, #id_end_circulation_time, #id_image').
@@ -50,10 +52,11 @@ function validateForms() {
             }
         });
 
-    if (send)
-        $("#processing").show();
-    else
-        submitButton.removeAttr('disabled');
-
+    if (button == "save") {
+        if (send)
+            $("#processing").show();
+        else
+            saveButton.removeAttr('disabled');
+    }
     return send;
 }

@@ -334,7 +334,8 @@ def edit_event(request, publication_id):
             form.fields['slide_type'].widget = forms.HiddenInput()
             return render(request, 'DCCNews/event.html', {'form': form,
                                                           'image': template.view_prev,
-                                                          'mensaje': True})
+                                                          'mensaje': True,
+                                                          "template": template.id})
 
         form.fields['slide_type'].widget = forms.HiddenInput()
         return render(request, 'DCCNews/event.html', {'form': form,
@@ -360,7 +361,7 @@ def edit_event(request, publication_id):
 
     form.fields['slide_type'].widget = forms.HiddenInput()
 
-    return render(request, 'DCCNews/event.html', {'form': form, 'image': template.view_prev})
+    return render(request, 'DCCNews/event.html', {'form': form, 'image': template.view_prev, "template": template.id})
 
 
 # Busca una diapositiva: TODO

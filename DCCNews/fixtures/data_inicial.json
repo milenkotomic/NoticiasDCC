@@ -1,0 +1,45 @@
+/**
+ * Created by milenkotomic on 28-05-15.
+ */
+
+[{"fields": {"name": "Slide"}, "model": "DCCNews.type", "pk": 1}, {
+    "fields": {"name": "Event"},
+    "model": "DCCNews.type",
+    "pk": 2
+}, {"fields": {"name": "Noticia"}, "model": "DCCNews.tag", "pk": 1}, {
+    "fields": {"name": "Curso Nuevo"},
+    "model": "DCCNews.tag",
+    "pk": 2
+}, {"fields": {"name": "Evento"}, "model": "DCCNews.tag", "pk": 3}, {
+    "fields": {"name": "Charla"},
+    "model": "DCCNews.tag",
+    "pk": 4
+}, {
+    "fields": {"name": "Conferencia"},
+    "model": "DCCNews.tag",
+    "pk": 5
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla1.png", "name": "Noticias", "view": "DCCNews/template1.html"},
+    "model": "DCCNews.template",
+    "pk": 1
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla2.png", "name": "Afiche", "view": "DCCNews/template2.html"},
+    "model": "DCCNews.template",
+    "pk": 2
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla3.png", "name": "Titulaciones", "view": "1"},
+    "model": "DCCNews.template",
+    "pk": 3
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla4.png", "name": "NoticiaImagen", "view": "1"},
+    "model": "DCCNews.template",
+    "pk": 4
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla5.png", "name": "Evento", "view": "DCCNews/template5.html"},
+    "model": "DCCNews.template",
+    "pk": 5
+}, {
+    "fields": {"view_prev": "DCCNews/images/plantilla6.png", "name": "EventoImagen", "view": "1"},
+    "model": "DCCNews.template",
+    "pk": 6
+}, {"fields": {"frequency": 50, "name": "Normal"}, "model": "DCCNews.priority", "pk": 1}]
