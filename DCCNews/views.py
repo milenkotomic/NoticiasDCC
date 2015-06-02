@@ -395,6 +395,12 @@ def search_slide(request):
     toShow = []
     empty = False
     newSearch = True
+    Borrado = False
+    if request.POST and 'delete' in request.POST:
+        #print("id to delete " + str(request.POST.get('delete')))
+        toDelete = Publication.objects.get(id=request.POST.get('delete'))
+        toDelete.delete()
+        Borrado = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     # if this is a POST request we need to process the form data
     if request.POST:
@@ -452,7 +458,7 @@ def search_slide(request):
         cancel = True
 
     return render(request, 'DCCNews/template_search.html',
-                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel})
+                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel, "Borrado": Borrado})
 
 
 # Busca por evento: TODO
@@ -462,6 +468,12 @@ def search_event(request):
     toShow = []
     empty = False
     newSearch = True
+    Borrado = False
+    if request.POST and 'delete' in request.POST:
+        #print("id to delete " + str(request.POST.get('delete')))
+        toDelete = Publication.objects.get(id=request.POST.get('delete'))
+        toDelete.delete()
+        Borrado = True
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
     # if this is a POST request we need to process the form data
     if request.POST:
@@ -523,13 +535,12 @@ def search_event(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
-
     cancel = False
     if request.GET.get('cancel'):
         cancel = True
 
     return render(request, 'DCCNews/template_search_evento.html',
-                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel})
+                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel, "Borrado": Borrado})
 
 
 def visualize(request, template_id=None):
