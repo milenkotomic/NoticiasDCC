@@ -75,7 +75,7 @@
                     </td>
                     <td>
                         <a href="{% url 'edit_event' item.id %}" class="btn btn-info" role="button">Editar</a>
-                        <a href="" class="btn btn-danger disabled" role="button">Borrar</a>
+                        <button type="submit" name="delete" value="{{ item.id }}"  class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea borrar el evento de titulo {{ item.title }}?')" >Borrar</button>
                     </td>
                 </tr>
 
