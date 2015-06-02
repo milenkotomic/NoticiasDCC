@@ -397,7 +397,7 @@ def search_slide(request):
     newSearch = True
     Borrado = False
     if request.POST and 'delete' in request.POST:
-        print("id to delete " + str(request.POST.get('delete')))
+        #print("id to delete " + str(request.POST.get('delete')))
         toDelete = Publication.objects.get(id=request.POST.get('delete'))
         toDelete.delete()
         Borrado = True
@@ -470,7 +470,7 @@ def search_event(request):
     newSearch = True
     Borrado = False
     if request.POST and 'delete' in request.POST:
-        print("id to delete " + str(request.POST.get('delete')))
+        #print("id to delete " + str(request.POST.get('delete')))
         toDelete = Publication.objects.get(id=request.POST.get('delete'))
         toDelete.delete()
         Borrado = True
