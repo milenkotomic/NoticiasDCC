@@ -55,6 +55,16 @@
                                 <label class="col-lg-5 col-md-5 control-label">{{ form.image.label }}:</label>
                                 <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.image.errors.as_text }}</div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    {% if not new %}
+                                        <em>Imagen Actual:</em>
+                                        <em style="color: #0000c8"> {{ image_name }}</em>
+                                    {% endif %}
+                                </div>
+                            </div>
+
                             {{ form.image }}
                         </div>
                     </div>

@@ -113,6 +113,36 @@ class SlideImage(PublicationForm):
                              label='Imagen')
 
 
+class SlideGraduation(PublicationForm):
+    title = forms.CharField(required=True,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
+                            label='Título')
+
+    subhead = forms.CharField(required=True,
+                              widget=forms.TextInput(attrs={'class': 'form-control'}),
+                              label='Bajada de Título')
+
+    image = forms.ImageField(required=True,
+                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                             label='Imagen')
+
+
+class SlideImageText(PublicationForm):
+    title = forms.CharField(required=True,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
+                            label='Título')
+
+    body = forms.CharField(required=True,
+                           widget=forms.Textarea(attrs={'class': 'form-control',
+                                                        'rows': 4,
+                                                        'cols': 40}),
+                           label='Cuerpo de la diapositiva')
+
+    image = forms.ImageField(required=True,
+                             widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                             label='Imagen')
+
+
 class EventForm(PublicationForm):
     title = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -144,19 +174,24 @@ class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
+
+
 class SearchElement(Form):
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Búsqueda por título:')
+
     def clean_titulo(self):
-       return self.cleaned_data['titulo'].strip()
+        return self.cleaned_data['titulo'].strip()
+
 
 class SearchSlide(SearchElement):
-    #diferenciar tag de eventos y diapositivas
+    # diferenciar tag de eventos y diapositivas
     slide_type = forms.ModelChoiceField(required=False,
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Búsqueda por tipo:')
+
 
 class SearchEvent(SearchElement):
     expositor = forms.CharField(required=False,
@@ -168,5 +203,6 @@ class SearchEvent(SearchElement):
                            label='Búsqueda por fecha:',
                            input_formats=['%d-%m-%Y',
                                           '%Y-%m-%d'])
+
     def clean_expositor(self):
-       return self.cleaned_data['expositor'].strip()
+        return self.cleaned_data['expositor'].strip()

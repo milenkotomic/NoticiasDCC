@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import time
-from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent
+from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
+    SlideGraduation, SlideImageText
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.forms import HiddenInput
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
@@ -75,10 +77,13 @@ def select_template(request):
 def new_slide(request, template_id):
     template = get_object_or_404(Template, pk=template_id)
     if request.POST:
-        if template_id == "1":
-            form = SlideText(request.POST)
-        elif template_id == "2":
-            form = SlideImage(request.POST, request.FILES)
+        forms = {1: SlideText(request.POST),
+                 2: SlideImage(request.POST, request.FILES),
+                 3: SlideGraduation(request.POST, request.FILES),
+                 4: SlideImageText(request.POST, request.FILES)}
+
+        form = forms.get(int(template_id))
+
         if form.is_valid():
             pub = Publication()
             pub.user_id = request.user
@@ -122,10 +127,11 @@ def new_slide(request, template_id):
                                                       'image': template.view_prev,
                                                       'new': True,
                                                       'template': template_id})
-    if template_id == "1":
-        form = SlideText()
-    elif template_id == "2":
-        form = SlideImage()
+    forms = {1: SlideText(),
+             2: SlideImage(),
+             3: SlideGraduation(),
+             4: SlideImageText()}
+    form = forms.get(int(template_id))
 
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'image': template.view_prev,
@@ -145,11 +151,14 @@ def edit_slide(request, publication_id):
     texts = pub.text_set.all()
     images = pub.image_set.all()
     if request.POST:
-        if pub.template_id.id == 1:
-            form = SlideText(request.POST)
-        elif pub.template_id.id == 2:
-            form = SlideImage(request.POST, request.FILES)
-            form.fields['image'].required = False
+        forms = {1: SlideText(request.POST),
+                 2: SlideImage(request.POST, request.FILES),
+                 3: SlideGraduation(request.POST, request.FILES),
+                 4: SlideImageText(request.POST, request.FILES)}
+
+        form = forms.get(pub.template_id.id)
+        if form.fields.get("image"):
+            form.fields["image"].required = False
 
         if form.is_valid():
             pub.tag_id = form.cleaned_data['slide_type']
@@ -178,21 +187,22 @@ def edit_slide(request, publication_id):
                 text.save()
 
             if form.cleaned_data.get('image'):
-                print request.FILES['image']
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
 
             image_name = pub.image_set.filter(number=1).first()
-
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'image': template.view_prev,
                                                           'image_name': image_name,
                                                           'mensaje': True,
-                                                          "template": template.id})
+                                                          'template': template.id})
 
+        image_name = pub.image_set.filter(number=1).first()
         return render(request, 'DCCNews/slide.html', {'form': form,
-                                                      'image': template.view_prev})
+                                                      'image': template.view_prev,
+                                                      'image_name': image_name,
+                                                      'template': template.id})
 
     initial_data = {'title': texts.filter(number=1).first(),
                     'subhead': texts.filter(number=3).first(),
@@ -204,17 +214,20 @@ def edit_slide(request, publication_id):
                     'slide_type': pub.tag_id.id}
 
     image_name = ""
-    if pub.template_id.id == 1:
-        form = SlideText(initial_data)
-    elif pub.template_id.id == 2:
-        form = SlideImage(initial_data)
-        form.fields['image'].required = False
+    forms = {1: SlideText(initial_data),
+             2: SlideImage(initial_data),
+             3: SlideGraduation(initial_data),
+             4: SlideImageText(initial_data)}
+
+    form = forms.get(pub.template_id.id)
+    if form.fields.get("image"):
+        form.fields["image"].required = False
         image_name = pub.image_set.filter(number=1).first()
 
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'image': template.view_prev,
                                                   'image_name': image_name,
-                                                  "template": template.id})
+                                                  'template': template.id})
 
 
 # new_event: vista que cumple los siguientes roles:
@@ -226,10 +239,9 @@ def edit_slide(request, publication_id):
 def new_event(request, template_id):
     template = get_object_or_404(Template, pk=template_id)
     if request.POST:
-        if template_id == "5":
-            form = EventForm(request.POST)
-        elif template_id == "6":
-            form = EventImage(request.POST, request.FILES)
+        forms = {5: EventForm(request.POST),
+                 6: EventImage(request.POST, request.FILES)}
+        form = forms.get(int(template_id))
 
         if form.is_valid():
             pub = Publication()
@@ -280,17 +292,18 @@ def new_event(request, template_id):
             url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
-        form.fields['slide_type'].widget = forms.HiddenInput()
+        form.fields['slide_type'].widget = HiddenInput()
         return render(request, 'DCCNews/event.html', {'form': form,
                                                       'image': template.view_prev,
                                                       'new': True,
                                                       "template": template_id})
-    if template_id == "5":
-        form = EventForm(initial={'slide_type': 3})
-    elif template_id == "6":
-        form = EventImage(initial={'slide_type': 3})
 
-    form.fields['slide_type'].widget = forms.HiddenInput()
+    forms = {5: EventForm(initial={'slide_type': 3}),
+             6: EventImage(initial={'slide_type': 3})}
+
+    form = forms.get(int(template_id))
+
+    form.fields['slide_type'].widget = HiddenInput()
     return render(request, 'DCCNews/event.html', {'form': form,
                                                   'image': template.view_prev,
                                                   'new': True,
@@ -309,10 +322,12 @@ def edit_event(request, publication_id):
     texts = pub.text_set.all()
     images = pub.image_set.all()
     if request.POST:
-        if pub.template_id.id == 5:
-            form = EventForm(request.POST)
-        elif pub.template_id == 6:
-            form = EventImage(request.POST, request.FILES)
+        forms = {5: EventForm(request.POST),
+                 6: EventImage(request.POST, request.FILES)}
+        form = forms.get(pub.template_id.id)
+
+        if form.fields.get("image"):
+            form.fields["image"].required = False
 
         if form.is_valid():
             pub.tag_id = form.cleaned_data['slide_type']
@@ -355,15 +370,21 @@ def edit_event(request, publication_id):
                 image.image = request.FILES['image']
                 image.save()
 
-            form.fields['slide_type'].widget = forms.HiddenInput()
+            image_name = pub.image_set.filter(number=1).first()
+
+            form.fields['slide_type'].widget = HiddenInput()
             return render(request, 'DCCNews/event.html', {'form': form,
                                                           'image': template.view_prev,
+                                                          'image_name': image_name,
                                                           'mensaje': True,
-                                                          "template": template.id})
+                                                          'template': template.id})
 
-        form.fields['slide_type'].widget = forms.HiddenInput()
+        image_name = pub.image_set.filter(number=1).first()
+        form.fields['slide_type'].widget = HiddenInput()
         return render(request, 'DCCNews/event.html', {'form': form,
-                                                      'image': template.view_prev})
+                                                      'image': template.view_prev,
+                                                      'image_name': image_name,
+                                                      'template': template.id})
 
     initial_data = {'title': texts.filter(number=1).first(),
                     'exhibitor': texts.filter(number=2).first(),
@@ -378,14 +399,22 @@ def edit_event(request, publication_id):
                     'end_circulation_time': pub.end_date.strftime('%H:%M'),
                     'slide_type': pub.tag_id.id}
 
-    if pub.template_id.id == 5:
-        form = EventForm(initial_data)
-    elif pub.template_id.id == 6:
-        form = EventImage(initial_data)
+    image_name = ""
+    forms = {5: EventForm(initial_data),
+             6: EventImage(initial_data)}
 
-    form.fields['slide_type'].widget = forms.HiddenInput()
+    form = forms.get(pub.template_id.id)
+    form.fields['slide_type'].widget = HiddenInput()
 
-    return render(request, 'DCCNews/event.html', {'form': form, 'image': template.view_prev, "template": template.id})
+    if form.fields.get("image"):
+        form.fields["image"].required = False
+        image_name = pub.image_set.filter(number=1).first()
+
+
+    return render(request, 'DCCNews/event.html', {'form': form,
+                                                  'image': template.view_prev,
+                                                  'image_name': image_name,
+                                                  'template': template.id})
 
 
 # Busca una diapositiva: TODO
