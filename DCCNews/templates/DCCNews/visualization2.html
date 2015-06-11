@@ -22,12 +22,16 @@
             <div class="main">
                 <div class="col-sm-2 slide">
                     <div class="header">
-                        <img src="{% static 'DCCNews/images/logo_vertical.png' %}" style="width: 100%; height: 100%;" class="center-block logo">
+                        <img src="{% static 'DCCNews/images/logo_vertical.png' %}" class="center-block logo">
                     </div>
 					<div class="tag">
+                        <div class="div-tag">
+                            <p class="p-tag">
 						{% for current_slide in slide_list %}
 							{{current_slide.tag}}
 						{% endfor %}
+                            </p>
+                        </div>
 					</div>
                 </div>
                 <div class="col-sm-8 slide">
@@ -42,27 +46,26 @@
                 <div class="col-sm-2 col-left">
 					<div class="info">
 						<div class="med-info">
-						<script type="text/javascript">
-							function startTime(){
-							today=new Date();
-							h=today.getHours();
-							m=today.getMinutes();
-							m=checkTime(m);
-							document.getElementById('reloj').innerHTML=h+":"+m;
-							t=setTimeout('startTime()',500);}
-							function checkTime(i)
-							{if (i<10) {i="0" + i;}return i;}
-							window.onload=function(){startTime();}
-						</script>
-						<div id="reloj" style="font-size:30px;"></div>
-
+    						<script type="text/javascript">
+    							function startTime(){
+    							today=new Date();
+    							h=today.getHours();
+    							m=today.getMinutes();
+    							m=checkTime(m);
+    							document.getElementById('reloj').innerHTML=h+":"+m;
+    							t=setTimeout('startTime()',500);}
+    							function checkTime(i)
+    							{if (i<10) {i="0" + i;}return i;}
+    							window.onload=function(){startTime();}
+    						</script>
+                            <div id="reloj" style="font-size:30px;"></div>
 						</div>
 						<div class="big-info">
 							<div class="redes1">
-								<img src="{% static 'DCCNews/images/icono_twitter.png' %}" style="width: 100%; height: 100%" class="logo">
+								<img src="{% static 'DCCNews/images/icono_twitter.png' %}" class="icon">
 							</div>
 							<div  class="redes2">
-								<img src="{% static 'DCCNews/images/icono_facebook.png' %}" style="width: 100%; height: 100%" class="logo">
+								<img src="{% static 'DCCNews/images/icono_facebook.png' %}" class="icon">
 							</div>
 						</div>
 					</div>
