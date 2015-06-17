@@ -52,8 +52,6 @@ def logout_view(request):
 # de modo de mostrar los mensajes de alerta correspondientes
 @login_required
 def index(request):
-    # request.session['dic'] = {1: "hola", 2: "chao"}
-    print request.session['dic']
     context = {}
     if request.GET.get('create'):
         context['create'] = True
