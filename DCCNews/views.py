@@ -2,12 +2,12 @@
 from datetime import datetime
 import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
-    SlideGraduation, SlideImageText
-from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp
+    SlideGraduation, SlideImageText, TagForm
+from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp, Tag
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.forms import HiddenInput
+from django.forms import HiddenInput, modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django import forms
@@ -52,6 +52,8 @@ def logout_view(request):
 # de modo de mostrar los mensajes de alerta correspondientes
 @login_required
 def index(request):
+    # request.session['dic'] = {1: "hola", 2: "chao"}
+    print request.session['dic']
     context = {}
     if request.GET.get('create'):
         context['create'] = True
@@ -415,7 +417,6 @@ def edit_event(request, publication_id):
                                                   'image': template.view_prev,
                                                   'image_name': image_name,
                                                   'template': template.id})
-
 
 # Busca una diapositiva: TODO
 @login_required

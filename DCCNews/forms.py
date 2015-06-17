@@ -5,7 +5,7 @@ __author__ = 'milenkotomic'
 
 
 from django import forms
-from django.forms import Form
+from django.forms import Form, ModelForm
 
 
 class MyDateTimeInput(forms.DateInput):
@@ -63,6 +63,11 @@ class PublicationForm(Form):
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
+
+    new_tag = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'display': 'block'}),
+                              label='Ingrese tag')
 
     def clean(self):
         cleaned_data = super(PublicationForm, self).clean()
@@ -174,6 +179,14 @@ class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
+
+class TagForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           label='Nombre')
+
+    class Meta:
+        model = Tag
+        fields = ['name']
 
 
 class SearchElement(Form):

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
     <script src="{% static 'DCCNews/js/validateForms.js' %}"></script>
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
+    <script src="{% static 'DCCNews/js/tag_administration.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -133,7 +134,26 @@
                             <label class="col-lg-5 col-md-5 control-label">{{ form.slide_type.label }}:</label>
                             <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.slide_type.errors.as_text }}</div>
                         </div>
-                        {{ form.slide_type }}
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                {{ form.slide_type }}
+                            </div>
+                            <div class="col-lg-2 col-md-2">
+                                <button class="btn btn-danger">Borrar</button>
+                            </div>
+                            <div class="col-lg-2 col-md-2">
+                                <button class="btn btn-info" onclick="addTag()">Agregar</button>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="new_tag" class="row" style="display: none;">
+                            <div class="col-lg-10">
+                                {{ form.new_tag }}
+                            </div>
+                            <div class="col-lg-2 col-md-2">
+                                <button class="btn btn-success">Guardar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
