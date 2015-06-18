@@ -183,6 +183,13 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group">
+                        {{ form.img_url }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
                         <button id="saveButton" class="btn btn-success" onclick="goToSave()" type="submit">Guardar</button>
                         {% if new %}
                             <a href="{% url 'index' %}" class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea cancelar?')">Cancelar</a>

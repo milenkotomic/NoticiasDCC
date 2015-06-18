@@ -73,6 +73,10 @@ class PublicationForm(Form):
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
 
+    img_url = forms.CharField(required=False,
+                            widget=forms.TextInput(attrs={'style': 'display: none'}),
+                            label='Imagen existente')
+
     def clean(self):
         cleaned_data = super(PublicationForm, self).clean()
         start_circulation = cleaned_data.get("start_circulation")

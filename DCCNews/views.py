@@ -238,7 +238,8 @@ def edit_slide(request, publication_id):
                     'start_circulation_time': pub.init_date.strftime('%H:%M'),
                     'end_circulation': pub.end_date.strftime('%d-%m-%Y'),
                     'end_circulation_time': pub.end_date.strftime('%H:%M'),
-                    'slide_type': pub.tag_id.id}
+                    'slide_type': pub.tag_id.id,
+                    'img_url': pub.image_set.filter(number=1).first(),}
 
     image_name = ""
     forms = {1: SlideText(initial_data),
@@ -603,6 +604,7 @@ def search_event(request):
 def visualize(request, template_id=None):
     event_list = []
     slide_list = []
+    temp = False
     if request.POST:
         if template_id == "1":
             form = SlideText(request.POST)
@@ -624,10 +626,22 @@ def visualize(request, template_id=None):
                 template = Template.objects.get(pk=template_id)
                 image = Temp(image=request.FILES['image'])
                 image.save()
+                temp = True
                 tag = form.cleaned_data['slide_type']
                 p = {"image": image.image,
                      "template": template.view,
-                     "tag": tag
+                     "tag": tag,
+                     "preview": temp,
+                     }
+                slide_list.append(p)
+            else:
+                template = Template.objects.get(pk=template_id)
+                tag = form.cleaned_data['slide_type']
+                image = form.cleaned_data['img_url']
+                p = {"image": image,
+                     "template": template.view,
+                     "tag": tag,
+                     "preview": temp,
                      }
                 slide_list.append(p)
 

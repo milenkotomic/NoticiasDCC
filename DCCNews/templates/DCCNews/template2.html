@@ -1,3 +1,7 @@
 <div class="imagen" style="display: none">
-    <img src="http://localhost:8000/media/{{ slide.image }}" height="100%" width="100%">
+    {% if slide.preview %}
+        <img src="/media/{{ slide.image }}" height="100%" width="100%">
+    {% else %}
+        <img src="/media/images/{{ slide.image }}" height="100%" width="100%">
+    {% endif %}
 </div>
