@@ -6,9 +6,32 @@
     <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
     <script src="{% static 'DCCNews/js/es.js' %}"></script>
     <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
-    <script src="{% static 'DCCNews/js/validateForms.js' %}"></script>
+    <script src="{% static 'DCCNews/js/utilities.js' %}"></script>
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
     <script src="{% static 'DCCNews/js/tag_administration.js' %}"></script>
+    <script>
+        function createTagSuccess(result) {
+            var tagSelect = JSON.parse(JSON.stringify(result));
+            $("#tags").empty();
+            $("#tags").html(tagSelect);
+            $("#new_tag").hide();
+            alert("Tag agregado exitosamente");
+        }
+
+        function sendNewTag(){
+            var name = $("#id_new_tag").val();
+            var data = {new_tag: name, csrfmiddlewaretoken: "{{ csrf_token }}"};
+            ajaxCall("{% url 'createTag' %}" , data, createTagSuccess );
+        }
+
+        function deleteTag(){
+            var tag = $("#id_slide_type").val();
+            var data = {tag: tag, csrfmiddlewaretoken: "{{ csrf_token }}"};
+            ajaxCall("{% url 'deleteTag' %}" , data, createTagSuccess );
+        }
+
+
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -135,11 +158,11 @@
                             <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.slide_type.errors.as_text }}</div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-8 col-md-8">
-                                {{ form.slide_type }}
+                            <div id="tags" class="col-lg-8 col-md-8">
+                                {% include "DCCNews/tags.html" %}
                             </div>
                             <div class="col-lg-2 col-md-2">
-                                <button class="btn btn-danger" type="button">Borrar</button>
+                                <button class="btn btn-danger" type="button" onclick="deleteTag()">Borrar</button>
                             </div>
                             <div class="col-lg-2 col-md-2">
                                 <button class="btn btn-info" type="button" onclick="addTag()">Agregar</button>
@@ -148,10 +171,10 @@
                         <br>
                         <div id="new_tag" class="row" style="display: none;">
                             <div class="col-lg-10">
-                                {{ form.new_tag }}
+                                {{ tagForm.new_tag }}
                             </div>
                             <div class="col-lg-2 col-md-2">
-                                <button class="btn btn-success">Guardar</button>
+                                <button class="btn btn-success" type="button" onclick="sendNewTag()">Guardar</button>
                             </div>
                         </div>
                     </div>

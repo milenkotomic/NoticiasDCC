@@ -28,6 +28,13 @@ class LoginForm(Form):
                                                                                 'class': 'form-control'}))
 
 
+class TagCreationForm(Form):
+    new_tag = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'display': 'block'}),
+                              label='Ingrese tag')
+
+
 class PublicationForm(Form):
     start_circulation = forms.DateField(required=True,
                                         widget=forms.TextInput(attrs={'class': 'form-control',
@@ -38,9 +45,10 @@ class PublicationForm(Form):
                                                        '%Y-%m-%d'])
 
     start_circulation_time = forms.TimeField(required=True,
-                                             widget=forms.TimeInput(attrs={'class': 'form-control',
-                                                                           'placeholder': 'HH:MM',
-                                                                           'onChange': 'checkCirculation()'}),
+                                             widget=MyTimeInput(attrs={'class': 'form-control',
+                                                                       'placeholder': 'HH:MM',
+                                                                       'onChange': 'checkCirculation()',
+                                                                       'onClick': 'defaultTime(this)'}),
                                              label='Inicio de Circulación',
                                              input_formats=['%H:%M'])
 
@@ -53,9 +61,10 @@ class PublicationForm(Form):
                                                      '%Y-%m-%d'])
 
     end_circulation_time = forms.TimeField(required=True,
-                                           widget=forms.TimeInput(attrs={'class': 'form-control',
-                                                                         'placeholder': 'HH:MM',
-                                                                         'onChange': 'checkCirculation()'}),
+                                           widget=MyTimeInput(attrs={'class': 'form-control',
+                                                                     'placeholder': 'HH:MM',
+                                                                     'onChange': 'checkCirculation()',
+                                                                     'onClick': 'defaultTime(this)'}),
                                            label='Fin de Circulación',
                                            input_formats=['%H:%M'])
 
@@ -63,11 +72,6 @@ class PublicationForm(Form):
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Tipo de Diapositiva')
-
-    new_tag = forms.CharField(required=False,
-                              widget=forms.TextInput(attrs={'class': 'form-control',
-                                                            'display': 'block'}),
-                              label='Ingrese tag')
 
     def clean(self):
         cleaned_data = super(PublicationForm, self).clean()
@@ -90,7 +94,8 @@ class PublicationForm(Form):
         end_circulation = cleaned_data.get("end_circulation")
 
         if start_circulation and end_circulation and start_circulation_time and end_circulation_time:
-            if (start_circulation > end_circulation) or (start_circulation == end_circulation and start_circulation_time >= end_circulation_time):
+            if (start_circulation > end_circulation) or \
+                    (start_circulation == end_circulation and start_circulation_time >= end_circulation_time):
                 msg = 'La fecha de término debe ser posterior a la fecha de inicio'
                 self.add_error('start_circulation', msg)
                 del self.cleaned_data['end_circulation']
@@ -165,8 +170,9 @@ class EventForm(PublicationForm):
                                           '%Y-%m-%d'])
 
     time = forms.TimeField(required=True,
-                           widget=forms.TimeInput(attrs={'class': 'form-control',
-                                                         'placeholder': 'HH:MM'}),
+                           widget=MyTimeInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'HH:MM',
+                                                     'onClick': 'defaultTime(this)'}),
                            label='Hora',
                            input_formats=['%H:%M'])
 
@@ -179,6 +185,7 @@ class EventImage(EventForm):
     image = forms.ImageField(required=True,
                              widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
                              label='Imagen')
+
 
 class TagForm(ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),

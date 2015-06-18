@@ -13,6 +13,8 @@ urlpatterns = patterns('',
                        url(r'^slide/edit/(?P<publication_id>\d+)/', views.edit_slide, name='edit_slide'),
                        url(r'^event/new/(?P<template_id>\d+)', views.new_event, name='new_event'),
                        url(r'^event/edit/(?P<publication_id>\d+)/', views.edit_event, name='edit_event'),
+                       url(r'^createtag/', views.create_tag, name='createTag'),
+                       url(r'^deletetag/', views.delete_tag, name='deleteTag'),
 
                        url(r'^$', views.index, name='index'),
                        url(r'^search/slide/', views.search_slide, name='search_slide'),

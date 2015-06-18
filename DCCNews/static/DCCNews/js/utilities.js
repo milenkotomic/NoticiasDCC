@@ -61,3 +61,21 @@ function validateForms(button) {
     }
     return send;
 }
+
+function defaultTime(elmnt){
+    $(elmnt).val(moment().format("HH:mm"));
+}
+
+function ajaxCall(url, usrData, callbackFunction) {
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: usrData,
+        success: callbackFunction
+    });
+}
+
+function addTag(){
+    $("#new_tag").show();
+}
+

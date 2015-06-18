@@ -2,7 +2,7 @@
 from datetime import datetime
 import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
-    SlideGraduation, SlideImageText, TagForm
+    SlideGraduation, SlideImageText, TagForm, TagCreationForm, PublicationForm
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp, Tag
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -68,6 +68,25 @@ def select_template(request):
     return render(request, 'DCCNews/template_selection.html')
 
 
+def create_tag(request):
+    new_tag = request.POST.get("new_tag", False)
+    if new_tag:
+        tag = Tag(name=new_tag)
+        tag.save()
+
+    form = PublicationForm()
+    return render_to_response("DCCNews/tags.html", {"form": form})
+
+def delete_tag(request):
+    tag = request.POST.get("tag", False)
+    if tag:
+        tag = get_object_or_404(Tag, pk=int(tag))
+        tag.delete()
+
+    form = PublicationForm()
+    return render_to_response("DCCNews/tags.html", {"form": form})
+
+
 # new_slide: vista que cumple los siguientes roles:
 # Mostrar el formulario para el ingreso de una nueva diapositiva a almacenar en el sistema
 # Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
@@ -123,7 +142,9 @@ def new_slide(request, template_id):
             url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
+        tag_form = TagCreationForm()
         return render(request, 'DCCNews/slide.html', {'form': form,
+                                                      'tagForm': tag_form,
                                                       'image': template.view_prev,
                                                       'new': True,
                                                       'template': template_id})
@@ -132,8 +153,10 @@ def new_slide(request, template_id):
              3: SlideGraduation(),
              4: SlideImageText()}
     form = forms.get(int(template_id))
+    tag_form = TagCreationForm()
 
     return render(request, 'DCCNews/slide.html', {'form': form,
+                                                  'tagForm': tag_form,
                                                   'image': template.view_prev,
                                                   'new': True,
                                                   'template': template_id})
@@ -191,15 +214,19 @@ def edit_slide(request, publication_id):
                 image.image = request.FILES['image']
                 image.save()
 
+            tag_form = TagCreationForm()
             image_name = pub.image_set.filter(number=1).first()
             return render(request, 'DCCNews/slide.html', {'form': form,
+                                                          'tagForm': tag_form,
                                                           'image': template.view_prev,
                                                           'image_name': image_name,
                                                           'mensaje': True,
                                                           'template': template.id})
 
+        tag_form = TagCreationForm()
         image_name = pub.image_set.filter(number=1).first()
         return render(request, 'DCCNews/slide.html', {'form': form,
+                                                      'tagForm': tag_form,
                                                       'image': template.view_prev,
                                                       'image_name': image_name,
                                                       'template': template.id})
@@ -224,7 +251,9 @@ def edit_slide(request, publication_id):
         form.fields["image"].required = False
         image_name = pub.image_set.filter(number=1).first()
 
+    tag_form = TagCreationForm()
     return render(request, 'DCCNews/slide.html', {'form': form,
+                                                  'tagForm': tag_form,
                                                   'image': template.view_prev,
                                                   'image_name': image_name,
                                                   'template': template.id})
