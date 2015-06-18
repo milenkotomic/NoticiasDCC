@@ -63,7 +63,8 @@ function validateForms(button) {
 }
 
 function defaultTime(elmnt){
-    $(elmnt).val(moment().format("HH:mm"));
+    if ($(elmnt).val() == "")
+        $(elmnt).val(moment().format("HH:mm"));
 }
 
 function ajaxCall(url, usrData, callbackFunction) {
