@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
     <script src="{% static 'DCCNews/js/utilities.js' %}"></script>
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
+    <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
+    <script>
+        window.setInterval( function() {
+            saveDraft({{ template }})
+        }, 10000);
+    </script>
 {% endblock %}
 
 {% block content %}

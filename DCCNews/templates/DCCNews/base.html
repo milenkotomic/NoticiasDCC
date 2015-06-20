@@ -1,90 +1,89 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Sistemas de Noticias DCC</title>
+    <title>Sistemas de Noticias DCC</title>
 
-        <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap.css' %}" />
-{#        <link rel="stylesheet" href="{% static 'DCCNews/style/Calendario1/bootstrap-datetimepicker.css' %}" />#}
-        <link rel="stylesheet" href="{% static 'DCCNews/style/base.css' %}" />
-        <link rel="stylesheet" href="{% static 'DCCNews/style/slides.css' %}" />
+    <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap.css' %}" />
+    {#        <link rel="stylesheet" href="{% static 'DCCNews/style/Calendario1/bootstrap-datetimepicker.css' %}" />#}
+    <link rel="stylesheet" href="{% static 'DCCNews/style/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'DCCNews/style/slides.css' %}" />
 
-        <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
-        <script src="{% static 'DCCNews/js/moment.js' %}"></script>
-        <script src="{% static 'DCCNews/js/bootstrap.min.js' %}"></script>
-{#        <script src="{% static 'DCCNews/js/Calendario1/bootstrap-datetimepicker.js' %}"></script>#}
+    <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
+    <script src="{% static 'DCCNews/js/moment.js' %}"></script>
+    <script src="{% static 'DCCNews/js/bootstrap.min.js' %}"></script>
 
-{#        <script src="{% static 'DCCNews/js/edition-common.js' %}" ></script>#}
-{#        <script src="{% static 'DCCNews/js/content.js' %}" ></script>#}
-
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        <!-- The header with the navigaton bar -->
-        <div class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{% url 'index' %}"><span class="glyphicon glyphicon-globe"></span>&nbsp; Noticias DCC</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-collapse">
-                            <li><a href="#" target="blank">Pantalla</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">Borrador <span class="badge">1</span></a></li>
-                            <li><a href="{% url 'template_selection' %}">Crear Contenido</a></li>
-                            <li><a href="{% url 'search_event' %}">Búsqueda Evento</a></li>
-                            <li><a href="{% url 'search_slide' %}">Búsqueda Diapositiva</a></li>
-                            <li><a href="{% url 'logout' %}">Salir</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        <div class="container">
-            <br/>
-            <div class="row">
-                <!-- The left panel -->
-{#                <aside class="panel-group col-md-3" id="leftPanel">#}
-{#                <div class="panel panel-default">#}
-{#                    <div class="panel-heading">#}
-{#                        <h4 class="panel-title">#}
-{#                            <a data-toggle="collapse" data-parent="#accordion" href="#draftsBlockCollapse">Borradores</a>#}
-{#                        </h4>#}
-{#                    </div>#}
-{#                    <div id="draftsBlockCollapse" class="panel-collapse collapse in">#}
-{#                        <div class="panel-body">#}
-{#                            <table class="table" id="draftsBlock">#}
-{#                            </table>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                </aside>#}
-
-                <!-- wrap -->
-                <div class="col-lg-offset-2 col-sm-12 col-md-12 col-lg-9">
-                    <!-- The main content -->
-{#                    <section id="contentSection" class="content">#}
-                    {% block content %}{% endblock %}
-{#                    </section>#}
-
-                    <!-- The footer -->
-                    <footer>
-                    {% block footer %}{% endblock %}
-                    </footer>
-                </div>
-            </div>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<!-- The header with the navigaton bar -->
+<div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}"><span class="glyphicon glyphicon-globe"></span>&nbsp; Noticias DCC</a>
         </div>
-    </body>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-collapse">
+                <li><a href="#" target="blank">Pantalla</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'load_draft' %}">Borrador
+                    {% if request.session.draft %}
+                        <span class="badge">1</span></a></li>
+                    {% endif %}
+                <li><a href="{% url 'template_selection' %}">Crear Contenido</a></li>
+                <li><a href="{% url 'search_event' %}">Búsqueda Evento</a></li>
+                <li><a href="{% url 'search_slide' %}">Búsqueda Diapositiva</a></li>
+                <li><a href="{% url 'logout' %}">Salir</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <br/>
+    <div class="row">
+        <!-- The left panel -->
+        {#                <aside class="panel-group col-md-3" id="leftPanel">#}
+        {#                <div class="panel panel-default">#}
+        {#                    <div class="panel-heading">#}
+        {#                        <h4 class="panel-title">#}
+        {#                            <a data-toggle="collapse" data-parent="#accordion" href="#draftsBlockCollapse">Borradores</a>#}
+        {#                        </h4>#}
+        {#                    </div>#}
+        {#                    <div id="draftsBlockCollapse" class="panel-collapse collapse in">#}
+        {#                        <div class="panel-body">#}
+        {#                            <table class="table" id="draftsBlock">#}
+        {#                            </table>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                </aside>#}
+
+        <!-- wrap -->
+        <div class="col-lg-offset-2 col-sm-12 col-md-12 col-lg-9">
+            <!-- The main content -->
+            {#                    <section id="contentSection" class="content">#}
+            {% block content %}{% endblock %}
+            {#                    </section>#}
+
+            <!-- The footer -->
+            <footer>
+                {% block footer %}{% endblock %}
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
 </html>
 

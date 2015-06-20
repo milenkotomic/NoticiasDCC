@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, time, timedelta
 import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
     SlideGraduation, SlideImageText, TagForm, TagCreationForm, PublicationForm
@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms import HiddenInput, modelformset_factory
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from django import forms
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -68,6 +68,7 @@ def select_template(request):
     return render(request, 'DCCNews/template_selection.html')
 
 
+# create_tag: TODO
 def create_tag(request):
     new_tag = request.POST.get("new_tag", False)
     if new_tag:
@@ -77,6 +78,7 @@ def create_tag(request):
     form = PublicationForm()
     return render_to_response("DCCNews/tags.html", {"form": form})
 
+# delete_tag: TODO
 def delete_tag(request):
     tag = request.POST.get("tag", False)
     if tag:
@@ -139,6 +141,7 @@ def new_slide(request, template_id):
                               publication_id=pub)
                 image.save()
 
+            request.session['draft'] = False
             url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
@@ -148,6 +151,40 @@ def new_slide(request, template_id):
                                                       'image': template.view_prev,
                                                       'new': True,
                                                       'template': template_id})
+
+    if request.session.get('draft', False) and request.GET.get('draft', False):
+        template_id = int(request.session.get('template'))
+        template = get_object_or_404(Template, pk=template_id)
+
+        initial_data = {'title': request.session.get('title', ""),
+                        'subhead': request.session.get('subhead', ""),
+                        'body': request.session.get('body', ""),
+                        'exhibitor': request.session.get('exhibitor', "asdas"),
+                        'date': request.session.get('date', ""),
+                        'time': request.session.get('time', ""),
+                        'place': request.session.get('place', ""),
+                        'start_circulation': request.session.get('start_circulation', ""),
+                        'start_circulation_time': request.session.get('start_circulation_time', ""),
+                        'end_circulation': request.session.get('end_circulation', ""),
+                        'end_circulation_time': request.session.get('end_circulation_time', ""),
+                        'slide_type': request.session.get('slide_type', "")}
+
+        forms = {1: SlideText(initial_data),
+                 2: SlideImage(initial_data),
+                 3: SlideGraduation(initial_data),
+                 4: SlideImageText(initial_data),}
+
+        form = forms.get(template_id)
+        tag_form = TagCreationForm()
+        return render(request, 'DCCNews/slide.html', {'form': form,
+                                                      'tagForm': tag_form,
+                                                      'image': template.view_prev,
+                                                      'new': True,
+                                                      'template': template_id})
+
+
+
+
     forms = {1: SlideText(),
              2: SlideImage(),
              3: SlideGraduation(),
@@ -319,6 +356,7 @@ def new_event(request, template_id):
                               publication_id=pub)
                 image.save()
 
+            request.session['draft'] = False
             url = reverse(index) + "?create=1"
             return HttpResponseRedirect(url)
 
@@ -327,6 +365,34 @@ def new_event(request, template_id):
                                                       'image': template.view_prev,
                                                       'new': True,
                                                       "template": template_id})
+
+    if request.session.get('draft', False) and request.GET.get('draft', False):
+        template_id = int(request.session.get('template'))
+        template = get_object_or_404(Template, pk=template_id)
+
+        initial_data = {'title': request.session.get('title', ""),
+                        'subhead': request.session.get('subhead', ""),
+                        'body': request.session.get('body', ""),
+                        'exhibitor': request.session.get('exhibitor', "asdas"),
+                        'date': request.session.get('date', ""),
+                        'time': request.session.get('time', ""),
+                        'place': request.session.get('place', ""),
+                        'start_circulation': request.session.get('start_circulation', ""),
+                        'start_circulation_time': request.session.get('start_circulation_time', ""),
+                        'end_circulation': request.session.get('end_circulation', ""),
+                        'end_circulation_time': request.session.get('end_circulation_time', ""),
+                        'slide_type': request.session.get('slide_type', "")}
+
+        forms = {5: EventForm(initial_data),
+                 6: EventImage(initial_data)}
+
+        form = forms.get(template_id)
+        form.fields['slide_type'].widget = HiddenInput()
+
+        return render(request, 'DCCNews/event.html', {'form': form,
+                                                      'image': template.view_prev,
+                                                      'new': True,
+                                                      'template': template_id})
 
     forms = {5: EventForm(initial={'slide_type': 3}),
              6: EventImage(initial={'slide_type': 3})}
@@ -445,6 +511,78 @@ def edit_event(request, publication_id):
                                                   'image': template.view_prev,
                                                   'image_name': image_name,
                                                   'template': template.id})
+
+def save_draft(request, template_id):
+    if request.POST:
+        forms = {1: SlideText(request.POST),
+                 2: SlideImage(request.POST),
+                 3: SlideGraduation(request.POST),
+                 4: SlideImageText(request.POST),
+                 5: EventForm(request.POST),
+                 6: EventImage(request.POST)}
+
+        form = forms.get(int(template_id))
+        form.is_valid()
+
+        print request.session.keys()
+
+        keys_to_delete = ['title', 'subhead', 'body', 'exhibitor', 'date', 'time', 'place', 'start_circulation',
+                          'start_circulation_time', 'end_circulation', ' end_circulation_time', 'template', 'draft']
+
+        for key in keys_to_delete:
+            if key in request.session.keys():
+                del request.session[key]
+
+        request.session['title'] = form.cleaned_data.get('title', "")
+        request.session['subhead'] = form.cleaned_data.get('subhead', "")
+        request.session['body'] = form.cleaned_data.get('body', "")
+        request.session['exhibitor'] = form.cleaned_data.get('exhibitor', "")
+
+        date = form.cleaned_data.get('date', datetime.today())
+        request.session['date'] = date.strftime('%d-%m-%Y')
+
+        timeEvent = form.cleaned_data.get('time', datetime.today())
+        request.session['time'] = timeEvent.strftime('%H:%M')
+
+        request.session['place'] = form.cleaned_data.get('place', "")
+
+        start_circulation = form.cleaned_data.get('start_circulation', datetime.today())
+        request.session['start_circulation'] = start_circulation.strftime('%d-%m-%Y')
+
+        start_circulation_time = form.cleaned_data.get('start_circulation_time', datetime.today())
+        request.session['start_circulation_time'] = start_circulation_time.strftime('%H:%M')
+
+        end_circulation = form.cleaned_data.get('end_circulation', datetime.today())
+        request.session['end_circulation'] = end_circulation.strftime('%d-%m-%Y')
+
+        end_circulation_time = form.cleaned_data.get('end_circulation_time', datetime.today() + timedelta(hours=1))
+        request.session['end_circulation_time'] = end_circulation_time.strftime('%H:%M')
+
+        slide_type = form.cleaned_data.get('slide_type', "")
+        request.session['slide_type'] = slide_type.id if slide_type != "" else ""
+
+        request.session['template'] = template_id
+        request.session['draft'] = True
+
+        return HttpResponse(status=200)
+
+
+def load_draft(request):
+    if request.session.get('draft', False):
+        template_id = int(request.session.get('template'))
+        slide_forms= [1, 2, 3, 4]
+        event_forms = [5, 6]
+        if template_id in slide_forms:
+            url = reverse(new_slide, kwargs={'template_id': template_id}) + "?draft=1"
+            return HttpResponseRedirect(url)
+
+        if template_id in event_forms:
+            url = reverse(new_event, kwargs={'template_id': template_id}) + "?draft=1"
+            return HttpResponseRedirect(url)
+
+    url = reverse(index)
+    return HttpResponseRedirect(url)
+
 
 # Busca una diapositiva: TODO
 @login_required

@@ -9,6 +9,7 @@
     <script src="{% static 'DCCNews/js/utilities.js' %}"></script>
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
     <script src="{% static 'DCCNews/js/tag_administration.js' %}"></script>
+    <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
     <script>
         function createTagSuccess(result) {
             var tagSelect = JSON.parse(JSON.stringify(result));
@@ -29,8 +30,9 @@
             var data = {tag: tag, csrfmiddlewaretoken: "{{ csrf_token }}"};
             ajaxCall("{% url 'deleteTag' %}" , data, createTagSuccess );
         }
-
-
+        window.setInterval( function() {
+            saveDraft({{ template }})
+        }, 10000);
     </script>
 {% endblock %}
 

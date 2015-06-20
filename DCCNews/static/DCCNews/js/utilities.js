@@ -80,3 +80,7 @@ function addTag(){
     $("#new_tag").show();
 }
 
+function saveDraft(template){
+    $("#formID").ajaxSubmit({url: '/news/savedraft/' + template + '/', type: 'post'});
+}
+
