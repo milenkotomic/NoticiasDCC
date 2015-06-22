@@ -1,13 +1,11 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
 {% block head %}
-    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
-    <script src="{% static 'DCCNews/js/counter.js' %}"></script>
 {% endblock %}
 {% block content %}
     {% if Borrado %}
         <div class="col-lg-12">
-            <div class="alert alert-success" role="alert">La diapositiva a sido exitosamente borrada</div>
+            <div class="alert alert-success" role="alert">La diapositiva ha sido exitosamente borrada</div>
         </div>
     {% endif %}
     {% if cancel %}
@@ -64,7 +62,7 @@
                     </td>
                     <td>
                         <a href="{% url 'edit_slide' item.id %}" class="btn btn-info" role="button">Editar</a>
-                        <button type="submit" name="delete" value="{{ item.id }}"  class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea borrar esta diapositiva de titulo {{ item.title }}?')">Borrar</button>
+                        <button type="submit" name="delete" value="{{ item.id }}"  class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea borrar la diapositiva con título \'{{ item.title }}\' ?')">Borrar</button>
                     </td>
                 </tr>
             {% endfor %}

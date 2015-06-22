@@ -205,8 +205,7 @@ class EventImage(EventForm):
 
 
 class TagForm(ModelForm):
-    name = forms.CharField(max_length=100,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}),
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                            label='Nombre')
 
     class Meta:
@@ -215,17 +214,18 @@ class TagForm(ModelForm):
 
 
 class SearchElement(Form):
-    titulo = forms.CharField(max_length=100,
-                             required=False,
+    #El formulario padre, en particular el titulo
+    titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Búsqueda por título:')
 
     def clean_titulo(self):
+        #borra los espacios al principio y al final
         return self.cleaned_data['titulo'].strip()
 
 
 class SearchSlide(SearchElement):
-    # diferenciar tag de eventos y diapositivas
+    #El formulario para diapositivas
     slide_type = forms.ModelChoiceField(required=False,
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
@@ -233,8 +233,8 @@ class SearchSlide(SearchElement):
 
 
 class SearchEvent(SearchElement):
-    expositor = forms.CharField(max_length=100,
-                                required=False,
+    #el formulario de eventos
+    expositor = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Búsqueda por expositor:')
     date = forms.DateField(required=False,

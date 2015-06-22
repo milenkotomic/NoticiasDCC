@@ -1,3 +1,6 @@
+// pasa por todos los atributos de los formularios con id formID,
+// y le agrega los contadores de caracteres, si estos son tipos texto
+// textarea
 $(document).ready(function(){
  		$("form#formID input[type=text]").each(function(){
 		 	var input = $(this);
