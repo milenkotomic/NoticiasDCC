@@ -751,7 +751,8 @@ def visualize(request, template_id=None):
                 title = form.cleaned_data['title']
                 text = form.cleaned_data['body']
                 tag = form.cleaned_data['slide_type']
-                p = {"title": title,
+                p = {"id": 1,
+                     "title": title,
                      "text": text,
                      "template": template.view,
                      "tag": tag
@@ -766,7 +767,8 @@ def visualize(request, template_id=None):
                 image.save()
                 temp = True
                 tag = form.cleaned_data['slide_type']
-                p = {"image": image.image,
+                p = {"id":1,
+                     "image": image.image,
                      "template": template.view,
                      "tag": tag,
                      "preview": temp,
@@ -777,6 +779,40 @@ def visualize(request, template_id=None):
                 tag = form.cleaned_data['slide_type']
                 image = form.cleaned_data['img_url']
                 p = {"image": "images/"+image,
+                     "template": template.view,
+                     "tag": tag,
+                     "preview": temp,
+                     }
+                slide_list.append(p)
+
+        elif template_id == "4":
+            form = SlideImageText(request.POST, request.FILES)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                text = form.cleaned_data['body']
+                tag = form.cleaned_data['slide_type']
+                image = Temp(image=request.FILES['image'])
+                image.save(),
+                p = {"id": 1,
+                     "title": title,
+                     "text": text,
+                     "image": image.image,
+                     "template": template.view,
+                     "tag": tag,
+                     "preview": temp,
+                     }
+                slide_list.append(p)
+            else:
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                text = form.cleaned_data['body']
+                tag = form.cleaned_data['slide_type']
+                image = form.cleaned_data['img_url']
+                p = {"id":1,
+                    "title": title,
+                     "text": text,
+                     "image": "images/"+image,
                      "template": template.view,
                      "tag": tag,
                      "preview": temp,
@@ -840,7 +876,3 @@ def visualize(request, template_id=None):
             event_list.append(p)
 
     return render(request, 'DCCNews/visualization2.html', {"slide_list": slide_list, "event_list": event_list})
-
-
-def template(request):
-    return render(request, 'DCCNews/template1.html')
