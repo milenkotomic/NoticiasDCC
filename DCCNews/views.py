@@ -773,7 +773,7 @@ def visualize(request, template_id=None):
                 template = Template.objects.get(pk=template_id)
                 tag = form.cleaned_data['slide_type']
                 image = form.cleaned_data['img_url']
-                p = {"image": image,
+                p = {"image": "images/"+image,
                      "template": template.view,
                      "tag": tag,
                      "preview": temp,
@@ -805,15 +805,20 @@ def visualize(request, template_id=None):
             texts = slide.text_set.all()
             images = slide.image_set.all()
             template = slide.template_id
+            tag = slide.tag_id
             p = {}
             if template.name == "Noticias":
-                p = {"title": texts.get(number=1),
+                p = {"id": slide.id,
+                     "title": texts.get(number=1),
                      "text": texts.get(number=4),
-                     "template": template.view
+                     "template": template.view,
+                     "tag": tag.name,
                      }
             elif template.name == "Afiche":
-                p = {"image": images.first().image,
+                p = {"id": slide.id,
+                     "image": images.first().image,
                      "template": template.view,
+                     "tag": tag.name,
                      }
             slide_list.append(p)
 

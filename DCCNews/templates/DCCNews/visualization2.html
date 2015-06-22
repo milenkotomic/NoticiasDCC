@@ -26,11 +26,11 @@
                     </div>
 					<div class="tag">
                         <div class="div-tag">
-                            <p class="p-tag">
-						{% for current_slide in slide_list %}
-							{{current_slide.tag}}
-						{% endfor %}
+                            {% for current_slide in slide_list %}
+                            <p class="p-tag {{current_slide.id}}" style="display: none">
+                                    {{ current_slide.tag }}
                             </p>
+                            {% endfor %}
                         </div>
 					</div>
                 </div>
@@ -97,8 +97,12 @@
     </body>
     <script>
         $(document).ready(function(){
-            $(".news-slides").children().first().toggle();
-			
+            current_slide = $(".news-slides").children().first();
+            current_slide.toggle();
+            id = current_slide.attr('id')
+            console.log(id)
+            current_tag = $("."+id).first();
+            current_tag.toggle();
         });
     </script>
 
