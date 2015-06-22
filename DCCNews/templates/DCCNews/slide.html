@@ -21,6 +21,18 @@
             alert("Tag agregado exitosamente");
         }
 
+        function deleteTagSuccess(result) {
+            var tagSelect = JSON.parse(JSON.stringify(result.tags));
+            $("#tags").empty();
+            $("#tags").html(tagSelect);
+            $("#new_tag").hide();
+            var deleted = JSON.parse(JSON.stringify(result.deleted_tag));
+            if (deleted)
+                alert("Tag borrado exitosamente");
+            else
+                alert("Este tag no puede ser borrado");
+        }
+
         function sendNewTag(){
             var name = $("#id_new_tag").val();
             var data = {new_tag: name, csrfmiddlewaretoken: "{{ csrf_token }}"};
@@ -30,7 +42,7 @@
         function deleteTag(){
             var tag = $("#id_slide_type").val();
             var data = {tag: tag, csrfmiddlewaretoken: "{{ csrf_token }}"};
-            ajaxCall("{% url 'deleteTag' %}" , data, createTagSuccess );
+            ajaxCall("{% url 'deleteTag' %}" , data, deleteTagSuccess );
         }
         window.setInterval( function() {
             saveDraft({{ template }})

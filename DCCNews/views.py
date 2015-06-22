@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, time, timedelta
+import json
 import time
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
     SlideGraduation, SlideImageText, TagForm, TagCreationForm, PublicationForm
@@ -8,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms import HiddenInput, modelformset_factory
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from django import forms
 from django.template import RequestContext
@@ -80,14 +81,21 @@ def create_tag(request):
 
 # delete_tag: TODO
 def delete_tag(request):
-    tag = request.POST.get("tag", False)
-    if tag:
-        tag = get_object_or_404(Tag, pk=int(tag))
-        tag.delete()
+    if request.POST:
+        tag = request.POST.get("tag", False)
+        no_delete_tags = [1, 2, 3, 4, 5]
+        deleted_tag = False
 
-    form = PublicationForm()
-    return render_to_response("DCCNews/tags.html", {"form": form})
+        if tag and int(tag) not in no_delete_tags:
+            tag = get_object_or_404(Tag, pk=int(tag))
+            tag.delete()
+            deleted_tag = True
 
+        form = PublicationForm()
+        data = {"tags": render_to_response("DCCNews/tags.html", {"form": form}).content,
+                "deleted_tag": deleted_tag}
+        # return HttpResponse(json.dumps(data), mimetype="application/json")
+        return JsonResponse(data)
 
 # new_slide: vista que cumple los siguientes roles:
 # Mostrar el formulario para el ingreso de una nueva diapositiva a almacenar en el sistema
