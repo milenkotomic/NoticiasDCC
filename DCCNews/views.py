@@ -192,6 +192,7 @@ def new_slide(request, template_id):
     form = forms.get(int(template_id))
     tag_form = TagCreationForm()
 
+
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'tagForm': tag_form,
                                                   'image': template.view_prev,
@@ -253,6 +254,7 @@ def edit_slide(request, publication_id):
 
             tag_form = TagCreationForm()
             image_name = pub.image_set.filter(number=1).first()
+            request.session['draft'] = False
             return render(request, 'DCCNews/slide.html', {'form': form,
                                                           'tagForm': tag_form,
                                                           'image': template.view_prev,
@@ -469,6 +471,7 @@ def edit_event(request, publication_id):
             image_name = pub.image_set.filter(number=1).first()
 
             form.fields['slide_type'].widget = HiddenInput()
+            request.session['draft'] = False
             return render(request, 'DCCNews/event.html', {'form': form,
                                                           'image': template.view_prev,
                                                           'image_name': image_name,
