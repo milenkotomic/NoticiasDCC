@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if mensaje %}
+    {% if Borrado %}
         <div class="col-lg-12">
             <div class="alert alert-success" role="alert">El evento ha sido exitosamente borrado.</div>
         </div>
@@ -77,7 +77,7 @@
                     </td>
                     <td>
                         <a href="{% url 'edit_event' item.id %}" class="btn btn-info" role="button">Editar</a>
-                        <button type="submit" name="delete" value="{{ item.id }}"  class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea borrar el evento de titulo {{ item.title }}?')" >Borrar</button>
+                        <button type="submit" name="delete" value="{{ item.id }}"  class="btn btn-danger" onClick="return confirm('¿Esta seguro que desea borrar el evento con título \'{{ item.title }}\' ?')" >Borrar</button>
                     </td>
                 </tr>
 
