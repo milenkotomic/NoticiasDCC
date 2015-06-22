@@ -688,10 +688,11 @@ def search_event(request):
     newSearch = True
     Borrado = False
     if request.POST and 'delete' in request.POST:
-        #print("id to delete " + str(request.POST.get('delete')))
-        toDelete = Publication.objects.get(id=request.POST.get('delete'))
-        toDelete.delete()
-        Borrado = True
+        if(Publication.objects.filter(id=request.POST.get('delete')).exists()):
+             toDelete = Publication.objects.get(id=request.POST.get('delete'))
+             toDelete.delete()
+             Borrado = True
+
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
     # if this is a POST request we need to process the form data
     if request.POST:
