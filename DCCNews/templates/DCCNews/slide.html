@@ -159,6 +159,7 @@
                             <label class="col-lg-5 col-md-5 control-label">{{ form.slide_type.label }}:</label>
                             <div class="col-lg-7 col-md-5 text-danger text-right">{{ form.slide_type.errors.as_text }}</div>
                         </div>
+                        {% if new %}
                         <div class="row">
                             <div id="tags" class="col-lg-8 col-md-8">
                                 {% include "DCCNews/tags.html" %}
@@ -179,6 +180,9 @@
                                 <button class="btn btn-success" type="button" onclick="sendNewTag()">Guardar</button>
                             </div>
                         </div>
+                        {% else %}
+                            {% include 'DCCNews/tags.html' %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

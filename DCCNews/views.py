@@ -434,7 +434,7 @@ def edit_event(request, publication_id):
             pub.end_date = datetime.combine(form.cleaned_data['end_circulation'],
                                             form.cleaned_data['end_circulation_time'])
             pub.modification_user_id = request.user
-            print pub.init_date
+
             pub.save()
             if form.cleaned_data.get('title'):
                 text = texts.filter(number=1).first()
@@ -523,9 +523,6 @@ def save_draft(request, template_id):
 
         form = forms.get(int(template_id))
         form.is_valid()
-
-        print request.session.keys()
-
         keys_to_delete = ['title', 'subhead', 'body', 'exhibitor', 'date', 'time', 'place', 'start_circulation',
                           'start_circulation_time', 'end_circulation', ' end_circulation_time', 'template', 'draft']
 
