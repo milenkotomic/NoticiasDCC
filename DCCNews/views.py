@@ -592,7 +592,13 @@ def load_draft(request):
     return HttpResponseRedirect(url)
 
 
-# Busca una diapositiva: TODO
+# Busca una diapositiva: Dado un formulario busca todos las diapositivas
+# en la base de datos que cumplan con las condiciones, puede recibir 
+# a traves de un formulario el titulo y el tipo de la diapositiva
+# a demas controla a traves del mismo formulario si se va a borrar un
+# elemnto, se uso un boton de submit para borrar, para no perder los datos
+# de la busqueda, se uso la misma idea para el paginator
+# 
 @login_required
 def search_slide(request):
     max = 15
@@ -602,9 +608,11 @@ def search_slide(request):
     Borrado = False
     if request.POST and 'delete' in request.POST:
         #print("id to delete " + str(request.POST.get('delete')))
-        toDelete = Publication.objects.get(id=request.POST.get('delete'))
-        toDelete.delete()
-        Borrado = True
+        if(Publication.objects.filter(id=request.POST.get('delete')).exists()):
+             toDelete = Publication.objects.get(id=request.POST.get('delete'))
+             toDelete.delete()
+             Borrado = True
+        
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     # if this is a POST request we need to process the form data
     if request.POST:
@@ -658,14 +666,20 @@ def search_slide(request):
             toShowl = paginator.page(paginator.num_pages)
 
     cancel = False
-    if request.GET.get('cancel'):
+    if request.GET.get('cancel') and not request.POST :
         cancel = True
 
     return render(request, 'DCCNews/template_search.html',
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel, "Borrado": Borrado})
 
 
-# Busca por evento: TODO
+# Busca una evento: Dado un formulario busca todos os eventos
+# en la base de datos que cumplan con las condiciones, puede recibir 
+# a traves de un formulario el titulo y el tipo de la diapositiva
+# a demas controla a traves del mismo formulario si se va a borrar un
+# elemnto, se uso un boton de submit para borrar, para no perder los datos
+# de la busqueda, se uso la misma idea para el paginator
+# 
 @login_required
 def search_event(request):
     max = 15
