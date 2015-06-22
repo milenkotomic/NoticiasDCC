@@ -19,6 +19,8 @@ class MyTimeInput(forms.DateInput):
 class MyDateInput(forms.DateInput):
     input_type = 'date'
 
+#class myCountTextArea(forms.CharField):
+    
 
 # Formulario para inicio de sesión
 class LoginForm(Form):
@@ -29,7 +31,8 @@ class LoginForm(Form):
 
 
 class TagCreationForm(Form):
-    new_tag = forms.CharField(required=False,
+    new_tag = forms.CharField(max_length=100,
+                              required=False,
                               widget=forms.TextInput(attrs={'class': 'form-control',
                                                             'display': 'block'}),
                               label='Ingrese tag')
@@ -106,11 +109,13 @@ class PublicationForm(Form):
 
 
 class SlideText(PublicationForm):
-    title = forms.CharField(required=True,
+    title = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(required=True,
+    body = forms.CharField(max_length=1000,
+                           required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
                                                         'cols': 40}),
@@ -118,7 +123,8 @@ class SlideText(PublicationForm):
 
 
 class SlideImage(PublicationForm):
-    title = forms.CharField(required=True,
+    title = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
@@ -128,11 +134,13 @@ class SlideImage(PublicationForm):
 
 
 class SlideGraduation(PublicationForm):
-    title = forms.CharField(required=True,
+    title = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    subhead = forms.CharField(required=True,
+    subhead = forms.CharField(max_length=100,
+                              required=True,
                               widget=forms.TextInput(attrs={'class': 'form-control'}),
                               label='Bajada de Título')
 
@@ -142,11 +150,13 @@ class SlideGraduation(PublicationForm):
 
 
 class SlideImageText(PublicationForm):
-    title = forms.CharField(required=True,
+    title = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(required=True,
+    body = forms.CharField(max_length=1000,
+                           required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
                                                         'cols': 40}),
@@ -158,11 +168,13 @@ class SlideImageText(PublicationForm):
 
 
 class EventForm(PublicationForm):
-    title = forms.CharField(required=True,
+    title = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    exhibitor = forms.CharField(required=False,
+    exhibitor = forms.CharField(max_length=100,
+                                required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Expositor')
 
@@ -180,7 +192,8 @@ class EventForm(PublicationForm):
                            label='Hora',
                            input_formats=['%H:%M'])
 
-    place = forms.CharField(required=True,
+    place = forms.CharField(max_length=100,
+                            required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Lugar')
 
@@ -192,7 +205,8 @@ class EventImage(EventForm):
 
 
 class TagForm(ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+    name = forms.CharField(max_length=100,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}),
                            label='Nombre')
 
     class Meta:
@@ -201,7 +215,8 @@ class TagForm(ModelForm):
 
 
 class SearchElement(Form):
-    titulo = forms.CharField(required=False,
+    titulo = forms.CharField(max_length=100,
+                             required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Búsqueda por título:')
 
@@ -218,7 +233,8 @@ class SearchSlide(SearchElement):
 
 
 class SearchEvent(SearchElement):
-    expositor = forms.CharField(required=False,
+    expositor = forms.CharField(max_length=100,
+                                required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Búsqueda por expositor:')
     date = forms.DateField(required=False,

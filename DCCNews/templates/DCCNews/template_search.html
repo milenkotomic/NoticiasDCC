@@ -1,6 +1,9 @@
 {% extends "DCCNews/base.html" %}
 {% load staticfiles %}
-
+{% block head %}
+    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
+    <script src="{% static 'DCCNews/js/counter.js' %}"></script>
+{% endblock %}
 {% block content %}
     {% if Borrado %}
         <div class="col-lg-12">
@@ -12,7 +15,7 @@
     {% endif %}
     <h1>Búsqueda de Diapositiva</h1>
     <!-- formulario de busqueda -->
-    <form role="form" method="post" class="form-horizontal">
+    <form role="form" method="post" class="form-horizontal" id="formID" >
         {% csrf_token %}
         <row>
             <div class="form-group">
