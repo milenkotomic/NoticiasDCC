@@ -22,5 +22,4 @@ urlpatterns = patterns('',
                        url(r'^search/slide/', views.search_slide, name='search_slide'),
                        url(r'^search/event/', views.search_event, name='search_event'),
                        url(r'^visualize/(?P<template_id>\d+)', views.visualize, name='visualize_content'),
-                       url(r'^template/', views.template, name='template'),
                        )
