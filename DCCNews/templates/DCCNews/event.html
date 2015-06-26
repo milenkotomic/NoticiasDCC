@@ -11,11 +11,13 @@
     <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
     <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
     <script src="{% static 'DCCNews/js/counter.js' %}"></script>
+    {% if new %}
     <script>
         window.setInterval( function() {
             saveDraft({{ template }})
         }, 5000);
     </script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

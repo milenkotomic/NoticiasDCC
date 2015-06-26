@@ -44,9 +44,12 @@
             var data = {tag: tag, csrfmiddlewaretoken: "{{ csrf_token }}"};
             ajaxCall("{% url 'deleteTag' %}" , data, deleteTagSuccess );
         }
+
+        {% if new %}
         window.setInterval( function() {
             saveDraft({{ template }})
         }, 5000);
+        {% endif %}
     </script>
 {% endblock %}
 
