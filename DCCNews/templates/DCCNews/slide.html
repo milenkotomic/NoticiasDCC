@@ -36,7 +36,10 @@
         function sendNewTag(){
             var name = $("#id_new_tag").val();
             var data = {new_tag: name, csrfmiddlewaretoken: "{{ csrf_token }}"};
-            ajaxCall("{% url 'createTag' %}" , data, createTagSuccess );
+            if (name.trim().length != 0)
+                ajaxCall("{% url 'createTag' %}" , data, createTagSuccess );
+            else
+                alert("Nuevo tag inválido");
         }
 
         function deleteTag(){
