@@ -765,7 +765,6 @@ def search_event(request):
 def visualize(request, template_id=None):
     event_list = []
     slide_list = []
-    temp = False
     if request.POST:
         if template_id == "1":
             form = SlideText(request.POST)
@@ -788,23 +787,38 @@ def visualize(request, template_id=None):
                 template = Template.objects.get(pk=template_id)
                 image = Temp(image=request.FILES['image'])
                 image.save()
-                temp = True
                 tag = form.cleaned_data['slide_type']
                 p = {"id":1,
                      "image": image.image,
                      "template": template.view,
                      "tag": tag,
-                     "preview": temp,
                      }
                 slide_list.append(p)
             else:
                 template = Template.objects.get(pk=template_id)
                 tag = form.cleaned_data['slide_type']
                 image = form.cleaned_data['img_url']
-                p = {"image": "images/"+image,
+                p = {"id":1,
+                     "image": "images/"+image,
                      "template": template.view,
                      "tag": tag,
-                     "preview": temp,
+                     }
+                slide_list.append(p)
+
+        elif template_id == "3":
+            form = SlideGraduation(request.POST)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                subhead = form.cleaned_data['subhead']
+                text = form.cleaned_data['body']
+                tag = form.cleaned_data['slide_type']
+                p = {"id": 1,
+                     "title": title,
+                     "text": text,
+                     "subhead": subhead,
+                     "template": template.view,
+                     "tag": tag
                      }
                 slide_list.append(p)
 
@@ -816,14 +830,13 @@ def visualize(request, template_id=None):
                 text = form.cleaned_data['body']
                 tag = form.cleaned_data['slide_type']
                 image = Temp(image=request.FILES['image'])
-                image.save(),
+                image.save()
                 p = {"id": 1,
                      "title": title,
                      "text": text,
                      "image": image.image,
                      "template": template.view,
                      "tag": tag,
-                     "preview": temp,
                      }
                 slide_list.append(p)
             else:
@@ -838,11 +851,10 @@ def visualize(request, template_id=None):
                      "image": "images/"+image,
                      "template": template.view,
                      "tag": tag,
-                     "preview": temp,
                      }
                 slide_list.append(p)
 
-        if template_id == "5":
+        elif template_id == "5":
             form = EventForm(request.POST)
             if form.is_valid():
                 template = Template.objects.get(pk=template_id)
@@ -860,9 +872,53 @@ def visualize(request, template_id=None):
                      }
                 event_list.append(p)
 
+        elif template_id == "6":
+            form = EventImage(request.POST, request.FILES)
+            if form.is_valid():
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                exhibitor = form.cleaned_data['exhibitor']
+                date = form.cleaned_data['date']
+                time = form.cleaned_data['time']
+                place = form.cleaned_data['place']
+                image = Temp(image=request.FILES['image'])
+                image.save()
+                p = {"title": title,
+                     "exhibitor": exhibitor,
+                     "date": date,
+                     "time": time,
+                     "place": place,
+                     "image": image.image,
+                     "template": template.view,
+                     }
+                event_list.append(p)
+            else:
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                exhibitor = form.cleaned_data['exhibitor']
+                date = form.cleaned_data['date']
+                time = form.cleaned_data['time']
+                place = form.cleaned_data['place']
+                image = form.cleaned_data['img_url']
+                p = {"title": title,
+                     "exhibitor": exhibitor,
+                     "date": date,
+                     "time": time,
+                     "place": place,
+                     "image": "images/"+image,
+                     "template": template.view,
+                     }
+                event_list.append(p)
+
     else:
-        events = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
-        slides = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
+        slides = Publication.objects.order_by('-creation_date')\
+            .filter(type_id__name__icontains="slide")\
+            .filter(init_date__lte=datetime.today())\
+            .filter(end_date__gte=datetime.today())
+        events = Publication.objects.order_by('-end_date')\
+            .filter(type_id__name__icontains="event")\
+            .filter(init_date__lte=datetime.today())\
+            .filter(end_date__gte=datetime.today())[:3]
         for slide in slides:
             texts = slide.text_set.all()
             images = slide.image_set.all()
@@ -882,10 +938,27 @@ def visualize(request, template_id=None):
                      "template": template.view,
                      "tag": tag.name,
                      }
+            elif template.name == "Titulaciones":
+                p = {"id": slide.id,
+                     "title": texts.get(number=1),
+                     "subhead": texts.get(number = 3),
+                     "text": texts.get(number=4),
+                     "template": template.view,
+                     "tag": tag.name,
+                     }
+            elif template.name == "NoticiaImagen":
+                p = {"id": slide.id,
+                     "title": texts.get(number=1),
+                     "text": texts.get(number=4),
+                     "image": images.first().image,
+                     "template": template.view,
+                     "tag": tag.name,
+                    }
             slide_list.append(p)
 
         for event in events:
             texts = event.text_set.all()
+            images = event.image_set.all()
             template = event.template_id
             if template.name == "Evento":
                 p = {"title": texts.get(number=1),
@@ -895,7 +968,15 @@ def visualize(request, template_id=None):
                      "place": texts.get(number=5),
                      "template": template.view,
                      }
-
+            elif template.name == "EventoImagen":
+                p = {"title": texts.get(number=1),
+                     "exhibitor": texts.get(number=2),
+                     "date": texts.get(number=3),
+                     "time": texts.get(number=4),
+                     "place": texts.get(number=5),
+                     "image": images.first().image,
+                     "template": template.view,
+                     }
             event_list.append(p)
 
     return render(request, 'DCCNews/visualization2.html', {"slide_list": slide_list, "event_list": event_list})
