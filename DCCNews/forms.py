@@ -51,7 +51,7 @@ class PublicationForm(Form):
                                              widget=MyTimeInput(attrs={'class': 'form-control',
                                                                        'placeholder': 'HH:MM',
                                                                        'onChange': 'checkCirculation()',
-                                                                       'onClick': 'defaultTime(this)'}),
+                                                                       'onfocus': 'defaultTime(this)'}),
                                              label='Inicio de Circulación',
                                              input_formats=['%H:%M'])
 
@@ -67,7 +67,7 @@ class PublicationForm(Form):
                                            widget=MyTimeInput(attrs={'class': 'form-control',
                                                                      'placeholder': 'HH:MM',
                                                                      'onChange': 'checkCirculation()',
-                                                                     'onClick': 'defaultTime(this)'}),
+                                                                     'onfocus': 'defaultTime(this)'}),
                                            label='Fin de Circulación',
                                            input_formats=['%H:%M'])
 
@@ -188,7 +188,7 @@ class EventForm(PublicationForm):
     time = forms.TimeField(required=True,
                            widget=MyTimeInput(attrs={'class': 'form-control',
                                                      'placeholder': 'HH:MM',
-                                                     'onClick': 'defaultTime(this)'}),
+                                                     'onfocus': 'defaultTime(this)'}),
                            label='Hora',
                            input_formats=['%H:%M'])
 

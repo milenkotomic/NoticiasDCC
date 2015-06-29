@@ -1,19 +1,37 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, time, timedelta
-import json
+from cStringIO import StringIO
+from datetime import datetime, timedelta
 import time
+from PIL import Image as PILImage
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
-    SlideGraduation, SlideImageText, TagForm, TagCreationForm, PublicationForm
+    SlideGraduation, SlideImageText, TagCreationForm, PublicationForm
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp, Tag
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
-from django.forms import HiddenInput, modelformset_factory
+from django.forms import HiddenInput
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
-from django import forms
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import os
+
+
+# resize_image: TODO
+def resize_image(django_image, size):
+    pil_image = PILImage.open(django_image.image)
+    pil_image.thumbnail(size, PILImage.ANTIALIAS)
+    name = django_image.image.name
+    django_image.image.delete()
+
+    f = StringIO()
+    try:
+        pil_image.save(f, format='png')
+        s = f.getvalue()
+        django_image.image.save(name, ContentFile(s))
+    finally:
+        f.close()
 
 
 # login_view: a partir del request que cuenta con los datos del form
@@ -72,7 +90,7 @@ def select_template(request):
 # create_tag: TODO
 def create_tag(request):
     new_tag = request.POST.get("new_tag", False)
-    if new_tag:
+    if new_tag and str(new_tag).replace(" ", "") != "":
         tag = Tag(name=new_tag)
         tag.save()
 
@@ -144,10 +162,16 @@ def new_slide(request, template_id):
                             publication_id=pub)
                 text.save()
             if form.cleaned_data.get('image'):
-                image = Image(image=request.FILES['image'],
+                image = Image(image=form.cleaned_data.get('image'),
                               number=1,
                               publication_id=pub)
                 image.save()
+                size_images = {2: (900, 490),
+                               3: (900, 400),
+                               4: (350, 400)}
+
+                size = size_images.get(int(template_id))
+                resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
@@ -259,6 +283,12 @@ def edit_slide(request, publication_id):
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
+                size_images = {2: (900, 490),
+                               3: (900, 400),
+                               4: (350, 400)}
+
+                size = size_images.get(pub.template_id.id)
+                resize_image(image, size)
 
             tag_form = TagCreationForm()
             image_name = pub.image_set.filter(number=1).first()
@@ -365,6 +395,10 @@ def new_event(request, template_id):
                               number=1,
                               publication_id=pub)
                 image.save()
+                size_images = {6: (170, 170)}
+
+                size = size_images.get(int(template_id))
+                resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
@@ -475,6 +509,10 @@ def edit_event(request, publication_id):
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
+                size_images = {6: (170, 170)}
+
+                size = size_images.get(pub.template_id.id)
+                resize_image(image, size)
 
             image_name = pub.image_set.filter(number=1).first()
 
@@ -612,7 +650,7 @@ def search_slide(request):
              toDelete = Publication.objects.get(id=request.POST.get('delete'))
              toDelete.delete()
              Borrado = True
-        
+
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     # if this is a POST request we need to process the form data
     if request.POST:
