@@ -15,10 +15,10 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import os
 
 
-# resize_image: TODO
+# resize_image: recibe un objeto Image del modelo de la aplicación y una tupla
+# con el tamaño a redimensionar.
 def resize_image(django_image, size):
     pil_image = PILImage.open(django_image.image)
     pil_image.thumbnail(size, PILImage.ANTIALIAS)
@@ -115,6 +115,7 @@ def delete_tag(request):
         # return HttpResponse(json.dumps(data), mimetype="application/json")
         return JsonResponse(data)
 
+
 # new_slide: vista que cumple los siguientes roles:
 # Mostrar el formulario para el ingreso de una nueva diapositiva a almacenar en el sistema
 # Si recibe datos por POST, verifica que sean los datos correctos, si no son validos, se vuelve al formulario
@@ -204,7 +205,7 @@ def new_slide(request, template_id):
         forms = {1: SlideText(initial_data),
                  2: SlideImage(initial_data),
                  3: SlideGraduation(initial_data),
-                 4: SlideImageText(initial_data),}
+                 4: SlideImageText(initial_data)}
 
         form = forms.get(template_id)
         tag_form = TagCreationForm()
@@ -214,17 +215,12 @@ def new_slide(request, template_id):
                                                       'new': True,
                                                       'template': template_id})
 
-
-
-
     forms = {1: SlideText(),
              2: SlideImage(),
              3: SlideGraduation(),
              4: SlideImageText()}
     form = forms.get(int(template_id))
     tag_form = TagCreationForm()
-
-
     return render(request, 'DCCNews/slide.html', {'form': form,
                                                   'tagForm': tag_form,
                                                   'image': template.view_prev,
@@ -316,7 +312,7 @@ def edit_slide(request, publication_id):
                     'end_circulation': pub.end_date.strftime('%d-%m-%Y'),
                     'end_circulation_time': pub.end_date.strftime('%H:%M'),
                     'slide_type': pub.tag_id.id,
-                    'img_url': pub.image_set.filter(number=1).first(),}
+                    'img_url': pub.image_set.filter(number=1).first()}
 
     image_name = ""
     forms = {1: SlideText(initial_data),
@@ -555,12 +551,12 @@ def edit_event(request, publication_id):
         form.fields["image"].required = False
         image_name = pub.image_set.filter(number=1).first()
 
-
     return render(request, 'DCCNews/event.html', {'form': form,
                                                   'image': template.view_prev,
                                                   'image_name': image_name,
                                                   'template': template.id})
 
+# save_draft: TODO
 def save_draft(request, template_id):
     if request.POST:
         forms = {1: SlideText(request.POST),
@@ -587,8 +583,8 @@ def save_draft(request, template_id):
         date = form.cleaned_data.get('date', datetime.today())
         request.session['date'] = date.strftime('%d-%m-%Y')
 
-        timeEvent = form.cleaned_data.get('time', datetime.today())
-        request.session['time'] = timeEvent.strftime('%H:%M')
+        time_event = form.cleaned_data.get('time', datetime.today())
+        request.session['time'] = time_event.strftime('%H:%M')
 
         request.session['place'] = form.cleaned_data.get('place', "")
 
@@ -613,6 +609,7 @@ def save_draft(request, template_id):
         return HttpResponse(status=200)
 
 
+# load_draft: TODO
 def load_draft(request):
     if request.session.get('draft', False):
         template_id = int(request.session.get('template'))
