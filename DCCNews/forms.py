@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+  # -*- coding: utf-8 -*-
 from DCCNews.models import Tag
 
 __author__ = 'milenkotomic'
@@ -31,7 +31,7 @@ class LoginForm(Form):
 
 
 class TagCreationForm(Form):
-    new_tag = forms.CharField(max_length=100,
+    new_tag = forms.CharField(max_length=11,
                               required=False,
                               widget=forms.TextInput(attrs={'class': 'form-control',
                                                             'display': 'block'}),
