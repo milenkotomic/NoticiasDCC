@@ -1,9 +1,12 @@
 <div  id="{{slide.id}}" class="main-slide" style="display: none">
-    <div class="title"><h1>{{ slide.title }}</h1></div>
-	<div style="height: 90%;">
-		<div style="width: 50%; display: inline;" class="text">{{ slide.text }}</div>
-		<div style="width: 50%; display: inline;" class="text">
-			<img src="/media/{{ slide.image }}" height="100%" width="100%">
-		</div>
-	</div>
+    <div class="titulo">
+        <h2>{{ slide.title }}</h2>
+    </div>
+    <div class="t-text-i">
+        <p>{{ slide.text }}</p>
+    </div>
+
+    <div class="t-t-img">
+        <img src="/media/{{ slide.image }}" width="100%" height="" alt=""/>
+    </div>
 </div>

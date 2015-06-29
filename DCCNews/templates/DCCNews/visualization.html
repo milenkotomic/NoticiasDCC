@@ -1,53 +1,86 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Documento sin título</title>
+    <link rel="stylesheet" href="{% static 'DCCNews/style/vstyle.css' %}" type="text/css"/>
+    <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
+</head>
 
-        <title>Noticias DCC</title>
+<body>
 
-        <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap.css' %}" />
-        <link rel="stylesheet" href="{% static 'DCCNews/style/visualization.css' %}" />
+<div id="contenedor">
 
-        <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
-        <script src="{% static 'DCCNews/js/bootstrap.min.js' %}"></script>
-
-    </head>
-    <body>
-        <!-- page container -->
-        <div class="container-fluid main-container">
-
-
-            <div class="row main">
-                <div class="col-sm-9 slide">
-                    <div class="row header">
-                        <div class="col-sm-6 slide">
-                             <img src="{% static 'DCCNews/images/dcc.png' %}" class="center-block logo">
-                        </div>
-                        <div class="col-sm-6 slide">
-                            Hora
-                        </div>
-                    </div>
-                    <div class="row content">
-                        <div class="col-sm-12 slide">
-                            {% include "DCCNews/template1.html" %}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="co-sm-3 slide">
-                    Eventos
-                </div>
+    <div id="informacion">
+        <div id="logo-tag">
+            <div id="logo">
+                <img src="{% static 'DCCNews/images/logo_vertical.png' %}" width="245" height="175" alt=""/>
             </div>
 
-            <div class="row footer">
-                <div class="col-sm-12 slide">Web y Redes Sociales</div>
+            <div class="div-tag">
+                <h1>conferencia</h1>
             </div>
 
         </div>
-    </body>
+
+        <div class="news-slides">
+            {% for current_slide in slide_list %}
+            {% with template=current_slide.template %}
+            {% include template with slide=current_slide %}
+            {% endwith %}
+            {% endfor %}
+
+        </div>
+
+        <div id="tiempo">
+            <div id="fecha">
+                <div id="numero"><h2>29</h2></div>
+                <div id="mm-yy"><h4>JUNIO 2015</h4></div>
+                <div id="hora"><h3>02:00pm</h3></div>
+            </div>
+
+            <div id="dia"><p>LUNES</p></div>
+            <div id="temperatura">
+                <div id="t-actual"><h2>12°</h2></div>
+                <div id="max-min"><h4>20/3</h4></div>
+                <div id="i-dia"><img src="par-nub.png" width="53" height="51" alt=""/></div>
+            </div>
+        </div>
+
+        <div id="redes">
+            <h4>SÍGUENOS</h4>
+            <img src="{% static 'DCCNews/images/facebook.png' %}" width="235" height="235" alt=""/>
+            <p>DCC.UdeChile</p><img src="{% static 'DCCNews/images/twitter.png' %}" width="235" height="236" alt=""/><p>@dcc.uchile  </p>
+            <p></p>
+            <p>www.dcc.uchile.cl</p>
+        </div>
+    </div>
+
+
+    <div id="eventos">
+        {% for current_event in event_list %}
+        <div class="event">
+            {% with template=current_event.template %}
+            {% include template with event=current_event %}
+            {% endwith %}
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+<script>
+        $(document).ready(function(){
+            current_slide = $(".news-slides").children().first();
+            current_slide.toggle();
+            id = current_slide.attr('id')
+            console.log(id)
+            current_tag = $("."+id).first();
+            current_tag.toggle();
+        });
+
+</script>
 </html>
 

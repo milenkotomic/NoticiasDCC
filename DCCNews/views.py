@@ -796,8 +796,8 @@ def visualize(request, template_id=None):
                 slide_list.append(p)
             else:
                 template = Template.objects.get(pk=template_id)
-                tag = form.cleaned_data['slide_type']
                 image = form.cleaned_data['img_url']
+                tag = form.cleaned_data['slide_type']
                 p = {"id":1,
                      "image": "images/"+image,
                      "template": template.view,
@@ -806,17 +806,32 @@ def visualize(request, template_id=None):
                 slide_list.append(p)
 
         elif template_id == "3":
-            form = SlideGraduation(request.POST)
+            form = SlideGraduation(request.POST, request.FILES)
             if form.is_valid():
                 template = Template.objects.get(pk=template_id)
                 title = form.cleaned_data['title']
                 subhead = form.cleaned_data['subhead']
-                text = form.cleaned_data['body']
+                image = Temp(image=request.FILES['image'])
+                image.save()
                 tag = form.cleaned_data['slide_type']
                 p = {"id": 1,
                      "title": title,
-                     "text": text,
                      "subhead": subhead,
+                     "image": image.image,
+                     "template": template.view,
+                     "tag": tag
+                     }
+                slide_list.append(p)
+            else:
+                template = Template.objects.get(pk=template_id)
+                title = form.cleaned_data['title']
+                subhead = form.cleaned_data['subhead']
+                image = form.cleaned_data['img_url']
+                tag = form.cleaned_data['slide_type']
+                p = {"id": 1,
+                     "title": title,
+                     "subhead": subhead,
+                     "image": "images/"+image,
                      "template": template.view,
                      "tag": tag
                      }
@@ -979,4 +994,4 @@ def visualize(request, template_id=None):
                      }
             event_list.append(p)
 
-    return render(request, 'DCCNews/visualization2.html', {"slide_list": slide_list, "event_list": event_list})
+    return render(request, 'DCCNews/visualization.html', {"slide_list": slide_list, "event_list": event_list})
