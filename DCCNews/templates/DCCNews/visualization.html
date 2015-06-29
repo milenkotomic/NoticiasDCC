@@ -19,7 +19,9 @@
             </div>
 
             <div class="div-tag">
-                <h1>conferencia</h1>
+                {% for current_slide in slide_list %}
+                    <h1 class="{{current_slide.id}}" style="display: none">{{ current_slide.tag }}</h1>
+                {% endfor %}
             </div>
 
         </div>
