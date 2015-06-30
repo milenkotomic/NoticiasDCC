@@ -92,7 +92,7 @@ def create_tag(request):
     new_tag = request.POST.get("new_tag", False)
     response = "Nuevo tag inválido"
     if new_tag and str(new_tag).replace(" ", "") != "":
-        if Tag.objects.all().filter(name__iexact=new_tag)[0]:
+        if Tag.objects.all().filter(name__iexact=new_tag).exists():
             response = "Tag ya existente"
         else:
             tag = Tag(name=new_tag)
