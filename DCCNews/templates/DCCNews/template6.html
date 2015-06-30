@@ -1,7 +1,7 @@
 <div class="info-i">
     <h4>{{ event.title }}</h4>
     <p>{% if event.exhibitor %}<span class="tema">Expositor:</span> {{ event.exhibitor }}{% endif %}<br/>
-        <span class="tema">Fecha:</span> {{ event.date|date:"d de F" }}<br/>
+        <span class="tema">Fecha:</span> {{ event.date|date:"d F" }}<br/>
         <span class="tema">Hora:</span> {{ event.time|time:"H:i" }}<br/>
         <span class="tema">Lugar:</span> {{ event.place }}
     </p>
