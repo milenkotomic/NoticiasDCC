@@ -6,7 +6,6 @@
     <title>Documento sin título</title>
     <link rel="stylesheet" href="{% static 'DCCNews/style/vstyle.css' %}" type="text/css"/>
     <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
-    <script src="{% static 'DCCNews/js/display.js' %}" ></script>
 </head>
 
 <body>
@@ -101,7 +100,9 @@
                         counter = 0;
                     }
                     else{
-                        index = $(".news-slides").children().index(current_new_id);
+                        current_new = document.getElementById( current_new_id );
+                        index = $(".news-slides").children().index(current_new);
+                        console.log(index);
                         if (index == -1){
                             counter = 0;
                         }
@@ -114,7 +115,8 @@
 
                 function showDiv() {
                     id = $(".news-slides").children().get(counter);
-                    id = id.id
+                    id = id.id;
+                    current_new_id = id;
 
                     $('h1','.div-tag')
                       .stop()
@@ -132,7 +134,17 @@
                 }
 
                 function updateContent() {
-
+                    $.get( "/news/update", function( data ) {
+                        news = $(data).children(".news-slides").first().prop('outerHTML');
+                        tags = $(data).children(".div-tag").first().prop('outerHTML');
+                        events = $(data).children("#eventos").first().prop('outerHTML');
+                        $(".news-slides").replaceWith(news);
+                        $(".div-tag").replaceWith(tags);
+                        $("#eventos").replaceWith(events);
+                        updateVariables();
+                        showDiv();
+                        console.log("actualizado");
+                    });
                 }
             });
         {% endif %}
