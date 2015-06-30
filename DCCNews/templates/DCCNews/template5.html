@@ -1,6 +1,6 @@
 <div class="info">
     <h4>{{ event.title }}</h4>
-    <p>{% if event.exhibitor %}Expositor: {{ event.exhibitor }}{% endif %}<br/>
+    <p>{% if event.exhibitor %}<span class="tema">Expositor:</span> {{ event.exhibitor }}{% endif %}<br/>
         Fecha: {{ event.date }}<br/>
         Hora: {{ event.time }}<br/>
         Lugar: {{ event.place }}
