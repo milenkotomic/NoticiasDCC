@@ -47,7 +47,7 @@
             <div id="temperatura">
                 <div id="t-actual"><h2></h2></div>
                 <div id="max-min"><h4></h4></div>
-                <div id="i-dia"><img src="par-nub.png" width="40px" height="40px" alt=""/></div>
+                <div id="i-dia"><img src="" width="80px" height="80px" alt=""/></div>
             </div>
         </div>
 
@@ -62,13 +62,21 @@
 
 
     <div id="eventos">
-        {% for current_event in event_list %}
-        <div class="event">
-            {% with template=current_event.template %}
-            {% include template with event=current_event %}
-            {% endwith %}
+        {% if event_list %}
+            {% for current_event in event_list %}
+            <div class="event">
+                {% with template=current_event.template %}
+                {% include template with event=current_event %}
+                {% endwith %}
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="event" style="width: 1720px">
+            <div class="info" >
+                <h3 style="text-align: center">No hay eventos</h3>
+            </div>
         </div>
-        {% endfor %}
+        {% endif %}
     </div>
 
 </div>
