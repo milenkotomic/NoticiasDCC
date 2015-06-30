@@ -16,7 +16,11 @@
     {% endif %}
     {% if cancel %}
         <div class="alert alert-warning" role="alert">Los cambios han sido descartados.</div>
-    {% endif %}
+	{% endif %} 	
+        
+    {% if failFoundBorrar %}
+    	<div class="alert alert-warning" role="alert">No se ha encontrado el contenido, por tanto no se puede borrar.</div>
+    {% endif %} 	
 
     <h1>Búsqueda de Evento</h1>
     <!-- formulario de busqueda -->
