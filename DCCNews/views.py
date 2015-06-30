@@ -545,7 +545,8 @@ def edit_event(request, publication_id):
                     'start_circulation_time': pub.init_date.strftime('%H:%M'),
                     'end_circulation': pub.end_date.strftime('%d-%m-%Y'),
                     'end_circulation_time': pub.end_date.strftime('%H:%M'),
-                    'slide_type': pub.tag_id.id}
+                    'slide_type': pub.tag_id.id,
+                    'img_url': pub.image_set.filter(number=1).first()}
 
     image_name = ""
     forms = {5: EventForm(initial_data),
