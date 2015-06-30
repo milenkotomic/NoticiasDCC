@@ -1101,7 +1101,7 @@ def update_news(request):
             p = {"title": texts.get(number=1),
                  "exhibitor": texts.get(number=2),
                  "date": texts.get(number=3),
-                 "time": texts.get(number=4),
+                 "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                  "place": texts.get(number=5),
                  "template": template.view,
                  }
@@ -1109,7 +1109,7 @@ def update_news(request):
             p = {"title": texts.get(number=1),
                  "exhibitor": texts.get(number=2),
                  "date": texts.get(number=3),
-                 "time": texts.get(number=4),
+                 "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                  "place": texts.get(number=5),
                  "image": images.first().image,
                  "template": template.view,
