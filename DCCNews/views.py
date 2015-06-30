@@ -598,12 +598,15 @@ def search_slide(request):
     empty = False
     newSearch = True
     Borrado = False
+    failFoundBorrar = False
     if request.POST and 'delete' in request.POST:
         #print("id to delete " + str(request.POST.get('delete')))
         if(Publication.objects.filter(id=request.POST.get('delete')).exists()):
              toDelete = Publication.objects.get(id=request.POST.get('delete'))
              toDelete.delete()
              Borrado = True
+        else:
+            failFoundBorrar = True
         
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     # if this is a POST request we need to process the form data
@@ -662,7 +665,7 @@ def search_slide(request):
         cancel = True
 
     return render(request, 'DCCNews/template_search.html',
-                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel, "Borrado": Borrado})
+                  {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel, "Borrado": Borrado, "failFoundBorrar":failFoundBorrar})
 
 
 # Busca una evento: Dado un formulario busca todos os eventos
