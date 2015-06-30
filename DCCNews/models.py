@@ -55,9 +55,19 @@ class Image(models.Model):
     def __unicode__(self):
         return os.path.basename(self.image.name)
 
+    def save(self, *args, **kwargs):
+        if self.image:
+            self.image.name = self.image.name.encode('ascii', 'ignore')
+        super(Image, self).save(*args, **kwargs)
+
 
 class Temp(models.Model):
     image = models.ImageField(upload_to='temp')
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            self.image.name = self.image.name.encode('ascii', 'ignore')
+        super(Temp, self).save(*args, **kwargs)
 
 class Text(models.Model):
     text = models.TextField()
