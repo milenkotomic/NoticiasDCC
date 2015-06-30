@@ -1,10 +1,15 @@
 @charset "utf-8";
 /* CSS Document */
 
+@font-face {
+	font-family: Gisha;
+	src: url(../fonts/GISHA.TTF);
+}
+
 body{
 	background-image: url(../images/blue1.jpg);
 	font-size: 16px;
-	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Gisha;
 	color: rgba(0,0,0,1.00);
 	background-attachment:fixed;
 	background-repeat: no-repeat;
