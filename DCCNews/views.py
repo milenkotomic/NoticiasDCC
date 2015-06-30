@@ -90,12 +90,19 @@ def select_template(request):
 # create_tag: TODO
 def create_tag(request):
     new_tag = request.POST.get("new_tag", False)
+    response = "Nuevo tag inválido"
     if new_tag and str(new_tag).replace(" ", "") != "":
-        tag = Tag(name=new_tag)
-        tag.save()
+        if Tag.objects.all().filter(name__iexact=new_tag)[0]:
+            response = "Tag ya existente"
+        else:
+            tag = Tag(name=new_tag)
+            tag.save()
+            response = "Tag agregado exitosamente"
 
     form = PublicationForm()
-    return render_to_response("DCCNews/tags.html", {"form": form})
+    data = {'text': response,
+            'tags': render_to_response("DCCNews/tags.html", {"form": form}).content}
+    return JsonResponse(data)
 
 # delete_tag: TODO
 def delete_tag(request):

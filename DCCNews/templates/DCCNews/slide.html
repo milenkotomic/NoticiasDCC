@@ -14,11 +14,12 @@
     <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
     <script>
         function createTagSuccess(result) {
-            var tagSelect = JSON.parse(JSON.stringify(result));
+            var tagSelect = JSON.parse(JSON.stringify(result.tags));
+            var text = JSON.parse(JSON.stringify(result.text));
             $("#tags").empty();
             $("#tags").html(tagSelect);
             $("#new_tag").hide();
-            alert("Tag agregado exitosamente");
+            alert(text);
         }
 
         function deleteTagSuccess(result) {
