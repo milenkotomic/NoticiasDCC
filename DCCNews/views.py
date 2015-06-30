@@ -926,8 +926,8 @@ def visualize(request, template_id=None):
                 place = form.cleaned_data['place']
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": datetime.strptime(date, "%Y-%m-%d"),
-                     "time": datetime.strptime(time, "%H:%M:%S"),
+                     "date": date,
+                     "time": time,
                      "place": place,
                      "template": template.view,
                      }
@@ -946,8 +946,8 @@ def visualize(request, template_id=None):
                 image.save()
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": datetime.strptime(date, "%Y-%m-%d"),
-                     "time": datetime.strptime(time, "%H:%M:%S"),
+                     "date": date,
+                     "time": time,
                      "place": place,
                      "image": image.image,
                      "template": template.view,
@@ -963,8 +963,8 @@ def visualize(request, template_id=None):
                 image = form.cleaned_data['img_url']
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": datetime.strptime(date, "%Y-%m-%d"),
-                     "time": datetime.strptime(time, "%H:%M:%S"),
+                     "date": date,
+                     "time": time,
                      "place": place,
                      "image": "images/"+image,
                      "template": template.view,
