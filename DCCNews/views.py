@@ -19,19 +19,19 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # resize_image: recibe un objeto Image del modelo de la aplicación y una tupla
 # con el tamaño a redimensionar.
-def resize_image(django_image, size):
-    pil_image = PILImage.open(django_image.image)
-    pil_image.thumbnail(size, PILImage.ANTIALIAS)
-    name = django_image.image.name
-    django_image.image.delete()
-
-    f = StringIO()
-    try:
-        pil_image.save(f, format='png')
-        s = f.getvalue()
-        django_image.image.save(name, ContentFile(s))
-    finally:
-        f.close()
+# def resize_image(django_image, size):
+#     pil_image = PILImage.open(django_image.image)
+#     pil_image.thumbnail(size, PILImage.ANTIALIAS)
+#     name = django_image.image.name
+#     django_image.image.delete()
+#
+#     f = StringIO()
+#     try:
+#         pil_image.save(f, format='png')
+#         s = f.getvalue()
+#         django_image.image.save(name, ContentFile(s))
+#     finally:
+#         f.close()
 
 
 # login_view: a partir del request que cuenta con los datos del form
@@ -174,12 +174,12 @@ def new_slide(request, template_id):
                               number=1,
                               publication_id=pub)
                 image.save()
-                size_images = {2: (900, 490),
-                               3: (900, 400),
-                               4: (350, 400)}
+                #size_images = {2: (900, 490),
+                #               3: (900, 400),
+                #               4: (350, 400)}
 
-                size = size_images.get(int(template_id))
-                resize_image(image, size)
+                #size = size_images.get(int(template_id))
+                #resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
@@ -286,12 +286,12 @@ def edit_slide(request, publication_id):
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
-                size_images = {2: (900, 490),
-                               3: (900, 400),
-                               4: (350, 400)}
+                #size_images = {2: (900, 490),
+                #               3: (900, 400),
+                #               4: (350, 400)}
 
-                size = size_images.get(pub.template_id.id)
-                resize_image(image, size)
+                #size = size_images.get(pub.template_id.id)
+                #resize_image(image, size)
 
             tag_form = TagCreationForm()
             image_name = pub.image_set.filter(number=1).first()
@@ -398,10 +398,10 @@ def new_event(request, template_id):
                               number=1,
                               publication_id=pub)
                 image.save()
-                size_images = {6: (170, 170)}
+                #size_images = {6: (170, 170)}
 
-                size = size_images.get(int(template_id))
-                resize_image(image, size)
+                #size = size_images.get(int(template_id))
+                #resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
@@ -512,10 +512,10 @@ def edit_event(request, publication_id):
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
-                size_images = {6: (170, 170)}
+                #size_images = {6: (170, 170)}
 
-                size = size_images.get(pub.template_id.id)
-                resize_image(image, size)
+                #size = size_images.get(pub.template_id.id)
+                #resize_image(image, size)
 
             image_name = pub.image_set.filter(number=1).first()
 
