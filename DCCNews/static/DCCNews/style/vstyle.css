@@ -361,6 +361,10 @@ img{
 	margin: 40px auto;
 }
 
+.info h4{
+	font-size: 1.35em; 
+}
+
 .info-i {
 	width:250px;
 	height:auto;
