@@ -53,8 +53,8 @@
 
         <div id="redes">
             <h4>SÍGUENOS</h4>
-            <img src="{% static 'DCCNews/images/facebook.png' %}" width="235" height="235" alt=""/>
-            <p>DCC.UdeChile</p><img src="{% static 'DCCNews/images/twitter.png' %}" width="235" height="236" alt=""/><p>@dcc.uchile  </p>
+            <img src="{% static 'DCCNews/images/facebook.png' %}" width="235" height="235" alt=""/><p class="facebook">DCC.UdeChile</p>
+			<img src="{% static 'DCCNews/images/twitter.png' %}" width="235" height="236" alt=""/><p class="twitter">@dcc.uchile  </p>
             <h3>www.dcc.uchile.cl</h3>
 
         </div>
@@ -142,7 +142,15 @@
                     id = id.id;
                     current_new_id = id;
 
-                    $('h1','.div-tag')
+                    
+                    counter == length? counter = 0 : counter++;
+                    step++;
+
+                    if(step == 4){
+                        step = 0;
+                        updateContent();
+                    }else{
+						$('h1','.div-tag')
                       .stop()
                       .hide()
 
@@ -154,13 +162,7 @@
                       .filter( function() { return this.id.match(id); })
                       .fadeIn(1000);
 
-                    counter == length? counter = 0 : counter++;
-                    step++;
-
-                    if(step == 4){
-                        step = 0;
-                        updateContent();
-                    }
+					}
                 }
 
                 function updateContent() {
