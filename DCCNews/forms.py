@@ -109,7 +109,7 @@ class PublicationForm(Form):
 
 
 class SlideText(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
@@ -123,7 +123,7 @@ class SlideText(PublicationForm):
 
 
 class SlideImage(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
@@ -134,7 +134,7 @@ class SlideImage(PublicationForm):
 
 
 class SlideGraduation(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
@@ -150,7 +150,7 @@ class SlideGraduation(PublicationForm):
 
 
 class SlideImageText(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
