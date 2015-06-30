@@ -1,27 +1,36 @@
 <div>
-<div class="news-slides">
-    {% for current_slide in slide_list %}
-    {% with template=current_slide.template %}
-    {% include template with slide=current_slide %}
-    {% endwith %}
-    {% endfor %}
-</div>
-
-<div class="div-tag">
-    {% for current_slide in slide_list %}
-    <h1 class="{{current_slide.id}}" style="display: none">
-        {{ current_slide.tag }}
-    </h1>
-    {% endfor %}
-</div>
-
-<div id="eventos">
-    {% for current_event in event_list %}
-    <div class="event">
-        {% with template=current_event.template %}
-        {% include template with event=current_event %}
+    <div class="news-slides">
+        {% for current_slide in slide_list %}
+        {% with template=current_slide.template %}
+        {% include template with slide=current_slide %}
         {% endwith %}
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+
+    <div class="div-tag">
+        {% for current_slide in slide_list %}
+        <h1 class="{{current_slide.id}}" style="display: none">
+            {{ current_slide.tag }}
+        </h1>
+        {% endfor %}
+    </div>
+
+
+    <div id="eventos">
+        {% if event_list %}
+        {% for current_event in event_list %}
+        <div class="event">
+            {% with template=current_event.template %}
+            {% include template with event=current_event %}
+            {% endwith %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="event" style="width: 1720px">
+            <div class="info no-event" >
+                <h3 style="text-align: center">No hay eventos</h3>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
