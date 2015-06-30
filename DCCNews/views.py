@@ -926,7 +926,7 @@ def visualize(request, template_id=None):
                 place = form.cleaned_data['place']
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": date,
+                     "date": datetime.strptime(date, "%Y-%m-%d"),
                      "time": datetime.strptime(time, "%H:%M:%S"),
                      "place": place,
                      "template": template.view,
@@ -946,7 +946,7 @@ def visualize(request, template_id=None):
                 image.save()
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": date,
+                     "date": datetime.strptime(date, "%Y-%m-%d"),
                      "time": datetime.strptime(time, "%H:%M:%S"),
                      "place": place,
                      "image": image.image,
@@ -963,7 +963,7 @@ def visualize(request, template_id=None):
                 image = form.cleaned_data['img_url']
                 p = {"title": title,
                      "exhibitor": exhibitor,
-                     "date": date,
+                     "date": datetime.strptime(date, "%Y-%m-%d"),
                      "time": datetime.strptime(time, "%H:%M:%S"),
                      "place": place,
                      "image": "images/"+image,
@@ -1025,7 +1025,7 @@ def visualize(request, template_id=None):
             if template.name == "Evento":
                 p = {"title": texts.get(number=1),
                      "exhibitor": texts.get(number=2),
-                     "date": texts.get(number=3),
+                     "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                      "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                      "place": texts.get(number=5),
                      "template": template.view,
@@ -1033,7 +1033,7 @@ def visualize(request, template_id=None):
             elif template.name == "EventoImagen":
                 p = {"title": texts.get(number=1),
                      "exhibitor": texts.get(number=2),
-                     "date": texts.get(number=3),
+                     "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                      "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                      "place": texts.get(number=5),
                      "image": images.first().image,
