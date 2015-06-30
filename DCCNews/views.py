@@ -803,10 +803,14 @@ def search_event(request):
     return render(request, 'DCCNews/template_search_evento.html',
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, 'cancel': cancel, "Borrado": Borrado})
 
-
+# visualize: LLama a la visualizacion y previsualización. Esto depende si el llamado se hace con get o con post
+# Si se llama con post, se recibe una serie de parametros que hace conforman una noticia o un evento y lo muestra
+# Si se llama con get, se filtran todas las noticias y eventos que deben mostrarse y se muestra el display haciendo
+# un loop sobre las noticias
 def visualize(request, template_id=None):
     event_list = []
     slide_list = []
+    preview = True
     if request.POST:
         if template_id == "1":
             form = SlideText(request.POST)
@@ -968,6 +972,7 @@ def visualize(request, template_id=None):
                 event_list.append(p)
 
     else:
+        preview = False
         slides = Publication.objects.order_by('-creation_date')\
             .filter(type_id__name__icontains="slide")\
             .filter(init_date__lte=datetime.today())\
@@ -1036,4 +1041,79 @@ def visualize(request, template_id=None):
                      }
             event_list.append(p)
 
-    return render(request, 'DCCNews/visualization.html', {"slide_list": slide_list, "event_list": event_list})
+    return render(request, 'DCCNews/visualization.html', {"slide_list": slide_list, "event_list": event_list, "preview":preview})
+
+# update_news: practicamente lo mismo que visualize, pero usado para la petición ajax que se usa para actualizar
+# las lista de noticias y de eventos
+def update_news(request):
+    event_list = []
+    slide_list = []
+    slides = Publication.objects.order_by('-creation_date') \
+        .filter(type_id__name__icontains="slide") \
+        .filter(init_date__lte=datetime.today()) \
+        .filter(end_date__gte=datetime.today())
+    events = Publication.objects.order_by('-end_date') \
+                 .filter(type_id__name__icontains="event") \
+                 .filter(init_date__lte=datetime.today()) \
+                 .filter(end_date__gte=datetime.today())[:3]
+    for slide in slides:
+        texts = slide.text_set.all()
+        images = slide.image_set.all()
+        template = slide.template_id
+        tag = slide.tag_id
+        p = {}
+        if template.name == "Noticias":
+            p = {"id": slide.id,
+                 "title": texts.get(number=1),
+                 "text": texts.get(number=4),
+                 "template": template.view,
+                 "tag": tag.name,
+                 }
+        elif template.name == "Afiche":
+            p = {"id": slide.id,
+                 "image": images.first().image,
+                 "template": template.view,
+                 "tag": tag.name,
+                 }
+        elif template.name == "Titulaciones":
+            p = {"id": slide.id,
+                 "title": texts.get(number=1),
+                 "subhead": texts.get(number = 3),
+                 "text": texts.get(number=4),
+                 "template": template.view,
+                 "tag": tag.name,
+                 }
+        elif template.name == "NoticiaImagen":
+            p = {"id": slide.id,
+                 "title": texts.get(number=1),
+                 "text": texts.get(number=4),
+                 "image": images.first().image,
+                 "template": template.view,
+                 "tag": tag.name,
+                 }
+        slide_list.append(p)
+
+    for event in events:
+        texts = event.text_set.all()
+        images = event.image_set.all()
+        template = event.template_id
+        if template.name == "Evento":
+            p = {"title": texts.get(number=1),
+                 "exhibitor": texts.get(number=2),
+                 "date": texts.get(number=3),
+                 "time": texts.get(number=4),
+                 "place": texts.get(number=5),
+                 "template": template.view,
+                 }
+        elif template.name == "EventoImagen":
+            p = {"title": texts.get(number=1),
+                 "exhibitor": texts.get(number=2),
+                 "date": texts.get(number=3),
+                 "time": texts.get(number=4),
+                 "place": texts.get(number=5),
+                 "image": images.first().image,
+                 "template": template.view,
+                 }
+        event_list.append(p)
+
+    return render(request, 'DCCNews/news.html', {"slide_list": slide_list, "event_list": event_list})

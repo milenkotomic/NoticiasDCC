@@ -6,6 +6,7 @@
     <title>Documento sin título</title>
     <link rel="stylesheet" href="{% static 'DCCNews/style/vstyle.css' %}" type="text/css"/>
     <script src="{% static 'DCCNews/js/jquery.min.js' %}" ></script>
+    <script src="{% static 'DCCNews/js/display.js' %}" ></script>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 
             <div class="div-tag">
                 {% for current_slide in slide_list %}
-                <h1 class="{{current_slide.id}}" style="display: none">
+                <h1 class="{{current_slide.id}} tag" style="display: none">
                     {{ current_slide.tag }}
                 </h1>
                 {% endfor %}
@@ -34,7 +35,6 @@
             {% include template with slide=current_slide %}
             {% endwith %}
             {% endfor %}
-
         </div>
 
         <div id="tiempo">
@@ -56,7 +56,7 @@
             <h4>SÍGUENOS</h4>
             <img src="{% static 'DCCNews/images/facebook.png' %}" width="235" height="235" alt=""/>
             <p>DCC.UdeChile</p><img src="{% static 'DCCNews/images/twitter.png' %}" width="235" height="236" alt=""/><p>@dcc.uchile  </p>
-            <h3>www.dcc.uchile.cl<h3>
+            <h3>www.dcc.uchile.cl</h3>
 
         </div>
     </div>
@@ -76,14 +76,66 @@
 
 </body>
 <script>
-        $(document).ready(function(){
-            current_slide = $(".news-slides").children().first();
-            current_slide.toggle();
-            id = current_slide.attr('id')
-            console.log(id)
-            current_tag = $("."+id).first();
-            current_tag.toggle();
-        });
+
+        {% if preview %}
+            $(document).ready(function(){
+                current_slide = $(".news-slides").children().first();
+                current_slide.toggle();
+                id = current_slide.attr('id');
+                current_tag = $("."+id).first();
+                current_tag.toggle();
+            });
+        {% else %}
+            current_new_id = 0;
+            $(document).ready(function(){
+                var loop = setInterval( showDiv, 10000);
+                var refresh = setInterval( updateContent, 60000);
+
+                counter = 0;
+                length = $(".news-slides").children().length -1;
+
+                showDiv();
+
+                function updateVariables(){
+                    if(current_new_id == 0){
+                        counter = 0;
+                    }
+                    else{
+                        index = $(".news-slides").children().index(current_new_id);
+                        if (index == -1){
+                            counter = 0;
+                        }
+                        else{
+                            counter = index;
+                        }
+                    }
+                    length = $(".news-slides").children().length -1;
+                }
+
+                function showDiv() {
+                    id = $(".news-slides").children().get(counter);
+                    id = id.id
+
+                    $('h1','.div-tag')
+                      .stop()
+                      .hide()
+
+                    $("."+id).first().fadeIn(1000);
+
+                    $('.new','.news-slides')
+                      .stop()
+                      .hide()
+                      .filter( function() { return this.id.match(id); })
+                      .fadeIn(1000);
+
+                    counter == length? counter = 0 : counter++;
+                }
+
+                function updateContent() {
+
+                }
+            });
+        {% endif %}
 
 </script>
 </html>
