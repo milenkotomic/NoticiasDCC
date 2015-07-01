@@ -46,7 +46,7 @@
             <div id="dia"><p style="text-align:center"></p></div>
             <div id="temperatura">
                 <div id="t-actual"><h2></h2></div>
-                <div id="max-min"><h4></h4></div>
+                <!--<div id="max-min"><h4></h4></div>-->
                 <div id="i-dia"><img src="" width="80px" height="80px" alt=""/></div>
             </div>
         </div>
@@ -211,7 +211,7 @@
                         min_temp = Math.round(data["main"]["temp_min"]);
                         icon = data["weather"][0]["icon"];
                         $("#t-actual").children().first().text(temp+"°");
-                        $("#max-min").children().first().text(min_temp+"°/"+max_temp+"°");
+                        //$("#max-min").children().first().text(min_temp+"°/"+max_temp+"°");
                         $("#i-dia").children().first().attr("src","http://openweathermap.org/img/w/"+icon+".png");
                     });
                 }
