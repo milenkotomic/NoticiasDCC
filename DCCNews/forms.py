@@ -114,7 +114,7 @@ class SlideText(PublicationForm):
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(max_length=1000,
+    body = forms.CharField(max_length=300,
                            required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
@@ -139,7 +139,7 @@ class SlideGraduation(PublicationForm):
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    subhead = forms.CharField(max_length=100,
+    subhead = forms.CharField(max_length=70,
                               required=True,
                               widget=forms.TextInput(attrs={'class': 'form-control'}),
                               label='Bajada de Título')
@@ -155,7 +155,7 @@ class SlideImageText(PublicationForm):
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(max_length=1000,
+    body = forms.CharField(max_length=240,
                            required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
@@ -168,12 +168,12 @@ class SlideImageText(PublicationForm):
 
 
 class EventForm(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(max_length=60,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    exhibitor = forms.CharField(max_length=100,
+    exhibitor = forms.CharField(max_length=40,
                                 required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Expositor')
@@ -192,7 +192,7 @@ class EventForm(PublicationForm):
                            label='Hora',
                            input_formats=['%H:%M'])
 
-    place = forms.CharField(max_length=100,
+    place = forms.CharField(max_length=40,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Lugar')
