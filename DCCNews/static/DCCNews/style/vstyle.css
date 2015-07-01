@@ -102,7 +102,6 @@ img{
 	height: 440px;
 	word-wrap: break-word;
 	text-align: center;
-	border-right: thin solid rgba(0,0,0,1);
 	padding-right: 30px;
 	margin: 230px auto auto auto;
 }
