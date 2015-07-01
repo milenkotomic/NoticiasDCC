@@ -6,12 +6,14 @@
     <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
     <script src="{% static 'DCCNews/js/es.js' %}"></script>
     <link rel="stylesheet" href="{% static 'DCCNews/style/bootstrap-datetimepicker.css' %}" />
-    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
-    <script src="{% static 'DCCNews/js/counter.js' %}"></script>
     <script src="{% static 'DCCNews/js/utilities.js' %}"></script>
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
     <script src="{% static 'DCCNews/js/tag_administration.js' %}"></script>
     <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
+    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
+    <script src="{% static 'DCCNews/js/counter.js' %}"></script>
+	<script src="{% static 'DCCNews/js/tinymce/js/tinymce/tinymce.js' %}"></script>
+	<script src="{% static 'DCCNews/js/initTextEn.js' %}"></script>
     <script>
         function createTagSuccess(result) {
             var tagSelect = JSON.parse(JSON.stringify(result.tags));
@@ -51,6 +53,8 @@
 
         {% if new %}
         window.setInterval( function() {
+        	for (edId in tinyMCE.editors)
+        	    tinyMCE.editors[edId].save();
             saveDraft({{ template }})
         }, 5000);
         {% endif %}

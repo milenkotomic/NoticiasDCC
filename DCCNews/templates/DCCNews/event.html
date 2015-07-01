@@ -11,9 +11,13 @@
     <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
     <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
     <script src="{% static 'DCCNews/js/counter.js' %}"></script>
-    {% if new %}
+	<script src="{% static 'DCCNews/js/tinymce/js/tinymce/tinymce.js' %}"></script>
+	<script src="{% static 'DCCNews/js/initTextEn.js' %}"></script>
+	{% if new %}				
     <script>
         window.setInterval( function() {
+			for (edId in tinyMCE.editors)
+        	    tinyMCE.editors[edId].save();
             saveDraft({{ template }})
         }, 5000);
     </script>

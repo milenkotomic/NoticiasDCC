@@ -1,4 +1,4 @@
-  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from DCCNews.models import Tag
 
 __author__ = 'milenkotomic'
@@ -109,12 +109,12 @@ class PublicationForm(Form):
 
 
 class SlideText(PublicationForm):
-    title = forms.CharField(max_length=65,
+    title = forms.CharField(#max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(max_length=1000,
+    body = forms.CharField(#max_length=1000,
                            required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
@@ -123,7 +123,7 @@ class SlideText(PublicationForm):
 
 
 class SlideImage(PublicationForm):
-    title = forms.CharField(max_length=65,
+    title = forms.CharField(#max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
@@ -134,12 +134,12 @@ class SlideImage(PublicationForm):
 
 
 class SlideGraduation(PublicationForm):
-    title = forms.CharField(max_length=65,
+    title = forms.CharField(#max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    subhead = forms.CharField(max_length=100,
+    subhead = forms.CharField(#max_length=100,
                               required=True,
                               widget=forms.TextInput(attrs={'class': 'form-control'}),
                               label='Bajada de Título')
@@ -150,12 +150,12 @@ class SlideGraduation(PublicationForm):
 
 
 class SlideImageText(PublicationForm):
-    title = forms.CharField(max_length=65,
+    title = forms.CharField(#max_length=65,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
 
-    body = forms.CharField(max_length=1000,
+    body = forms.CharField(#max_length=1000,
                            required=True,
                            widget=forms.Textarea(attrs={'class': 'form-control',
                                                         'rows': 4,
@@ -168,7 +168,7 @@ class SlideImageText(PublicationForm):
 
 
 class EventForm(PublicationForm):
-    title = forms.CharField(max_length=100,
+    title = forms.CharField(#max_length=100,
                             required=True,
                             widget=forms.TextInput(attrs={'class': 'form-control'}),
                             label='Título')
