@@ -98,15 +98,12 @@ img{
 }
 
 .div-tag{
-	/*width: 25px;
-	height: 440px;
-	word-wrap: break-word;
-	text-align: center;
-	padding-right: 30px;
-	margin: 230px auto auto auto;*/
-	position:relative;
-	text-transform: uppercase;
-	  height: 60%;
+text-transform: uppercase;
+height: 60%;
+position: relative;
+width: 100%;
+right: 50%;
+text-align: center;
 }
 
 .news-slides{
@@ -408,9 +405,11 @@ img{
 }
 
 .p-tag{
-  transform-origin: center center;
-  transform: rotate(270deg);
-  text-align: center;
-  font-size: 100%;
-  margin-top: 60%;
+margin-top: 60%;
+font-size: 400%;
+transform-origin: center center 0px;
+text-align: center;
+display: inline-block;
+transform: rotate(270deg);
+margin-right: -100%;
 }
