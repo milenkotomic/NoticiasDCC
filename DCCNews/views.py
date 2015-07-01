@@ -1025,7 +1025,7 @@ def visualize(request, template_id=None):
             template = event.template_id
             if template.name == "Evento":
                 p = {"title": texts.get(number=1),
-                     "exhibitor": texts.get(number=2),
+                     "exhibitor": texts.get(number=2, False),
                      "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                      "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                      "place": texts.get(number=5),
@@ -1033,7 +1033,7 @@ def visualize(request, template_id=None):
                      }
             elif template.name == "EventoImagen":
                 p = {"title": texts.get(number=1),
-                     "exhibitor": texts.get(number=2),
+                     "exhibitor": texts.get(number=2, False),
                      "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                      "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                      "place": texts.get(number=5),
