@@ -373,10 +373,11 @@ def new_event(request, template_id):
                         publication_id=pub)
             text.save()
 
-            text = Text(text=form.cleaned_data['exhibitor'],
-                        number=2,
-                        publication_id=pub)
-            text.save()
+            if form.cleaned_data.get('exhibitor'):
+                text = Text(text=form.cleaned_data['exhibitor'],
+                            number=2,
+                            publication_id=pub)
+                text.save()
 
             text = Text(text=form.cleaned_data['date'],
                         number=3,
