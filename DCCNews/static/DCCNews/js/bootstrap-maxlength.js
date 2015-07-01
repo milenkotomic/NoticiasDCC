@@ -492,7 +492,6 @@
           if (options.placement === 'bottom-right-inside' || options.placement === 'top-right-inside') {
             place(currentInput, maxLengthIndicator);
           }
-
           return output;
         });
       });
