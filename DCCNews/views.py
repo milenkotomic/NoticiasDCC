@@ -1006,7 +1006,7 @@ def visualize(request, template_id=None):
                 p = {"id": slide.id,
                      "title": texts.get(number=1),
                      "subhead": texts.get(number = 3),
-                     "text": texts.get(number=4),
+                     "image": images.first().image,
                      "template": template.view,
                      "tag": tag.name,
                      }
@@ -1081,7 +1081,7 @@ def update_news(request):
             p = {"id": slide.id,
                  "title": texts.get(number=1),
                  "subhead": texts.get(number = 3),
-                 "text": texts.get(number=4),
+                 "image": images.first().image,
                  "template": template.view,
                  "tag": tag.name,
                  }
@@ -1101,7 +1101,7 @@ def update_news(request):
         template = event.template_id
         if template.name == "Evento":
             p = {"title": texts.get(number=1),
-                 "exhibitor": texts.get(number=2),
+                 "exhibitor": texts.filter(number=2).first(),
                  "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                  "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                  "place": texts.get(number=5),
@@ -1109,7 +1109,7 @@ def update_news(request):
                  }
         elif template.name == "EventoImagen":
             p = {"title": texts.get(number=1),
-                 "exhibitor": texts.get(number=2),
+                 "exhibitor": texts.filter(number=2).first(),
                  "date": datetime.strptime(str(texts.get(number=3)), "%Y-%m-%d"),
                  "time": datetime.strptime(str(texts.get(number=4)), "%H:%M:%S"),
                  "place": texts.get(number=5),
