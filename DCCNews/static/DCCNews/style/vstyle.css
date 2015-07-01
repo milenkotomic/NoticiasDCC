@@ -363,6 +363,12 @@ img{
 	font-size:1.2em;
 }
 
+.no-event{
+    position: relative;
+    top: 30%;
+    transform: translateY(-50%);
+}
+
 .info{
 	width:460px;
 	height:auto;
