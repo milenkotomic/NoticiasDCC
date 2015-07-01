@@ -176,10 +176,10 @@
                 function updateContent() {
                     $.get( "/news/update", function( data ) {
                         news = $(data).children(".news-slides").first().prop('outerHTML');
-                        tags = $(data).children(".p-tag").first().prop('outerHTML');
+                        tags = $(data).children(".div-tag").first().prop('outerHTML');
                         events = $(data).children("#eventos").first().prop('outerHTML');
                         $(".news-slides").replaceWith(news);
-                        $(".p-tag").replaceWith(tags);
+                        $(".div-tag").replaceWith(tags);
                         $("#eventos").replaceWith(events);
                         updateVariables();
                         showDiv();
