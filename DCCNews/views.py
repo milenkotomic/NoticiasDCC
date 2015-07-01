@@ -984,7 +984,7 @@ def visualize(request, template_id=None):
             .filter(type_id__name__icontains="slide")\
             .filter(init_date__lte=datetime.today())\
             .filter(end_date__gte=datetime.today())
-        events = Publication.objects.order_by('-end_date')\
+        events = Publication.objects.order_by('end_date')\
             .filter(type_id__name__icontains="event")\
             .filter(init_date__lte=datetime.today())\
             .filter(end_date__gte=datetime.today())[:3]
@@ -1059,7 +1059,7 @@ def update_news(request):
         .filter(type_id__name__icontains="slide") \
         .filter(init_date__lte=datetime.today()) \
         .filter(end_date__gte=datetime.today())
-    events = Publication.objects.order_by('-end_date') \
+    events = Publication.objects.order_by('end_date') \
                  .filter(type_id__name__icontains="event") \
                  .filter(init_date__lte=datetime.today()) \
                  .filter(end_date__gte=datetime.today())[:3]
