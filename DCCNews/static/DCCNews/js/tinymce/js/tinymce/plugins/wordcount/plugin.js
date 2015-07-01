@@ -63,7 +63,7 @@ tinymce.PluginManager.add('wordcount', function(editor) {
 			 "id_exhibitor" : 100,
 			 "place" : 100
 			};
-		console.log("init");
+		//console.log("init");
 		var tx = editor.getContent();
 		var element = editor.getElement();
 		//var max = element.maxLength;
