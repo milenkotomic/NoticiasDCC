@@ -14,8 +14,6 @@
 	{% if new %}				
     <script>
         window.setInterval( function() {
-			for (edId in tinyMCE.editors)
-        	    tinyMCE.editors[edId].save();
             saveDraft({{ template }})
         }, 5000);
     </script>
