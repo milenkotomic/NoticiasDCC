@@ -9,9 +9,9 @@
 
     <div class="div-tag">
         {% for current_slide in slide_list %}
-        <p class="{{current_slide.id}} p-tag" style="display: none">
+        <h1 class="{{current_slide.id}}" style="display: none">
             {{ current_slide.tag }}
-        </p>
+        </h1>
         {% endfor %}
     </div>
 
