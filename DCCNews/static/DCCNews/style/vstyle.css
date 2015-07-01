@@ -98,7 +98,7 @@ img{
 }
 
 .div-tag{
-	width: 30px;
+	width: 25px;
 	height: 440px;
 	word-wrap: break-word;
 	text-align: center;
@@ -207,7 +207,7 @@ img{
 }
 
 #tiempo h4{
-	font-size:1.3em;
+	font-size:1.5em;
 	font-weight:bold;
 }
 
@@ -329,7 +329,7 @@ img{
 	width:100px;
 	height: 35px;
 	float:left;
-	font-size: 1.4em;
+	font-size: 1.5em;
 	font-weight: bold;
 	text-align: left;
 	margin: 10px 10px;
@@ -378,8 +378,8 @@ img{
 }
 
 .info h4{
-	font-size: 1.4em; 
-	font-weight: bold;
+	font-size: 1.4em;
+	font-weight: bold; 
 }
 
 .info-i {
@@ -391,7 +391,7 @@ img{
 
 .info-i h4{
 	font-size: 1.4em;
-	font-weight: bold;
+	font-weight: bold; 
 }
 
 .i-img {
