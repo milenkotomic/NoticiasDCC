@@ -19,8 +19,8 @@ urlpatterns = patterns('',
                        url(r'^loaddraft/', views.load_draft, name='load_draft'),
 
                        url(r'^$', views.index, name='index'),
-                       url(r'^search/slide/', views.search_slide, name='search_slide'),
-                       url(r'^search/event/', views.search_event, name='search_event'),
+                       url(r'^search/slide/', views.search_slide, name='search_slide'),#pagina de busqueda de diapositivas
+                       url(r'^search/event/', views.search_event, name='search_event'),#pagina de busqueda de eventos
                        url(r'^visualize/(?P<template_id>\d+)', views.visualize, name='visualize_content'),
                        url(r'^update/', views.update_news, name='update_content'),
                        )

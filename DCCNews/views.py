@@ -645,21 +645,26 @@ def load_draft(request):
 # 
 @login_required
 def search_slide(request):
+    #crea las variables
     max = 15
     toShow = []
     empty = False
     newSearch = True
     Borrado = False
     failFoundBorrar = False
+    
     if request.POST and 'delete' in request.POST:
-        #print("id to delete " + str(request.POST.get('delete')))
+        # Si se pidio borrar se busca el evento en la base de datos
         if(Publication.objects.filter(id=request.POST.get('delete')).exists()):
+             # si existe se borra
              toDelete = Publication.objects.get(id=request.POST.get('delete'))
              toDelete.delete()
              Borrado = True
         else:
+            #Si no existe se envia un mensaje de error
             failFoundBorrar = True
-
+    
+    #Prepara la consulta a la base de datos
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="slide")
     # if this is a POST request we need to process the form data
     if request.POST:
@@ -669,19 +674,23 @@ def search_slide(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             if form.cleaned_data.get('titulo'):
+                # si tiene titulo, busca por el titulo
                 newSearch = False
                 titulo = form.cleaned_data['titulo']
                 Pubs = Pubs.filter(text__number__exact=1, text__text__icontains=titulo)
             # print(slide_type)
             if form.cleaned_data.get('slide_type'):
+                # si tiene tipo de diapositiva, busca por el tipo de diapositiva
                 newSearch = False
                 slide_type = form.cleaned_data['slide_type']
                 Pubs = Pubs.filter(tag_id__name__icontains=slide_type)
+    # Notar que la busqueda se hace por cada input uno sobre el otro
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SearchSlide()
         newSearch = True
-        # Pubs = Pubs.distinct()
+        # si es una busqueda nueva, crea el formulario
+
     # --- busqueda
     for pub in Pubs:
         #    print(pub)
@@ -701,6 +710,7 @@ def search_slide(request):
 
     paginator = Paginator(toShow, max)
     toShowl = paginator.page(1)
+    #Si el "boton" que se apreto era de cambio de pagina, se guarda el numero y se cambia de pagina
     if request.POST and 'p' in request.POST:
         page = request.POST.get('p')
         try:
@@ -720,30 +730,36 @@ def search_slide(request):
                   {"toShowl": toShowl, "form": form, "empty": empty, "newSearch": newSearch, "cancel": cancel, "Borrado": Borrado, "failFoundBorrar":failFoundBorrar})
 
 
-# Busca una evento: Dado un formulario busca todos os eventos
+# Busca una evento: Dado un formulario busca todos los eventos
 # en la base de datos que cumplan con las condiciones, puede recibir 
-# a traves de un formulario el titulo y el tipo de la diapositiva
+# a traves de un formulario el titulo o el expositor o la fecha
 # a demas controla a traves del mismo formulario si se va a borrar un
 # elemnto, se uso un boton de submit para borrar, para no perder los datos
 # de la busqueda, se uso la misma idea para el paginator
 # 
 @login_required
 def search_event(request):
+    #crea las variables
     max = 15
     toShow = []
+    cancel = False
     empty = False
     newSearch = True
     Borrado = False
     failFoundBorrar = False
     if request.POST and 'delete' in request.POST:
+        # Si se pidio borrar se busca el evento en la base de datos
         if(Publication.objects.filter(id=request.POST.get('delete')).exists()):
+            # si existe se borra
              toDelete = Publication.objects.get(id=request.POST.get('delete'))
              toDelete.delete()
              Borrado = True
         else:
+            #Si no existe se envia un mensaje de error
             failFoundBorrar = True
+    #Prepara la consulta a la base de datos
     Pubs = Publication.objects.order_by('-creation_date').filter(type_id__name__icontains="event")
-    # if this is a POST request we need to process the form data
+    #If this is a POST request we need to process the form data
     if request.POST:
         # create a form instance and populate it with data from the request:
         form = SearchEvent(request.POST)
@@ -751,35 +767,33 @@ def search_event(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             if form.cleaned_data.get('titulo'):
+                # si tiene titulo, busca por el titulo
                 newSearch = False
                 titulo = form.cleaned_data['titulo']
                 # print titulo
                 Pubs = Pubs.filter(text__number__exact=1, text__text__icontains=titulo)
             # print(expositor)
             if form.cleaned_data.get('expositor'):
+                #si tiene expositor busca por expositor
                 newSearch = False
                 expositor = form.cleaned_data['expositor']
                 Pubs = Pubs.filter(text__number__exact=2, text__text__icontains=expositor)
                 # print(date)
             if form.cleaned_data.get('date'):
+                # si tiene fecha busca tambien por fecha
                 newSearch = False
                 date = form.cleaned_data['date']
                 Pubs = Pubs.filter(text__number__exact=3, text__text__icontains=date)
-                # else :
-                # print("invalid")
+    # Notar que la busqueda se hace por cada input uno sobre el otro
     else:
+        # si es una busqueda nueva, crea el formulario
         form = SearchEvent()
         newSearch = True
 
-    # Pubs = Pubs.distinct()
+    # Dado que las publicaciones tienen texto e imagenes, se tiene que buscar cada una de ellas
     for pub in Pubs:
-        # print(pub)
         texts = pub.text_set.all()
         expositor = texts.filter(number__exact=2).first()
-        # print expositor
-        if expositor == '':
-            expositor = "------"
-
         p = {"title": texts.filter(number__exact=1).first(),
              "expositor": expositor,
              "id": pub.pk,
@@ -788,11 +802,14 @@ def search_event(request):
         toShow.append(p)
 
     if not toShow:
+        # Si el dicionario con resultados esta vacio, se setea la variable empty true
         empty = True
-
+    # Se genera un paginator
     paginator = Paginator(toShow, max)
+    # se pone el la primera pagina
     toShowl = paginator.page(1)
-
+    
+    #Si el "boton" que se apreto era de cambio de pagina, se guarda el numero y se cambia de pagina
     if request.POST and 'p' in request.POST:
         page = request.POST.get('p')
         try:
@@ -803,7 +820,7 @@ def search_event(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
-    cancel = False
+
     if request.GET.get('cancel'):
         cancel = True
 

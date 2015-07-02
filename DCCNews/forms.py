@@ -213,8 +213,9 @@ class TagForm(ModelForm):
         fields = ['name']
 
 
+#El formulario padre, en particular el titulo para busqueda
 class SearchElement(Form):
-    #El formulario padre, en particular el titulo
+    #input del titulo
     titulo = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'class': 'form-control'}),
                              label='Búsqueda por título:')
@@ -224,19 +225,22 @@ class SearchElement(Form):
         return self.cleaned_data['titulo'].strip()
 
 
+#El formulario para busquedas de diapositivas
 class SearchSlide(SearchElement):
-    #El formulario para diapositivas
+    # se agrega el tipo de diapositiva
     slide_type = forms.ModelChoiceField(required=False,
                                         queryset=Tag.objects.all().order_by('name'),
                                         widget=forms.Select(attrs={'class': 'form-control'}),
                                         label='Búsqueda por tipo:')
 
 
+#El formulario de busqueda de eventos
 class SearchEvent(SearchElement):
-    #el formulario de eventos
+    #se agrega el input para buscar el expositor
     expositor = forms.CharField(required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}),
                                 label='Búsqueda por expositor:')
+    #se agrega el input para las fecha
     date = forms.DateField(required=False,
                            widget=forms.TextInput(attrs={'class': 'form-control',
                                                          'placeholder': 'DD-MM-AAAA'}),

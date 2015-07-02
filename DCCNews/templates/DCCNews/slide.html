@@ -10,10 +10,10 @@
     <script src="{% static 'DCCNews/js/changeForm.js' %}"></script>
     <script src="{% static 'DCCNews/js/tag_administration.js' %}"></script>
     <script src="{% static 'DCCNews/js/jquery.form.js' %}"></script>
-    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script>
-    <script src="{% static 'DCCNews/js/counter.js' %}"></script>
-	<script src="{% static 'DCCNews/js/tinymce/js/tinymce/tinymce.js' %}"></script>
-<!-- 	<script src="{% static 'DCCNews/js/initTextEn.js' %}"></script> -->
+    <script src="{% static 'DCCNews/js/bootstrap-maxlength.js' %}"></script> <!-- script base para los contadores de caracteres -->
+    <script src="{% static 'DCCNews/js/counter.js' %}"></script> <!-- Script que pasa por los formularios agregando el texto de ayuda con los caracteres que le faltan -->
+	<script src="{% static 'DCCNews/js/tinymce/js/tinymce/tinymce.js' %}"></script> <!-- agrega la base para los textos enriquecidos  -->
+<!-- 	<script src="{% static 'DCCNews/js/initTextEn.js' %}"></script> --> <!-- Script que cambia los textarea y input correctos por tinyMCE -->
     <script>
         function createTagSuccess(result) {
             var tagSelect = JSON.parse(JSON.stringify(result.tags));
@@ -53,6 +53,7 @@
 
         {% if new %}
         window.setInterval( function() {
+        	//recorre todos los textos de area enriquecidos y los manda a los textarea que remplaza
         	for (edId in tinyMCE.editors)
         	    tinyMCE.editors[edId].save();
             saveDraft({{ template }})
