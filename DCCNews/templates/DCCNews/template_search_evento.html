@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block head %}
+<!--  Se cargan los script necesarios para que aparesca el calendario -->
     <script src="{% static 'DCCNews/js/bootstrap-datetimepicker.js' %}"></script>
     <script src="{% static 'DCCNews/js/DateTimePickers.js' %}"></script>
     <script src="{% static 'DCCNews/js/es.js' %}"></script>
@@ -10,15 +11,16 @@
 
 {% block content %}
     {% if Borrado %}
+<!--     Si se pidio que se borrara un item y fue exitoso se muestra este mensaje -->
         <div class="col-lg-12">
             <div class="alert alert-success" role="alert">El evento ha sido exitosamente borrado.</div>
         </div>
-    {% endif %}
-    {% if cancel %}
+    {% elif cancel %}
+<!-- Si viene de una de una edicion y se cancela se muestra este mensaje  -->
         <div class="alert alert-warning" role="alert">Los cambios han sido descartados.</div>
-	{% endif %} 	
-        
+	{% endif %}
     {% if failFoundBorrar %}
+<!--     si se pidio que se borrara un mensaje pero no se encontro se muestra este mensaje -->
     	<div class="alert alert-warning" role="alert">No se ha encontrado el contenido, por tanto no se puede borrar.</div>
     {% endif %} 	
 
@@ -53,7 +55,6 @@
                 </div>
             </div>
         </row>
-<div id="textarea_feedback"></div>
 
         {% if newSearch and not empty %}
             <div class="form-group">
@@ -65,6 +66,7 @@
             </div>
         {% endif %}
         {% if not empty%}
+<!--         si no esta vacia los resultados los muestra en una tabla -->
         <table id="result_table" class="table table-bordered ">
             <tr class="info">
                 <td>Título</td>
@@ -88,28 +90,34 @@
             {% endfor %}
         </table>
 		{% endif %}
+		
         {%if not empty %}
-            <div class="pagination">
-    <span class="step-links">
+<!--         si tiene resultados la busqueda se muestra el texto para cambiar las paginas -->
+        <div class="pagination">
+    	<span class="step-links">
         {% if toShowl.has_previous %}
-            <button type="submit" name="p" value="{{ toShowl.previous_page_number }}"  class="btn btn-link">Anterior</button>
+<!--         si tiene pagina anterior muestra un link para ir hacia esa pagina -->
+        <button type="submit" name="p" value="{{ toShowl.previous_page_number }}"  class="btn btn-link">Anterior</button>
         {% endif %}
 
         <span class="current">
-            Mostrando la página {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
+<!--         Muestra cuantas paginas hay y cuantas en total -->
+        Mostrando la página {{ toShowl.number }} de {{ toShowl.paginator.num_pages }}.
         </span>
 
         {% if toShowl.has_next %}
-            <button type="submit" name="p" value="{{ toShowl.next_page_number }}"  class="btn btn-link">Siguiente</button>
+        <!--         si tiene pagina siguiente muestra un link para ir hacia esa pagina -->
+        <button type="submit" name="p" value="{{ toShowl.next_page_number }}"  class="btn btn-link">Siguiente</button>
         {% endif %}
-    </span>
-            </form>
-            </div>
+   		</span>
+        </form>
+        </div>
         {% else %}
-            </form>
-            <div class="container-fluid">
-                <h2> <p class="text-warning"> No se han encontrado elementos coincidentes con su búsqueda </p> </h2>
-            </div>
+<!--         Si no se encuentran resultados se mestra un mensaje de error -->
+        </form>
+        <div class="container-fluid">
+            <h2> <p class="text-warning"> No se han encontrado elementos coincidentes con su búsqueda </p> </h2>
+        </div>
         {% endif %}
     </form>
 {% endblock %}

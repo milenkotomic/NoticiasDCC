@@ -1,6 +1,9 @@
-// pasa por todos los atributos de los formularios con id formID,
-// y le agrega los contadores de caracteres, si estos son tipos texto
-// textarea y su tamaño maximo es menor a 10000
+/* pasa por todos los atributos de los formularios con id formID,
+* y le agrega los contadores de caracteres, si estos son tipos texto,
+* textarea y su tamaño maximo es menor a 10000
+* notar que maxlength() por default el maximo de caracteres suministrados
+* por el elemento que se trabaja
+*/
 $(document).ready(function(){
  		$("form#formID input[type=text]").each(function(){
 		 	var input = $(this);

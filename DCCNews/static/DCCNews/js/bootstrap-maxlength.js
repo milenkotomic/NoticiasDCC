@@ -1,3 +1,6 @@
+/* Obtenido de http://mimo84.github.io/bootstrap-maxlength/
+ * Agrega la api para el contador de caracteres
+ */
 (function ($) {
   'use strict';
   /**
