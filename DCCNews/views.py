@@ -1,37 +1,18 @@
 # -*- coding: utf-8 -*-
-from cStringIO import StringIO
+
 from datetime import datetime, timedelta
 import time
-from PIL import Image as PILImage
 from DCCNews.forms import LoginForm, SlideText, SlideImage, EventForm, EventImage, SearchSlide, SearchEvent, \
     SlideGraduation, SlideImageText, TagCreationForm, PublicationForm
 from DCCNews.models import Publication, Type, Template, Priority, Text, Image, Temp, Tag
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.forms import HiddenInput
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-# resize_image: recibe un objeto Image del modelo de la aplicación y una tupla
-# con el tamaño a redimensionar.
-# def resize_image(django_image, size):
-#     pil_image = PILImage.open(django_image.image)
-#     pil_image.thumbnail(size, PILImage.ANTIALIAS)
-#     name = django_image.image.name
-#     django_image.image.delete()
-#
-#     f = StringIO()
-#     try:
-#         pil_image.save(f, format='png')
-#         s = f.getvalue()
-#         django_image.image.save(name, ContentFile(s))
-#     finally:
-#         f.close()
 
 
 # login_view: a partir del request que cuenta con los datos del form
@@ -87,7 +68,9 @@ def select_template(request):
     return render(request, 'DCCNews/template_selection.html')
 
 
-# create_tag: TODO
+# create_tag: a partir del formulario enviado mediante AJAX, se crea el nuevo tag. Se verifica que no exista
+# un tag previo con el mismo nombre. La respuesta corresponde a un JSON con el mensaje a mostrar en el alert y la
+# nueva renderización del select para tag.
 def create_tag(request):
     new_tag = request.POST.get("new_tag", False)
     response = "Nuevo tag inválido"
@@ -104,7 +87,10 @@ def create_tag(request):
             'tags': render_to_response("DCCNews/tags.html", {"form": form}).content}
     return JsonResponse(data)
 
-# delete_tag: TODO
+
+# delete_tag: a partir del formulario enviado mediante AJAX, se elimina un tag. Se verifica que no pertenzca a la lista
+# de tags protegidos. La respuesta corresponde a un JSON con el mensaje a mostrar en el alert y la
+# nueva renderización del select para tag.
 def delete_tag(request):
     if request.POST:
         tag = request.POST.get("tag", False)
@@ -119,7 +105,6 @@ def delete_tag(request):
         form = PublicationForm()
         data = {"tags": render_to_response("DCCNews/tags.html", {"form": form}).content,
                 "deleted_tag": deleted_tag}
-        # return HttpResponse(json.dumps(data), mimetype="application/json")
         return JsonResponse(data)
 
 
@@ -174,12 +159,6 @@ def new_slide(request, template_id):
                               number=1,
                               publication_id=pub)
                 image.save()
-                #size_images = {2: (900, 490),
-                #               3: (900, 400),
-                #               4: (350, 400)}
-
-                #size = size_images.get(int(template_id))
-                #resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
@@ -286,12 +265,6 @@ def edit_slide(request, publication_id):
                 image = images.filter(number=1).first()
                 image.image = request.FILES['image']
                 image.save()
-                #size_images = {2: (900, 490),
-                #               3: (900, 400),
-                #               4: (350, 400)}
-
-                #size = size_images.get(pub.template_id.id)
-                #resize_image(image, size)
 
             tag_form = TagCreationForm()
             image_name = pub.image_set.filter(number=1).first()
@@ -399,10 +372,6 @@ def new_event(request, template_id):
                               number=1,
                               publication_id=pub)
                 image.save()
-                #size_images = {6: (170, 170)}
-
-                #size = size_images.get(int(template_id))
-                #resize_image(image, size)
 
             request.session['draft'] = False
             url = reverse(index) + "?create=1"
