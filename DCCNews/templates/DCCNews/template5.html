@@ -1,5 +1,5 @@
 <div class="info">
-    <h4>{{ event.title }}</h4>
+    <h4>{{ event.title|safe }}</h4>
     <p>{% if event.exhibitor %}<span class="tema">Expositor:</span> {{ event.exhibitor }}{% endif %}<br/>
         <span class="tema">Fecha:</span> {{ event.date|date:"j F" }}<br/>
         <span class="tema">Hora:</span> {{ event.time|time:"H:i" }} <br/>

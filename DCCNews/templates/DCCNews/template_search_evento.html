@@ -76,7 +76,7 @@
             {% for item in toShowl%}
                 <tr>
                     <td>
-                        {{ item.title }}
+                        {{ item.title|safe }}
                     </td>
                     <td>
                     	{{item.expositor}}

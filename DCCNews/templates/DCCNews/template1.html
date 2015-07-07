@@ -1,9 +1,9 @@
 <div  id="{{slide.id}}" class="new" style="display: none">
     <div class="titulo">
-        <h2>{{ slide.title }}</h2>
+        <h2>{{ slide.title|safe }}</h2>
     </div>
 
     <div class="texto">
-        <p>{{ slide.text }}</p>
+        <p>{{ slide.text|safe }}</p>
     </div>
 </div>

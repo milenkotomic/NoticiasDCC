@@ -798,7 +798,7 @@ def search_event(request):
              "expositor": expositor,
              "id": pub.pk,
              }
-        # print(p.get("title"))
+        print(p.get("title"))
         toShow.append(p)
 
     if not toShow:
@@ -820,7 +820,7 @@ def search_event(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             toShowl = paginator.page(paginator.num_pages)
-
+    
     if request.GET.get('cancel'):
         cancel = True
 
