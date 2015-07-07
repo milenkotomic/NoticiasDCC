@@ -58,10 +58,8 @@ tinymce.PluginManager.add('wordcount', function(editor) {
 	self.getCount = function() {
 		var maxLength =
 			{"id_body" : 1000 ,
-			 "id_title" : 100,
-			 "id_subhead" : 100,
-			 "id_exhibitor" : 100,
-			 "place" : 100
+			 "id_title" : 65,
+			 "id_subhead" : 100			
 			};
 		//console.log("init");
 		var tx = editor.getContent();
